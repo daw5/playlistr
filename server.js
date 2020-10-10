@@ -8,7 +8,7 @@ const PORT = 8080;
 app.get("/users", async (req, res) => {
   const users = await User.find();
 
-  res.json(users);
+  res.json({ gooch: "ffwefwefmfffff" });
 });
 
 app.get("/user-create", async (req, res) => {
@@ -23,6 +23,6 @@ app.listen(PORT, function () {
   console.log(`Listening on ${PORT}`);
 
   connectDb().then(() => {
-    console.log("MongoDb connected");
+    console.log("Mongwefwefnected");
   });
 });
