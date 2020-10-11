@@ -1,23 +1,18 @@
 const express = require("express");
 const app = express();
-const connectDb = require("./src/connection");
-const User = require("./src/User.model");
-
 const PORT = 8080;
+const connectDb = require("./src/connection");
+import { applyPassportStrategy } from "./store/passport";
+import bodyParser from "body-parser";
+import passport from "passport";
+import { userController } from "./controller";
 
-app.get("/users", async (req, res) => {
-  const users = await User.find();
+// Apply strategy to passport
+applyPassportStrategy(passport);
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-  res.json({ gooch: "ffwefwefmfffff" });
-});
-
-app.get("/user-create", async (req, res) => {
-  const user = new User({ username: "userTest" });
-
-  await user.save().then(() => console.log("User created"));
-
-  res.send("User created \n");
-});
+app.use("/", userController);
 
 app.listen(PORT, function () {
   console.log(`Listening on ${PORT}`);
