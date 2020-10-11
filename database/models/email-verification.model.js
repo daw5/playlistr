@@ -1,4 +1,7 @@
-const emailVerificationCode = new Schema({
+import mongoose from "mongoose";
+import { Schema } from "mongoose";
+
+const emailVerificationCodeSchema = new Schema({
   email: {
     type: String,
     required: true,
@@ -13,3 +16,10 @@ const emailVerificationCode = new Schema({
     expires: 600,
   },
 });
+
+const EmailVerificationCode = mongoose.model(
+  "EmailVerificationCode",
+  emailVerificationCodeSchema
+);
+
+export default EmailVerificationCode;
