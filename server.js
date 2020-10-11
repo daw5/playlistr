@@ -1,13 +1,12 @@
 require("dotenv").config();
-const express = require("express");
-const app = express();
-const PORT = process.env.PORT;
-const connectDb = require("./database/connection");
-
 import { applyPassportStrategy } from "./store/passport";
 import { userController } from "./controller";
 import bodyParser from "body-parser";
 import passport from "passport";
+const express = require("express");
+const app = express();
+const PORT = process.env.PORT;
+const connectDb = require("./database/connection");
 
 applyPassportStrategy(passport);
 
