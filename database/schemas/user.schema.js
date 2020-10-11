@@ -1,8 +1,10 @@
-import { Schema } from 'mongoose';
-import sha256 from 'sha256';
+import { Schema } from "mongoose";
+import sha256 from "sha256";
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 
 const userSchema = new Schema({
-  hashedPassword: { type: String, required: true },
+  password: { type: String, required: true },
   email: { type: String, required: true },
 });
 
@@ -10,7 +12,7 @@ const userSchema = new Schema({
  * @param {*} password
  */
 userSchema.methods.comparePassword = function comparePassword(password) {
-  return this.hashedPassword === sha256(password);
+  return bcrypt.compareSync(password, this.password);
 };
 
 export default userSchema;

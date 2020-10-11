@@ -1,5 +1,7 @@
 // To-do Need to change to bcrypt
 import sha256 from "sha256";
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
 import { check } from "../node_modules/express-validator";
 
 import {
@@ -9,7 +11,12 @@ import {
   EMAIL_IS_IN_WRONG_FORMAT,
 } from "./constant";
 
-export const generateHashedPassword = (password) => sha256(password);
+// export const generateHashedPassword = (password) => sha256(password);
+// export const generateHashedPassword = (password) => {
+//   bcrypt.hash(password, saltRounds, function (err, hash) {
+//     return hash;
+//   });
+// };
 
 export function generateServerErrorCode(
   res,

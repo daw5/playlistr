@@ -2,11 +2,12 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import passport from "passport";
 import { validationResult } from "express-validator";
+const bcrypt = require("bcrypt");
 
 import { config } from "../store/config";
 
 import {
-  generateHashedPassword,
+  // generateHashedPassword,
   generateServerErrorCode,
   registerValidation,
   loginValidation,
@@ -19,16 +20,15 @@ import {
   USER_DOES_NOT_EXIST,
 } from "../store/constant";
 
-import { User } from "../database/models";
+import { User } from "../database/models/index";
 
 const userController = express.Router();
 
-function createUser(email, password) {
-  const data = {
-    email,
-    hashedPassword: generateHashedPassword(password),
-  };
-  return new User(data).save();
+async function createUser(email, password) {
+  password = bcrypt.hashSync(password, 10);
+  var user = new User({ email, password });
+  var result = await user.save();
+  return result;
 }
 
 /**
@@ -82,7 +82,8 @@ userController.post("/register", registerValidation, async (req, res) => {
         );
       }
     } catch (e) {
-      generateServerErrorCode(res, 500, e, SOME_THING_WENT_WRONG);
+      console.log(e);
+      // generateServerErrorCode(res, 500, e, SOME_THING_WENT_WRONG);
     }
   }
 });
@@ -110,7 +111,7 @@ userController.post("/login", loginValidation, async (req, res) => {
             expiresIn: 1000000,
           });
           const userToReturn = { ...user.toJSON(), ...{ token } };
-          delete userToReturn.hashedPassword;
+          delete userToReturn.password;
           res.status(200).json(userToReturn);
         } else {
           generateServerErrorCode(
