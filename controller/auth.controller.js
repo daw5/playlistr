@@ -1,13 +1,12 @@
 import express from "express";
 import passport from "passport";
-import UserService from "../services/UserService";
-
+import { AuthService } from "../services/index";
 import { validationResult } from "express-validator";
 import { registerValidation, loginValidation } from "../store/validators";
 import { User } from "../database/models/index";
 
 const authController = express.Router();
-const userService = new UserService();
+const authService = new AuthService();
 
 /**
  * GET/
@@ -35,7 +34,7 @@ authController.post("/register", registerValidation, async (req, res, next) => {
     return res.status(400).json(errorsAfterValidation.mapped());
   try {
     const { email, password } = req.body;
-    const newUser = await userService.Register(email, password);
+    const newUser = await authService.Register(email, password);
     return newUser
       ? res.status(200).json(newUser)
       : res.status(403).send("User exists already");
@@ -56,10 +55,10 @@ authController.post("/login", loginValidation, async (req, res, next) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
     if (user && user.email) {
-      const userToReturn = await userService.Authenticate(user, password);
+      const userToReturn = await authService.Authenticate(user, password);
       return userToReturn
         ? res.status(200).send(userToReturn)
-        : res.status(403).send("Password Incorrect");
+        : res.status(403).send("Authentication failed");
     } else {
       res.status(404).send("User not found");
     }

@@ -1,5 +1,4 @@
 import { check } from "../node_modules/express-validator";
-
 import {
   PASSWORD_IS_EMPTY,
   PASSWORD_LENGTH_MUST_BE_MORE_THAN_8,

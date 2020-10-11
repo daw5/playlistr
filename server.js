@@ -3,9 +3,10 @@ import { applyPassportStrategy } from "./store/passport";
 import { authController } from "./controller";
 import bodyParser from "body-parser";
 import passport from "passport";
+
+const PORT = process.env.PORT;
 const express = require("express");
 const app = express();
-const PORT = process.env.PORT;
 const connectDb = require("./database/connection");
 
 applyPassportStrategy(passport);
