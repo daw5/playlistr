@@ -30,8 +30,8 @@ userController.get(
  */
 userController.post("/register", registerValidation, async (req, res, next) => {
   const errorsAfterValidation = validationResult(req);
-  !errorsAfterValidation.isEmpty() &&
-    res.status(400).json(errorsAfterValidation.mapped());
+  if (!errorsAfterValidation.isEmpty())
+    return res.status(400).json(errorsAfterValidation.mapped());
   try {
     const { email, password } = req.body;
     const newUser = await userService.Register(email, password);
@@ -49,29 +49,21 @@ userController.post("/register", registerValidation, async (req, res, next) => {
  */
 userController.post("/login", loginValidation, async (req, res, next) => {
   const errorsAfterValidation = validationResult(req);
-  if (!errorsAfterValidation.isEmpty()) {
-    res.status(400).json({
-      code: 400,
-      errors: errorsAfterValidation.mapped(),
-    });
-  } else {
-    try {
-      const { email, password } = req.body;
-      const user = await User.findOne({ email });
-      if (user && user.email) {
-        const isPasswordMatched = user.comparePassword(password);
-        if (isPasswordMatched) {
-          const userToReturn = getUserData(user, email);
-          res.status(200).json(userToReturn);
-        } else {
-          res.status(403).send("Password incorrect");
-        }
-      } else {
-        res.status(404).send("User not found");
-      }
-    } catch (error) {
-      next(error);
+  if (!errorsAfterValidation.isEmpty())
+    return res.status(400).json(errorsAfterValidation.mapped());
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (user && user.email) {
+      const userToReturn = await userService.Authenticate(user, password);
+      return userToReturn
+        ? res.status(200).send(userToReturn)
+        : res.status(403).send("Password Incorrect");
+    } else {
+      res.status(404).send("User not found");
     }
+  } catch (error) {
+    next(error);
   }
 });
 
