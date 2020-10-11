@@ -1,7 +1,6 @@
 import { Schema } from "mongoose";
-import sha256 from "sha256";
+
 const bcrypt = require("bcrypt");
-const saltRounds = 10;
 
 const userSchema = new Schema({
   password: { type: String, required: true },

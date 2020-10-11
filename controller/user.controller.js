@@ -2,33 +2,27 @@ import express from "express";
 import jwt from "jsonwebtoken";
 import passport from "passport";
 import { validationResult } from "express-validator";
-const bcrypt = require("bcrypt");
-
 import { config } from "../store/config";
-
-import {
-  // generateHashedPassword,
-  generateServerErrorCode,
-  registerValidation,
-  loginValidation,
-} from "../store/utils";
-
-import {
-  SOME_THING_WENT_WRONG,
-  USER_EXISTS_ALREADY,
-  WRONG_PASSWORD,
-  USER_DOES_NOT_EXIST,
-} from "../store/constant";
-
+import { registerValidation, loginValidation } from "../store/utils";
 import { User } from "../database/models/index";
 
+const bcrypt = require("bcrypt");
 const userController = express.Router();
 
 async function createUser(email, password) {
   password = bcrypt.hashSync(password, 10);
-  var user = new User({ email, password });
-  var result = await user.save();
+  const user = new User({ email, password });
+  const result = await user.save();
   return result;
+}
+
+function getUserData(user, email) {
+  const token = jwt.sign({ email }, config.passport.secret, {
+    expiresIn: 10000000,
+  });
+  const userToReturn = { ...user.toJSON(), ...{ token } };
+  delete userToReturn.password;
+  return userToReturn;
 }
 
 /**
@@ -51,7 +45,7 @@ userController.get(
  * POST/
  * Register a user
  */
-userController.post("/register", registerValidation, async (req, res) => {
+userController.post("/register", registerValidation, async (req, res, next) => {
   const errorsAfterValidation = validationResult(req);
   if (!errorsAfterValidation.isEmpty()) {
     res.status(400).json({
@@ -64,26 +58,14 @@ userController.post("/register", registerValidation, async (req, res) => {
       const user = await User.findOne({ email });
       if (!user) {
         await createUser(email, password);
-        // Sign token
         const newUser = await User.findOne({ email });
-        const token = jwt.sign({ email }, config.passport.secret, {
-          expiresIn: 10000000,
-        });
-        const userToReturn = { ...newUser.toJSON(), ...{ token } };
-        delete userToReturn.hashedPassword;
+        const userToReturn = getUserData(newUser, email);
         res.status(200).json(userToReturn);
       } else {
-        generateServerErrorCode(
-          res,
-          403,
-          "register email error",
-          USER_EXISTS_ALREADY,
-          "email"
-        );
+        res.status(403).send("User exists already");
       }
-    } catch (e) {
-      console.log(e);
-      // generateServerErrorCode(res, 500, e, SOME_THING_WENT_WRONG);
+    } catch (error) {
+      next(error);
     }
   }
 });
@@ -92,7 +74,7 @@ userController.post("/register", registerValidation, async (req, res) => {
  * POST/
  * Login a user
  */
-userController.post("/login", loginValidation, async (req, res) => {
+userController.post("/login", loginValidation, async (req, res, next) => {
   const errorsAfterValidation = validationResult(req);
   if (!errorsAfterValidation.isEmpty()) {
     res.status(400).json({
@@ -106,33 +88,16 @@ userController.post("/login", loginValidation, async (req, res) => {
       if (user && user.email) {
         const isPasswordMatched = user.comparePassword(password);
         if (isPasswordMatched) {
-          // Sign token
-          const token = jwt.sign({ email }, config.passport.secret, {
-            expiresIn: 1000000,
-          });
-          const userToReturn = { ...user.toJSON(), ...{ token } };
-          delete userToReturn.password;
+          const userToReturn = getUserData(user, email);
           res.status(200).json(userToReturn);
         } else {
-          generateServerErrorCode(
-            res,
-            403,
-            "login password error",
-            WRONG_PASSWORD,
-            "password"
-          );
+          res.status(403).send("Password incorrect");
         }
       } else {
-        generateServerErrorCode(
-          res,
-          404,
-          "login email error",
-          USER_DOES_NOT_EXIST,
-          "email"
-        );
+        res.status(404).send("User not found");
       }
-    } catch (e) {
-      generateServerErrorCode(res, 500, e, SOME_THING_WENT_WRONG);
+    } catch (error) {
+      next(error);
     }
   }
 });

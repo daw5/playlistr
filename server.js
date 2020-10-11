@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const PORT = 8080;
-const connectDb = require("./src/connection");
+const connectDb = require("./database/connection");
 import { applyPassportStrategy } from "./store/passport";
 import bodyParser from "body-parser";
 import passport from "passport";
@@ -18,6 +18,6 @@ app.listen(PORT, function () {
   console.log(`Listening on ${PORT}`);
 
   connectDb().then(() => {
-    console.log("Mongwefwefnected");
+    console.log("Mongo connected");
   });
 });
