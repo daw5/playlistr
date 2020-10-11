@@ -1,6 +1,6 @@
 require("dotenv").config();
 import { applyPassportStrategy } from "./store/passport";
-import { userController } from "./controller";
+import { authController } from "./controller";
 import bodyParser from "body-parser";
 import passport from "passport";
 const express = require("express");
@@ -12,7 +12,7 @@ applyPassportStrategy(passport);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use("/", userController);
+app.use("/api/auth", authController);
 
 app.listen(PORT, function () {
   console.log(`Listening on ${PORT}`);

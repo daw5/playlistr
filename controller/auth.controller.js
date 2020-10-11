@@ -6,15 +6,15 @@ import { validationResult } from "express-validator";
 import { registerValidation, loginValidation } from "../store/validators";
 import { User } from "../database/models/index";
 
-const userController = express.Router();
+const authController = express.Router();
 const userService = new UserService();
 
 /**
  * GET/
  * retrieve and display all Users in the User Model
  */
-userController.get(
-  "/",
+authController.get(
+  "/test",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     User.find({}, (err, result) => {
@@ -29,7 +29,7 @@ userController.get(
  * POST/
  * Register a user
  */
-userController.post("/register", registerValidation, async (req, res, next) => {
+authController.post("/register", registerValidation, async (req, res, next) => {
   const errorsAfterValidation = validationResult(req);
   if (!errorsAfterValidation.isEmpty())
     return res.status(400).json(errorsAfterValidation.mapped());
@@ -48,7 +48,7 @@ userController.post("/register", registerValidation, async (req, res, next) => {
  * POST/
  * Login a user
  */
-userController.post("/login", loginValidation, async (req, res, next) => {
+authController.post("/login", loginValidation, async (req, res, next) => {
   const errorsAfterValidation = validationResult(req);
   if (!errorsAfterValidation.isEmpty())
     return res.status(400).json(errorsAfterValidation.mapped());
@@ -68,4 +68,4 @@ userController.post("/login", loginValidation, async (req, res, next) => {
   }
 });
 
-export default userController;
+export default authController;
