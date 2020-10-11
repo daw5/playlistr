@@ -1,6 +1,6 @@
 require("dotenv").config();
 import { applyPassportStrategy } from "./store/passport";
-import { authController } from "./controller";
+import { authController, mailingController } from "./controller";
 import bodyParser from "body-parser";
 import passport from "passport";
 
@@ -14,6 +14,7 @@ applyPassportStrategy(passport);
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use("/api/auth", authController);
+app.use("/mailing", mailingController);
 
 app.listen(PORT, function () {
   console.log(`Listening on ${PORT}`);

@@ -8,10 +8,6 @@ import { User } from "../database/models/index";
 const authController = express.Router();
 const authService = new AuthService();
 
-/**
- * GET/
- * retrieve and display all Users in the User Model
- */
 authController.get(
   "/test",
   passport.authenticate("jwt", { session: false }),
@@ -24,10 +20,6 @@ authController.get(
   }
 );
 
-/**
- * POST/
- * Register a user
- */
 authController.post("/register", registerValidation, async (req, res, next) => {
   const errorsAfterValidation = validationResult(req);
   if (!errorsAfterValidation.isEmpty())
@@ -43,10 +35,6 @@ authController.post("/register", registerValidation, async (req, res, next) => {
   }
 });
 
-/**
- * POST/
- * Login a user
- */
 authController.post("/login", loginValidation, async (req, res, next) => {
   const errorsAfterValidation = validationResult(req);
   if (!errorsAfterValidation.isEmpty())

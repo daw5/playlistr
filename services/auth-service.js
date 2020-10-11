@@ -1,5 +1,5 @@
 import { User } from "../database/models/index";
-import UserService from "./UserService";
+import { UserService } from "./index";
 
 const bcrypt = require("bcrypt");
 
