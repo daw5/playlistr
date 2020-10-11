@@ -1,29 +1,12 @@
 import express from "express";
-import jwt from "jsonwebtoken";
 import passport from "passport";
 import { validationResult } from "express-validator";
-import { config } from "../store/config";
 import { registerValidation, loginValidation } from "../store/utils";
 import { User } from "../database/models/index";
+import UserService from "../services/UserService";
 
-const bcrypt = require("bcrypt");
 const userController = express.Router();
-
-async function createUser(email, password) {
-  password = bcrypt.hashSync(password, 10);
-  const user = new User({ email, password });
-  const result = await user.save();
-  return result;
-}
-
-function getUserData(user, email) {
-  const token = jwt.sign({ email }, config.passport.secret, {
-    expiresIn: 10000000,
-  });
-  const userToReturn = { ...user.toJSON(), ...{ token } };
-  delete userToReturn.password;
-  return userToReturn;
-}
+const userService = new UserService();
 
 /**
  * GET/
@@ -47,26 +30,16 @@ userController.get(
  */
 userController.post("/register", registerValidation, async (req, res, next) => {
   const errorsAfterValidation = validationResult(req);
-  if (!errorsAfterValidation.isEmpty()) {
-    res.status(400).json({
-      code: 400,
-      errors: errorsAfterValidation.mapped(),
-    });
-  } else {
-    try {
-      const { email, password } = req.body;
-      const user = await User.findOne({ email });
-      if (!user) {
-        await createUser(email, password);
-        const newUser = await User.findOne({ email });
-        const userToReturn = getUserData(newUser, email);
-        res.status(200).json(userToReturn);
-      } else {
-        res.status(403).send("User exists already");
-      }
-    } catch (error) {
-      next(error);
-    }
+  !errorsAfterValidation.isEmpty() &&
+    res.status(400).json(errorsAfterValidation.mapped());
+  try {
+    const { email, password } = req.body;
+    const newUser = await userService.Register(email, password);
+    return newUser
+      ? res.status(200).json(newUser)
+      : res.status(403).send("User exists already");
+  } catch (error) {
+    next(error);
   }
 });
 
