@@ -4,9 +4,10 @@ import { config } from "./config";
 import { User } from "../database/models";
 
 export const applyPassportStrategy = (passport) => {
-  const options = {};
-  options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-  options.secretOrKey = config.passport.secret;
+  const options = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: config.passport.secret,
+  };
   passport.use(
     new Strategy(options, (payload, done) => {
       User.findOne({ email: payload.email }, (err, user) => {

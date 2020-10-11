@@ -1,9 +1,10 @@
 import express from "express";
 import passport from "passport";
-import { validationResult } from "express-validator";
-import { registerValidation, loginValidation } from "../store/utils";
-import { User } from "../database/models/index";
 import UserService from "../services/UserService";
+
+import { validationResult } from "express-validator";
+import { registerValidation, loginValidation } from "../store/validators";
+import { User } from "../database/models/index";
 
 const userController = express.Router();
 const userService = new UserService();

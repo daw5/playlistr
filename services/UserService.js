@@ -5,12 +5,9 @@ import jwt from "jsonwebtoken";
 const bcrypt = require("bcrypt");
 
 export default class UserService {
-  async createUser(email, password) {
-    password = bcrypt.hashSync(password, 10);
-    const user = new User({ email, password });
-    const result = await user.save();
-    return result;
-  }
+  comparePassword = function comparePassword(password, savedPassword) {
+    return bcrypt.compareSync(password, savedPassword);
+  };
 
   getUserData(user, email) {
     const token = jwt.sign({ email }, config.passport.secret, {
@@ -19,6 +16,13 @@ export default class UserService {
     const userToReturn = { ...user.toJSON(), ...{ token } };
     delete userToReturn.password;
     return userToReturn;
+  }
+
+  async createUser(email, password) {
+    password = bcrypt.hashSync(password, 10);
+    const user = new User({ email, password });
+    const result = await user.save();
+    return result;
   }
 
   async Register(email, password) {
@@ -33,7 +37,7 @@ export default class UserService {
   }
 
   async Authenticate(user, password) {
-    const isPasswordMatched = user.comparePassword(password);
+    const isPasswordMatched = this.comparePassword(password, user.password);
     if (isPasswordMatched) {
       return this.getUserData(user, user.email);
     } else {
