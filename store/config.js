@@ -1,10 +1,12 @@
+require("dotenv").config();
+
 export const config = {
   passport: {
-    secret: "node.js_sample_secret_key_1asd134",
+    secret: process.env.PASSPORT_SECRET,
     expiresIn: 10000,
   },
   env: {
-    port: 8080,
+    port: process.env.PORT,
     mongoDBUri:
       process.env.ENV === "prod"
         ? "mongodb+srv://user:userTestingPassword@cluster0-yfpdy.mongodb.net/test?retryWrites=true&w=majority"
