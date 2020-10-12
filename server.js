@@ -30,4 +30,6 @@ app.listen(PORT, function () {
   });
 });
 
-server.listen(SOCKET_PORT, () => console.log(`Socket Server Running`));
+server.listen(SOCKET_PORT, () =>
+  console.log(`Socket server listening on ${SOCKET_PORT}`)
+);
