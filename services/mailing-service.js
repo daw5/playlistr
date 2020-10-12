@@ -1,8 +1,8 @@
 require("dotenv").config();
+const nodemailer = require("nodemailer");
 
 export default class MailingService {
   constructor() {
-    this.nodemailer = require("nodemailer");
     this.transporter = nodemailer.createTransport({
       service: process.env.MAILING_SERVICE,
       auth: {
@@ -12,17 +12,17 @@ export default class MailingService {
     });
   }
 
-  sendVerificationEmail(userEmail, verificationLink) {
+  sendVerificationEmail(userEmail, code, userId) {
+    const verificationLink = `${process.env.BASE_URL}/api/auth/verify-account/${userId}/${code}`;
     const mailOptions = {
       from: process.env.SENDER_EMAIL,
       to: userEmail,
       subject: "Email Verification",
-      html: `<h1>Thank you for creating your account!</h1><p>Click this link to verify your account ${verificationLink}</p>`,
+      html: `<h1>Thank you for creating your account!</h1><p><a href=${verificationLink}>Click this link to verify your email</a></p>`,
     };
-
-    transporter.sendMail(mailOptions, function (error, info) {
+    this.transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
-        console.log(error);
+        console.log("Email not sent: ", error);
       } else {
         console.log("Email sent: " + info.response);
       }
