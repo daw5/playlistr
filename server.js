@@ -7,6 +7,7 @@ import passport from "passport";
 const PORT = process.env.PORT;
 const SOCKET_PORT = process.env.SOCKET_PORT;
 
+const socketioJwt = require("socketio-jwt");
 const express = require("express");
 const http = require("http");
 const socket = require("socket.io");
@@ -22,11 +23,19 @@ app.use(bodyParser.json());
 app.use("/api/auth", authController);
 app.use("/mailing", mailingController);
 
-io.on("connection", function (socket) {
-  socket.on("hey", (data) => {
-    console.log("heres the data from testeroo: ", data);
-  });
-  // return io;
+// io.on("connection", function (socket) {
+//   require("./socket/listeners").default(socket);
+// });
+
+io.on(
+  "connection",
+  socketioJwt.authorize({
+    secret: process.env.PASSPORT_SECRET,
+    timeout: 15000, // 15 seconds to send the authentication message
+  })
+).on("authenticated", function (socket) {
+  //this socket is authenticated, we are good to handle more events from it.
+  console.log(`Hello! ${socket.decoded_token.name}`);
 });
 
 app.listen(PORT, function () {

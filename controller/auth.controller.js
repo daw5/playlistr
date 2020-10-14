@@ -12,7 +12,7 @@ authController.get(
   "/test",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    res.status(200).send("You are officially authorized");
+    res.status(200).send(req.user);
   }
 );
 
