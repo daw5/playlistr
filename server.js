@@ -22,6 +22,13 @@ app.use(bodyParser.json());
 app.use("/api/auth", authController);
 app.use("/mailing", mailingController);
 
+io.on("connection", function (socket) {
+  socket.on("hey", (data) => {
+    console.log("heres the data from testeroo: ", data);
+  });
+  // return io;
+});
+
 app.listen(PORT, function () {
   console.log(`Listening on ${PORT}`);
 
