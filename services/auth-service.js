@@ -19,7 +19,7 @@ export default class AuthService {
     return result;
   }
 
-  async verifyAccount(userId, code) {
+  async confirmAccountVerification(userId, code) {
     const user = await User.findOne({ _id: userId });
     const emailVerificationInstance = await EmailVerification.findOne({
       email: user.email,
@@ -39,8 +39,8 @@ export default class AuthService {
       await this.userService.createUser(email, password);
       const newUser = await User.findOne({ email });
       const code = randomKeyGenerator.generate();
-      await this.createEmailVerificationInstance(email, code);
       this.mailingService.sendVerificationEmail(email, code, newUser._id);
+      await this.createEmailVerificationInstance(email, code);
       return this.userService.getUserData(newUser, email);
     } else {
       return null;

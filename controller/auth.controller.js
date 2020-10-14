@@ -12,18 +12,17 @@ authController.get(
   "/test",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    User.find({}, (err, result) => {
-      res.status(200).json({
-        data: result,
-      });
-    });
+    res.status(200).send("You are officially authorized");
   }
 );
 
 authController.get("/verify-account/:userId/:code", async (req, res, next) => {
   try {
     const { userId, code } = req.params;
-    const accountVerified = await authService.verifyAccount(userId, code);
+    const accountVerified = await authService.confirmAccountVerification(
+      userId,
+      code
+    );
     return accountVerified
       ? res.status(200).json("Account has been verified")
       : res.status(403).send("Account Verification Failed");
