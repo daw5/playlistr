@@ -27,16 +27,19 @@ app.use("/mailing", mailingController);
 //   require("./socket/listeners").default(socket);
 // });
 
-io.on(
-  "connection",
-  socketioJwt.authorize({
-    secret: process.env.PASSPORT_SECRET,
-    timeout: 15000, // 15 seconds to send the authentication message
-  })
-).on("authenticated", function (socket) {
-  //this socket is authenticated, we are good to handle more events from it.
-  console.log(`Hello! ${socket.decoded_token.name}`);
-});
+io.sockets
+  .on(
+    "connection",
+    socketioJwt.authorize({
+      secret: process.env.PASSPORT_SECRET,
+      timeout: 15000, // 15 seconds to send the authentication message
+    })
+  )
+  .on("authenticated", function (socket) {
+    console.log("socket: ", socket);
+    //this socket is authenticated, we are good to handle more events from it.
+    console.log(`Hello! ${socket.decoded_token.email}`);
+  });
 
 app.listen(PORT, function () {
   console.log(`Listening on ${PORT}`);
