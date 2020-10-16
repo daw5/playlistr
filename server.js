@@ -7,6 +7,7 @@ import passport from "passport";
 const PORT = process.env.PORT;
 const SOCKET_PORT = process.env.SOCKET_PORT;
 
+const cookieParser = require("socket.io-cookie-parser");
 const socketioJwt = require("socketio-jwt");
 const express = require("express");
 const http = require("http");
@@ -22,6 +23,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use("/api/auth", authController);
 app.use("/mailing", mailingController);
+// app.use(cookieParser());
+
+io.use(cookieParser());
 
 io.sockets
   .on(
@@ -29,6 +33,7 @@ io.sockets
     socketioJwt.authorize({
       secret: process.env.PASSPORT_SECRET,
       timeout: 15000,
+      cookie: "token",
     })
   )
   .on("authenticated", function (socket) {

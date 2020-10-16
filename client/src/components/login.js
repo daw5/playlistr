@@ -9,6 +9,7 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
+      token: "",
     };
   }
   componentDidMount() {}
@@ -21,7 +22,7 @@ class Login extends Component {
         password,
       })
       .then(function (response) {
-        // store token locallys
+        console.log("authenticated");
       })
       .catch(function (error) {
         // handle error

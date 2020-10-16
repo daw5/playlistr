@@ -56,9 +56,12 @@ authController.post("/login", loginValidation, async (req, res, next) => {
     const user = await User.findOne({ email });
     if (user && user.email) {
       const userToReturn = await authService.authenticate(user, password);
-      return userToReturn
-        ? res.status(200).send(userToReturn)
-        : res.status(403).send("Authentication failed");
+      if (userToReturn) {
+        res.cookie("token", userToReturn.token, { httpOnly: true });
+        res.status(200).send(userToReturn);
+      } else {
+        res.status(403).send("Authentication failed");
+      }
     } else {
       res.status(404).send("User not found");
     }

@@ -9,14 +9,13 @@ class Socket extends Component {
 
     socket = io.connect("http://localhost:4001");
   }
-  componentDidMount() {}
+  componentDidMount() {
+    this.authenticateSocket();
+  }
 
   authenticateSocket() {
     socket.on("connect", function () {
-      socket.emit("authenticate", {
-        token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFuYXJjaG9uaXN0QHByb3Rvbm1haWwuY29tIiwiaWF0IjoxNjAyNjUzMjc5LCJleHAiOjE2MTI2NTMyNzl9.AbhrJ3xBh5u1cxcb9f-t0wxE_cF4yVmt6EIHqC0EnFU",
-      });
+      socket.emit("authenticate");
 
       socket.on("message", function (data) {
         console.log("data: ", data);
