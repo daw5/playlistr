@@ -3,11 +3,11 @@ import { Schema } from "mongoose";
 
 const messageSchema = new Schema({
   sender_id: {
-    type: Number,
+    type: String,
     required: true,
   },
   reciever_id: {
-    type: Number,
+    type: String,
     required: true,
   },
   contents: {

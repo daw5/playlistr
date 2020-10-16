@@ -23,22 +23,17 @@ app.use(bodyParser.json());
 app.use("/api/auth", authController);
 app.use("/mailing", mailingController);
 
-// io.on("connection", function (socket) {
-//   require("./socket/listeners").default(socket);
-// });
-
 io.sockets
   .on(
     "connection",
     socketioJwt.authorize({
       secret: process.env.PASSPORT_SECRET,
-      timeout: 15000, // 15 seconds to send the authentication message
+      timeout: 15000,
     })
   )
   .on("authenticated", function (socket) {
-    console.log("socket: ", socket);
-    //this socket is authenticated, we are good to handle more events from it.
-    console.log(`Hello! ${socket.decoded_token.email}`);
+    console.log("authenticaed: ", socket.decoded_token);
+    require("./socket/listeners").default(socket);
   });
 
 app.listen(PORT, function () {

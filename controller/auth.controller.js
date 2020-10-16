@@ -9,10 +9,11 @@ const authController = express.Router();
 const authService = new AuthService();
 
 authController.get(
-  "/test",
+  "/",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     res.status(200).send(req.user);
+    // get all of this user's messages
   }
 );
 
