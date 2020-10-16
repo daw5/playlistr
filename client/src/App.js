@@ -1,7 +1,8 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import Welcome from "./components/welcome.jsx";
+import Socket from "./components/socket";
+import Login from "./components/login";
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
         <p>
           Edit <code>src/App.js</code> poo on the loo
         </p>
-        <Welcome />
+        <Socket />
+        <Login />
         <a
           className="App-link"
           href="https://reactjs.org"
