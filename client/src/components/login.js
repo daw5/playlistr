@@ -25,7 +25,6 @@ class Login extends Component {
         console.log("authenticated");
       })
       .catch(function (error) {
-        // handle error
         console.log(error);
       });
   };

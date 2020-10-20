@@ -3,7 +3,7 @@ import io from "socket.io-client";
 
 let socket;
 
-class Socket extends Component {
+class SocketService extends Component {
   constructor(props) {
     super(props);
 
@@ -23,10 +23,10 @@ class Socket extends Component {
     });
   }
 
-  sendMessage() {
+  sendMessage(reciever_id, contents) {
     socket.emit("message", {
-      reciever_id: "5f88d55f006a5b43f5a54d5b",
-      contents: "This is kind of just a standard test message ya know",
+      reciever_id,
+      contents,
     });
   }
 
@@ -39,4 +39,4 @@ class Socket extends Component {
   }
 }
 
-export default Socket;
+export default SocketService;
