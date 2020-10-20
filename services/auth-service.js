@@ -2,7 +2,7 @@ import { User, EmailVerification } from "../database/models/index";
 import { UserService, MailingService } from "./index";
 
 const randomKeyGenerator = require("random-key");
-const bcrypt = require("bcrypt");
+const argon2 = require("argon2");
 
 export default class AuthService {
   constructor() {
@@ -48,7 +48,7 @@ export default class AuthService {
   }
 
   async authenticate(user, password) {
-    const isPasswordMatched = bcrypt.compareSync(password, user.password);
+    const isPasswordMatched = await argon2.verify(user.password, password);
     if (isPasswordMatched && user.status === "active") {
       return this.userService.getUserData(user, user.email);
     } else {
