@@ -1,11 +1,11 @@
 /* eslint-disable import/prefer-default-export */
-import { Strategy, ExtractJwt } from "passport-jwt";
+import { Strategy } from "passport-jwt";
 import { config } from "./config";
 import { User } from "../database/models";
 
 export const applyPassportStrategy = (passport) => {
   const options = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    jwtFromRequest: (req) => req.cookies.token,
     secretOrKey: config.passport.secret,
   };
   passport.use(

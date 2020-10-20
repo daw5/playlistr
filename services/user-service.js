@@ -2,7 +2,7 @@ import { User } from "../database/models/index";
 import { config } from "../store/config";
 import jwt from "jsonwebtoken";
 
-const bcrypt = require("bcrypt");
+const argon2 = require("argon2");
 
 export default class UserService {
   async listUsers() {
@@ -20,8 +20,9 @@ export default class UserService {
   }
 
   async createUser(email, password) {
-    password = bcrypt.hashSync(password, 10);
-    const user = new User({ email, password });
+    const hashedPassword = await argon2.hash(password);
+    console.log("hashed password: ", hashedPassword);
+    const user = new User({ email, password: hashedPassword });
     const result = await user.save();
     return result;
   }

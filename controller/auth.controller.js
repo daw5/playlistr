@@ -4,6 +4,7 @@ import { AuthService } from "../services/index";
 import { validationResult } from "express-validator";
 import { registerValidation, loginValidation } from "../store/validators";
 import { User } from "../database/models/index";
+require("dotenv").config();
 
 const authController = express.Router();
 const authService = new AuthService();
@@ -57,7 +58,10 @@ authController.post("/login", loginValidation, async (req, res, next) => {
     if (user && user.email) {
       const userToReturn = await authService.authenticate(user, password);
       if (userToReturn) {
-        res.cookie("token", userToReturn.token, { httpOnly: true });
+        res.cookie("token", userToReturn.token, {
+          httpOnly: true,
+          secure: process.env.ENV === "Prod" ? true : false,
+        });
         res.status(200).send(userToReturn);
       } else {
         res.status(403).send("Authentication failed");

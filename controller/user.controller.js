@@ -1,5 +1,4 @@
 import express from "express";
-import passport from "passport";
 import { UserService } from "../services/index";
 
 const userController = express.Router();
