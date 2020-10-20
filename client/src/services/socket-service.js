@@ -9,9 +9,6 @@ class SocketService extends Component {
 
     socket = io.connect("http://localhost:4001");
   }
-  componentDidMount() {
-    this.authenticateSocket();
-  }
 
   authenticateSocket() {
     socket.on("connect", function () {
@@ -33,10 +30,6 @@ class SocketService extends Component {
   handleChange = (evt) => {
     this.setState({ [evt.target.name]: evt.target.value });
   };
-
-  render() {
-    return <Fragment />;
-  }
 }
 
 export default SocketService;

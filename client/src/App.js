@@ -7,6 +7,7 @@ import { SocketService } from "./services";
 
 function App() {
   const socketService = new SocketService();
+  socketService.authenticateSocket();
 
   return (
     <div>
