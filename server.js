@@ -11,7 +11,7 @@ import passport from "passport";
 const PORT = process.env.PORT;
 const SOCKET_PORT = process.env.SOCKET_PORT;
 
-const cookieParser = require("socket.io-cookie-parser");
+const socketCookieParser = require("socket.io-cookie-parser");
 const socketioJwt = require("socketio-jwt");
 const express = require("express");
 const http = require("http");
@@ -20,16 +20,17 @@ const app = express();
 const server = http.createServer();
 const io = socket(server);
 const connectDb = require("./database/connection");
+const cookieParser = require("cookie-parser");
 
 applyPassportStrategy(passport);
 
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use("/api/auth", authController);
 app.use("/users", userController);
 app.use("/mailing", mailingController);
-
-io.use(cookieParser());
+io.use(socketCookieParser());
 
 io.sockets
   .on(
