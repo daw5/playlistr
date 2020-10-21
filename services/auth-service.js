@@ -26,8 +26,8 @@ export default class AuthService {
     });
     if (emailVerificationInstance.code === code) {
       user.status = "active";
-      user.save();
-      return true;
+      const result = await user.save();
+      return result;
     } else {
       return false;
     }

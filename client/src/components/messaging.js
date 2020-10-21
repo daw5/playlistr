@@ -1,42 +1,39 @@
-// require("dotenv").config();
+import React, { useState, useEffect } from "react";
+import TextField from "@material-ui/core/TextField";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import { UserService } from "../services";
+require("dotenv").config();
 
-import React, { Component } from "react";
-import { AutoComplete } from "./index";
+export default function Messaging() {
+  const [recipient, setRecipient] = useState(null);
+  const [users, setUsers] = useState([]);
+  const userService = new UserService();
 
-const axios = require("axios");
+  useEffect(() => {
+    userService.getUsers().then((users) => {
+      setUsers(users);
+    });
+  }, []);
 
-class Messaging extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      users: [],
-    };
-  }
-  componentDidMount() {
-    this.getUsers();
-  }
-
-  getUsers = () => {
-    axios
-      .get(`/users`)
-      .then((response) => {
-        this.setState({
-          users: response.data,
-        });
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-  };
-
-  render() {
-    return (
-      <div>
-        <AutoComplete />
-      </div>
-    );
-  }
+  return (
+    <div>
+      <Autocomplete
+        id="users-list"
+        name="recipient"
+        options={users}
+        onChange={(evt) => setRecipient(users[evt])}
+        getOptionLabel={(option) => option.email}
+        style={{ width: 300 }}
+        renderInput={(params) => (
+          <TextField {...params} label="User" variant="outlined" />
+        )}
+      />
+      <TextField
+        id="standard-textarea"
+        label="Multiline Placeholder"
+        placeholder="Placeholder"
+        multiline
+      />
+    </div>
+  );
 }
-
-export default Messaging;
