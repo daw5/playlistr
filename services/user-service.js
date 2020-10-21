@@ -10,6 +10,16 @@ export default class UserService {
     return users;
   }
 
+  async getUserById(_id) {
+    const user = await User.findOne({ _id });
+    return user;
+  }
+
+  async getUserByEmail(email) {
+    const user = await User.findOne({ email });
+    return user;
+  }
+
   getUserData(user, email) {
     const token = jwt.sign({ email }, config.passport.secret, {
       expiresIn: 10000000,
@@ -21,7 +31,6 @@ export default class UserService {
 
   async createUser(email, password) {
     const hashedPassword = await argon2.hash(password);
-    console.log("hashed password: ", hashedPassword);
     const user = new User({ email, password: hashedPassword });
     const result = await user.save();
     return result;

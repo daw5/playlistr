@@ -1,4 +1,4 @@
-import { User, EmailVerification } from "../database/models/index";
+import { EmailVerification } from "../database/models/index";
 import { UserService, MailingService } from "./index";
 
 const randomKeyGenerator = require("random-key");
@@ -20,7 +20,7 @@ export default class AuthService {
   }
 
   async confirmAccountVerification(userId, code) {
-    const user = await User.findOne({ _id: userId });
+    const user = await this.userService.getUserById(userId._id);
     const emailVerificationInstance = await EmailVerification.findOne({
       email: user.email,
     });
@@ -34,10 +34,10 @@ export default class AuthService {
   }
 
   async register(email, password) {
-    const user = await User.findOne({ email });
+    const user = await this.userService.getUserByEmail(email);
     if (!user) {
       await this.userService.createUser(email, password);
-      const newUser = await User.findOne({ email });
+      const newUser = await this.userService.getUserByEmail(email);
       const code = randomKeyGenerator.generate();
       this.mailingService.sendVerificationEmail(email, code, newUser._id);
       await this.createEmailVerificationInstance(email, code);
