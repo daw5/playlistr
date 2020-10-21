@@ -1,13 +1,14 @@
 import express from "express";
 import passport from "passport";
-import { AuthService } from "../services/index";
+import { AuthService, UserService } from "../services/index";
 import { validationResult } from "express-validator";
 import { registerValidation, loginValidation } from "../store/validators";
-import { User } from "../database/models/index";
+
 require("dotenv").config();
 
 const authController = express.Router();
 const authService = new AuthService();
+const userService = new UserService();
 
 authController.get(
   "/",
@@ -53,15 +54,15 @@ authController.post("/login", loginValidation, async (req, res, next) => {
     return res.status(400).json(errorsAfterValidation.mapped());
   try {
     const { email, password } = req.body;
-    const user = await User.findOne({ email });
+    const user = await userService.getUserByEmail(email);
     if (user && user.email) {
-      const userToReturn = await authService.authenticate(user, password);
-      if (userToReturn) {
-        res.cookie("token", userToReturn.token, {
+      const token = await authService.authenticate(user, password);
+      if (token) {
+        res.cookie("token", token, {
           httpOnly: true,
           secure: process.env.ENV === "Prod" ? true : false,
         });
-        res.status(200).send(userToReturn);
+        res.status(200).send(user);
       } else {
         res.status(403).send("Authentication failed");
       }

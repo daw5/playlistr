@@ -41,7 +41,7 @@ export default class AuthService {
       const code = randomKeyGenerator.generate();
       this.mailingService.sendVerificationEmail(email, code, newUser._id);
       await this.createEmailVerificationInstance(email, code);
-      return this.userService.getUserData(newUser, email);
+      return this.userService.getUserByEmail(email);
     } else {
       return null;
     }
@@ -50,7 +50,7 @@ export default class AuthService {
   async authenticate(user, password) {
     const isPasswordMatched = await argon2.verify(user.password, password);
     if (isPasswordMatched && user.status === "active") {
-      return this.userService.getUserData(user, user.email);
+      return this.userService.getToken(user);
     } else {
       return null;
     }

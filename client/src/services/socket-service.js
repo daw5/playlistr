@@ -1,15 +1,9 @@
-import React, { Component, Fragment } from "react";
+import { Component } from "react";
 import io from "socket.io-client";
 
-let socket;
+const socket = io.connect("http://localhost:4001");
 
 class SocketService extends Component {
-  constructor(props) {
-    super(props);
-
-    socket = io.connect("http://localhost:4001");
-  }
-
   authenticateSocket() {
     socket.on("connect", function () {
       socket.emit("authenticate");
@@ -21,10 +15,7 @@ class SocketService extends Component {
   }
 
   sendMessage(reciever_id, contents) {
-    socket.emit("message", {
-      reciever_id,
-      contents,
-    });
+    socket.emit("message", { reciever_id, contents });
   }
 
   handleChange = (evt) => {

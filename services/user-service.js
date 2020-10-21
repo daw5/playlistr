@@ -20,13 +20,16 @@ export default class UserService {
     return user;
   }
 
-  getUserData(user, email) {
-    const token = jwt.sign({ email }, config.passport.secret, {
-      expiresIn: 10000000,
-    });
-    const userToReturn = { ...user.toJSON(), ...{ token } };
-    delete userToReturn.password;
-    return userToReturn;
+  getToken(user) {
+    const token = jwt.sign(
+      { _id: user._id, email: user.email },
+      config.passport.secret,
+      {
+        expiresIn: 10000000,
+      }
+    );
+
+    return token;
   }
 
   async createUser(email, password) {

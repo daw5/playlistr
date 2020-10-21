@@ -21,6 +21,7 @@ const server = http.createServer();
 const io = socket(server);
 const connectDb = require("./database/connection");
 const cookieParser = require("cookie-parser");
+const clients = {};
 
 applyPassportStrategy(passport);
 
@@ -42,8 +43,8 @@ io.sockets
     })
   )
   .on("authenticated", function (socket) {
-    console.log("authenticaed: ", socket.decoded_token);
-    require("./socket/listeners").default(socket);
+    clients[socket.decoded_token._id] = socket;
+    require("./socket/listeners").default(socket, clients);
   });
 
 app.listen(PORT, function () {
