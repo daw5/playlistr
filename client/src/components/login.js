@@ -31,9 +31,7 @@ class Login extends Component {
 
   handleChange = (evt) => {
     console.log(process.env.API_URL);
-    this.setState({ [evt.target.name]: evt.target.value }, () => {
-      console.log("state: ", this.state);
-    });
+    this.setState({ [evt.target.name]: evt.target.value }, () => {});
   };
 
   render() {

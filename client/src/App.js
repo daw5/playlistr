@@ -1,6 +1,5 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import "./App.scss";
 import { Login, Messaging } from "./components";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { SocketService } from "./services";
@@ -10,7 +9,7 @@ function App() {
   socketService.authenticateSocket();
 
   return (
-    <div>
+    <div id="app">
       <Router>
         <nav>
           <ul>
