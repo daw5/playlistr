@@ -45,6 +45,10 @@ io.sockets
   .on("authenticated", function (socket) {
     clients[socket.decoded_token._id] = socket;
     require("./socket/listeners").default(socket, clients);
+
+    socket.on("general", async function (data) {
+      io.emit("general", data);
+    });
   });
 
 app.listen(PORT, function () {

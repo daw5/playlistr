@@ -11,11 +11,19 @@ class SocketService extends Component {
       socket.on("message", function (data) {
         console.log("data: ", data);
       });
+
+      socket.on("general", function (data) {
+        console.log("general message data: ", data);
+      });
     });
   }
 
   sendMessage(reciever_id, contents) {
     socket.emit("message", { reciever_id, contents });
+  }
+
+  sendGeneralMessage(contents) {
+    socket.emit("general", contents);
   }
 
   handleChange = (evt) => {

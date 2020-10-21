@@ -43,7 +43,13 @@ export default function Messaging() {
         onClick={() => socketService.sendMessage(recipient._id, messageToSend)}
         variant="contained"
       >
-        Default
+        Send Message
+      </Button>
+      <Button
+        onClick={() => socketService.sendGeneralMessage(messageToSend)}
+        variant="contained"
+      >
+        Send General Message
       </Button>
     </div>
   );
