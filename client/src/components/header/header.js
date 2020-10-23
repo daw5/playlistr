@@ -6,8 +6,11 @@ import "./header.scss";
 function Header(props) {
   return (
     <div id="header">
-      <div id="messaging-icon-container">
-        <div onClick={() => props.toggleMessagingSidebar(true)}>
+      <div id="messaging-icon-column">
+        <div
+          id="messaging-icon-container"
+          onClick={props.toggleMessagingSidebar}
+        >
           <ChatBubbleOutlineIcon
             id="messaging-icon-outline"
             style={{

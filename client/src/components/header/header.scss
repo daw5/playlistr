@@ -13,13 +13,17 @@
   grid-template-columns: auto 100px;
 }
 
-#messaging-icon-container {
+#messaging-icon-column {
   grid-column: 2;
   height: 100%;
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
+
+  #messaging-icon-container {
+    cursor: pointer;
+  }
 }
 
 // background animation
