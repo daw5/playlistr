@@ -2,10 +2,12 @@ import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Button from "@material-ui/core/Button";
-import { UserService, SocketService } from "../services";
+import { UserService, SocketService } from "../../services";
+import "./messaging.scss";
+
 require("dotenv").config();
 
-export default function Messaging() {
+export default function Messaging(props) {
   const [recipient, setRecipient] = useState({});
   const [messageToSend, setMessageToSend] = useState("");
   const [messages, setMessages] = useState([]);
@@ -20,7 +22,13 @@ export default function Messaging() {
   }, []);
 
   return (
-    <div>
+    <div
+      className={
+        props.messagingSidebarOpen
+          ? "visible messaging-container"
+          : "hidden messaging-container"
+      }
+    >
       <Autocomplete
         id="users-list"
         name="recipient"
@@ -44,12 +52,6 @@ export default function Messaging() {
         variant="contained"
       >
         Send Message
-      </Button>
-      <Button
-        onClick={() => socketService.sendGeneralMessage(messageToSend)}
-        variant="contained"
-      >
-        Send General Message
       </Button>
     </div>
   );

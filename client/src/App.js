@@ -30,40 +30,26 @@ class App extends Component {
     return (
       <HelmetProvider>
         <div id="app">
-          <Router>
-            <div>
-              <Helmet>
-                <meta
-                  name="viewport"
-                  content="minimum-scale=1, initial-scale=1, width=device-width"
-                />
-              </Helmet>
-              <Header
-                messagingSidebarOpen={this.state.messagingSidebarOpen}
-                toggleMessagingSidebar={this.toggleMessagingSidebar}
-              ></Header>
-              <div>
-                <nav>
-                  <ul>
-                    <li>
-                      <Link to="/">Home</Link>
-                    </li>
-                    <li>
-                      <Link to="/messaging">Messaging</Link>
-                    </li>
-                  </ul>
-                </nav>
-              </div>
-            </div>
-            <Switch>
-              <Route path="/messaging">
-                <Messaging />
-              </Route>
-              <Route path="/">
-                <Login />
-              </Route>
-            </Switch>
-          </Router>
+          <Helmet>
+            <meta
+              name="viewport"
+              content="minimum-scale=1, initial-scale=1, width=device-width"
+            />
+          </Helmet>
+          <Header
+            messagingSidebarOpen={this.state.messagingSidebarOpen}
+            toggleMessagingSidebar={this.toggleMessagingSidebar}
+          ></Header>
+          <div id="main-section-container">
+            <Router>
+              <Switch>
+                <Route path="/">
+                  <Login />
+                </Route>
+              </Switch>
+            </Router>
+            <Messaging messagingSidebarOpen={this.state.messagingSidebarOpen} />
+          </div>
         </div>
       </HelmetProvider>
     );
