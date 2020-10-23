@@ -27,6 +27,14 @@ body {
   color: white;
 }
 
+.hidden {
+  display: none !important;
+}
+
+.visible {
+  display: block !important;
+}
+
 .App-link {
   color: #61dafb;
 }

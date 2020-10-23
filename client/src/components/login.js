@@ -9,10 +9,8 @@ class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      token: "",
     };
   }
-  componentDidMount() {}
 
   login = () => {
     const { email, password } = this.state;
