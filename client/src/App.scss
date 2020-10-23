@@ -1,13 +1,21 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
 
-body {
+html,
+body,
+#root,
+#app {
+  height: 100%;
+}
+
+#app {
   background-color: darkgrey;
 }
 
 #main-section-container {
   display: flex;
   justify-content: space-between;
+  height: 100%;
 }
 
 .hidden {

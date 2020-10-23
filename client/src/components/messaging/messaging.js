@@ -29,7 +29,7 @@ export default function Messaging(props) {
           : "hidden messaging-container"
       }
     >
-      <Autocomplete
+      {/* <Autocomplete
         id="users-list"
         name="recipient"
         options={users}
@@ -52,7 +52,7 @@ export default function Messaging(props) {
         variant="contained"
       >
         Send Message
-      </Button>
+      </Button> */}
     </div>
   );
 }
