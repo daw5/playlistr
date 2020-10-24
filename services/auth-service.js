@@ -20,7 +20,7 @@ export default class AuthService {
   }
 
   async confirmAccountVerification(userId, code) {
-    const user = await this.userService.getUserById(userId._id);
+    const user = await this.userService.getUserById(userId);
     const emailVerificationInstance = await EmailVerification.findOne({
       email: user.email,
     });
