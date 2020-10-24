@@ -13,8 +13,12 @@ const userService = new UserService();
 authController.get(
   "/",
   passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    res.status(200).send(req.user);
+  (req, res, next) => {
+    try {
+      res.status(200).send(req.user);
+    } catch {
+      next(error);
+    }
   }
 );
 
@@ -54,7 +58,7 @@ authController.post("/login", loginValidation, async (req, res, next) => {
     return res.status(400).json(errorsAfterValidation.mapped());
   try {
     const { email, password } = req.body;
-    const user = await userService.getUserByEmail(email);
+    const user = await userService.findUserByEmail(email);
     if (user && user.email) {
       const token = await authService.authenticate(user, password);
       if (token) {

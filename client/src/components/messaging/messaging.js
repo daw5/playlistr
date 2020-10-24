@@ -11,14 +11,17 @@ require("dotenv").config();
 export default function Messaging(props) {
   const [recipient, setRecipient] = useState({});
   const [messageToSend, setMessageToSend] = useState("");
-  const [messages, setMessages] = useState([]);
   const [users, setUsers] = useState([]);
+  const [conversations, setConversations] = useState([]);
   const userService = new UserService();
   const socketService = new SocketService();
 
   useEffect(() => {
     userService.getUsers().then((users) => {
       setUsers(users);
+    });
+    userService.getConversations().then((conversations) => {
+      setConversations(conversations);
     });
   }, []);
 

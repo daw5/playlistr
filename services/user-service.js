@@ -8,12 +8,12 @@ export default class UserService {
     return users;
   }
 
-  async getUserById(_id) {
+  async findUserById(_id) {
     const user = await User.findOne({ _id });
     return user;
   }
 
-  async getUserByEmail(email) {
+  async findUserByEmail(email) {
     const user = await User.findOne({ email });
     return user;
   }

@@ -2,17 +2,13 @@ import mongoose from "mongoose";
 import { Schema } from "mongoose";
 
 const messageSchema = new Schema({
-  sender_id: {
+  sender: {
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  reciever_id: {
+  reciever: {
     type: Schema.Types.ObjectId,
     ref: "User",
-  },
-  conversation_id: {
-    type: Schema.Types.ObjectId,
-    ref: "Conversation",
   },
   contents: {
     type: String,
