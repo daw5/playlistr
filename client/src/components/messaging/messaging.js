@@ -3,6 +3,7 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import Button from "@material-ui/core/Button";
 import { UserService, SocketService } from "../../services";
+import { Conversations } from "../";
 import "./messaging.scss";
 
 require("dotenv").config();
@@ -29,6 +30,7 @@ export default function Messaging(props) {
           : "hidden messaging-container"
       }
     >
+      <Conversations users={users} />
       {/* <Autocomplete
         id="users-list"
         name="recipient"
