@@ -9,7 +9,7 @@ export default class UserService {
   }
 
   async findUserById(_id) {
-    const user = await User.findOne({ _id });
+    const user = await User.findById(_id);
     return user;
   }
 

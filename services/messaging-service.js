@@ -9,15 +9,23 @@ export default class MessagingService {
   }
 
   async findConversationsByUser(user_id) {
-    const conversations = await Conversation.find({ users: user_id });
-    console.log("messaging service conversations: ", conversations);
+    const conversations = await Conversation.find({ users: user_id }).populate(
+      "messages"
+    );
     return conversations;
   }
 
   async findConversation(sender_id, reciever_id, message_id) {
-    let conversation = await Conversation.findOne({
+    const conversation = await Conversation.findOne({
       users: [sender_id, reciever_id],
     });
+    return conversation;
+  }
+
+  async saveInteraction(token, data) {
+    const { reciever_id, contents } = data;
+    const user = await this.userService.findUserByEmail(token.email);
+    let conversation = await this.findConversation(user._id, reciever_id);
     if (!conversation) {
       conversation = await this.createConversation(
         sender_id,
@@ -25,29 +33,33 @@ export default class MessagingService {
         message_id
       );
     }
-    return conversation;
-  }
-
-  async saveInteraction(token, data) {
-    const { reciever_id, contents } = data;
-    const user = await this.userService.findUserByEmail(token.email);
-    const message = await this.createMessage(user._id, reciever_id, contents);
-    const conversation = await this.findConversation(
+    const message = await this.createMessage(
       user._id,
       reciever_id,
-      message
+      contents,
+      conversation._id
     );
     return conversation && message;
   }
 
-  async createMessage(sender_id, reciever_id, contents) {
+  async createMessage(sender_id, reciever_id, contents, conversation_id) {
     const message = new Message({
       sender: sender_id,
       reciever: reciever_id,
       contents,
     });
+    await this.addMessageToConversation(conversation_id, message._id);
     const result = await message.save();
+
     return result;
+  }
+
+  async addMessageToConversation(conversation_id, message_id) {
+    const conversation = Conversation.findOneAndUpdate(
+      { _id: conversation_id },
+      { $push: { messages: message_id } }
+    );
+    return conversation;
   }
 
   async createConversation(sender_id, reciever_id, message_id) {
@@ -55,7 +67,6 @@ export default class MessagingService {
       users: [sender_id, reciever_id],
       messages: [message_id],
     });
-    console.log("conversation: ", conversation);
     const result = await conversation.save();
     return result;
   }
