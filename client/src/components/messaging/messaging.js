@@ -30,8 +30,8 @@ export default function Messaging(props) {
           : "hidden messaging-container"
       }
     >
-      <Conversations users={users} />
-      {/* <Autocomplete
+      {/* <Conversations users={users} setRecipient={setRecipient} /> */}
+      <Autocomplete
         id="users-list"
         name="recipient"
         options={users}
@@ -54,7 +54,7 @@ export default function Messaging(props) {
         variant="contained"
       >
         Send Message
-      </Button> */}
+      </Button>
     </div>
   );
 }

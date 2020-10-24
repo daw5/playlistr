@@ -1,6 +1,4 @@
 import { User } from "../database/models/index";
-import { config } from "../store/config";
-import jwt from "jsonwebtoken";
 
 const argon2 = require("argon2");
 
@@ -18,18 +16,6 @@ export default class UserService {
   async getUserByEmail(email) {
     const user = await User.findOne({ email });
     return user;
-  }
-
-  getToken(user) {
-    const token = jwt.sign(
-      { _id: user._id, email: user.email },
-      config.passport.secret,
-      {
-        expiresIn: 10000000,
-      }
-    );
-
-    return token;
   }
 
   async createUser(email, password) {

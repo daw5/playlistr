@@ -44,6 +44,7 @@ io.sockets
   )
   .on("authenticated", function (socket) {
     clients[socket.decoded_token._id] = socket;
+    console.log("authenticated: ", socket.decoded_token);
     require("./socket/listeners").default(socket, clients);
   });
 

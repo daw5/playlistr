@@ -1,5 +1,7 @@
 import { EmailVerification } from "../database/models/index";
 import { UserService, MailingService } from "./index";
+import { config } from "../store/config";
+import jwt from "jsonwebtoken";
 
 const randomKeyGenerator = require("random-key");
 const argon2 = require("argon2");
@@ -8,6 +10,18 @@ export default class AuthService {
   constructor() {
     this.userService = new UserService();
     this.mailingService = new MailingService();
+  }
+
+  getToken(user) {
+    const token = jwt.sign(
+      { _id: user._id, email: user.email },
+      config.passport.secret,
+      {
+        expiresIn: 10000000,
+      }
+    );
+
+    return token;
   }
 
   async createEmailVerificationInstance(email, code) {
@@ -50,7 +64,7 @@ export default class AuthService {
   async authenticate(user, password) {
     const isPasswordMatched = await argon2.verify(user.password, password);
     if (isPasswordMatched && user.status === "active") {
-      return this.userService.getToken(user);
+      return this.getToken(user);
     } else {
       return null;
     }

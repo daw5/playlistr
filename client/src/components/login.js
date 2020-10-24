@@ -22,7 +22,22 @@ class Login extends Component {
         password,
       })
       .then(function (response) {
-        console.log("authenticated");
+        console.log("authenticated: ", response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  register = () => {
+    const { email, password } = this.state;
+    axios
+      .post(`/api/auth/register`, {
+        email,
+        password,
+      })
+      .then(function (response) {
+        console.log("Registered: ", response);
       })
       .catch(function (error) {
         console.log(error);
@@ -39,6 +54,7 @@ class Login extends Component {
       <div>
         <p>Greetings Grasshoppah!</p>
         <button onClick={this.login}>Login</button>
+        <button onClick={this.register}>Register</button>
         <input
           name="email"
           type="text"
