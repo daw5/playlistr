@@ -9,7 +9,8 @@ class UserService extends Component {
     axios
       .get(`/users`)
       .then((response) => {
-        return response.data;
+        const users = this.indexUsers(response.data);
+        return users;
       })
       .catch(function (error) {
         console.log(error);
@@ -24,6 +25,14 @@ class UserService extends Component {
       .catch(function (error) {
         console.log(error);
       });
+
+  indexUsers = (users) => {
+    const indexedUsers = {};
+    users.forEach((user) => {
+      indexedUsers[user._id] = user;
+    });
+    return indexedUsers;
+  };
 }
 
 export default UserService;

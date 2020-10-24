@@ -1,7 +1,7 @@
-require("dotenv").config();
-
 import { Message, Conversation } from "../database/models/index";
 import { UserService } from "./index";
+
+require("dotenv").config();
 
 export default class MessagingService {
   constructor() {
@@ -15,7 +15,7 @@ export default class MessagingService {
     return conversations;
   }
 
-  async findConversation(sender_id, reciever_id, message_id) {
+  async findConversation(sender_id, reciever_id) {
     const conversation = await Conversation.findOne({
       users: [sender_id, reciever_id],
     });
