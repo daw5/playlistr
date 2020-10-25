@@ -24,26 +24,26 @@ export default class MessagingService {
 
   async saveInteraction(token, data) {
     const { reciever_id, contents } = data;
-    const user = await this.userService.findUserByEmail(token.email);
-    const message = await this.createMessage(user._id, reciever_id, contents);
-    let conversation = await this.findConversation(user._id, reciever_id);
+    let conversation = await this.findConversation(token._id, reciever_id);
     if (!conversation) {
-      conversation = await this.createConversation(
-        user._id,
-        reciever_id,
-        message._id
-      );
-    } else {
-      await this.addMessageToConversation(conversation._id, message._id);
+      conversation = await this.createConversation(token._id, reciever_id);
     }
+    const message = await this.createMessage(
+      user._id,
+      reciever_id,
+      contents,
+      conversation._id
+    );
+    conversation = this.addMessageToConversation(conversation._id, message._id);
     return conversation && message;
   }
 
-  async createMessage(sender_id, reciever_id, contents) {
+  async createMessage(sender_id, reciever_id, contents, conversation_id) {
     const message = new Message({
       sender: sender_id,
       reciever: reciever_id,
       contents,
+      conversation: conversation_id,
     });
     const result = await message.save();
 
@@ -51,17 +51,15 @@ export default class MessagingService {
   }
 
   async addMessageToConversation(conversation_id, message_id) {
-    const conversation = Conversation.findOneAndUpdate(
-      { _id: conversation_id },
-      { $push: { messages: message_id } }
-    );
+    const conversation = Conversation.findByIdAndUpdate(conversation_id, {
+      $push: { messages: message_id },
+    });
     return conversation;
   }
 
-  async createConversation(sender_id, reciever_id, message_id) {
+  async createConversation(sender_id, reciever_id) {
     const conversation = new Conversation({
       users: [sender_id, reciever_id],
-      messages: [message_id],
     });
     const result = await conversation.save();
     return result;
