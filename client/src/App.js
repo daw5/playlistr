@@ -1,59 +1,56 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
+import { useToggle } from "./hooks";
 import { Login, Messaging, Header } from "./components";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { SocketService } from "./services";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { SocketService, UserService } from "./services";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import "./App.scss";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+export default function App() {
+  const socketService = new SocketService();
+  const userService = new UserService();
+  const [messagingSidebarStatus, setMessagingSidebarStatus] = useToggle();
+  const [users, setUsers] = useState({});
+  const [conversations, setConversations] = useState([]);
 
-    this.state = {
-      messagingSidebarOpen: false,
-    };
-
-    this.socketService = new SocketService();
-  }
-
-  componentDidMount() {
-    this.socketService.authenticateSocket();
-  }
-
-  toggleMessagingSidebar = () => {
-    this.setState({
-      messagingSidebarOpen: !this.state.messagingSidebarOpen,
+  useEffect(() => {
+    socketService.authenticateSocket();
+    userService.getUsers().then((users) => {
+      setUsers(users);
     });
-  };
+    userService.getConversations().then((conversations) => {
+      setConversations(conversations);
+    });
+  }, []);
 
-  render() {
-    return (
-      <HelmetProvider>
-        <div id="app">
-          <Helmet>
-            <meta
-              name="viewport"
-              content="minimum-scale=1, initial-scale=1, width=device-width"
-            />
-          </Helmet>
-          <Header
-            messagingSidebarOpen={this.state.messagingSidebarOpen}
-            toggleMessagingSidebar={this.toggleMessagingSidebar}
-          ></Header>
-          <div id="main-section-container">
-            <Router>
-              <Switch>
-                <Route path="/">
-                  <Login />
-                </Route>
-              </Switch>
-            </Router>
-            <Messaging messagingSidebarOpen={this.state.messagingSidebarOpen} />
-          </div>
+  return (
+    <HelmetProvider>
+      <div id="app">
+        <Helmet>
+          <meta
+            name="viewport"
+            content="minimum-scale=1, initial-scale=1, width=device-width"
+          />
+        </Helmet>
+        <Header
+          messagingSidebarOpen={messagingSidebarStatus}
+          toggleMessagingSidebar={setMessagingSidebarStatus}
+        ></Header>
+        <div id="main-section-container">
+          <Router>
+            <Switch>
+              <Route path="/">
+                <Login />
+              </Route>
+            </Switch>
+          </Router>
+          <Messaging
+            users={users}
+            conversations={conversations}
+            messagingSidebarOpen={messagingSidebarStatus}
+          />
         </div>
-      </HelmetProvider>
-    );
-  }
+      </div>
+    </HelmetProvider>
+  );
 }
-
-export default App;

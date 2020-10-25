@@ -9,21 +9,12 @@ import "./messaging.scss";
 require("dotenv").config();
 
 export default function Messaging(props) {
+  const userService = new UserService();
+  const users = props.users ? Object.values(props.users) : [];
+
+  const socketService = new SocketService();
   const [recipient, setRecipient] = useState({});
   const [messageToSend, setMessageToSend] = useState("");
-  const [users, setUsers] = useState([]);
-  const [conversations, setConversations] = useState([]);
-  const userService = new UserService();
-  const socketService = new SocketService();
-
-  useEffect(() => {
-    userService.getUsers().then((users) => {
-      setUsers(users);
-    });
-    userService.getConversations().then((conversations) => {
-      setConversations(conversations);
-    });
-  }, []);
 
   return (
     <div
@@ -33,7 +24,11 @@ export default function Messaging(props) {
           : "hidden messaging-container"
       }
     >
-      {/* <Conversations users={users} setRecipient={setRecipient} /> */}
+      {/* <Conversations
+        users={props.users}
+        conversations={props.conversations}
+        setRecipient={setRecipient}
+      /> */}
       <Autocomplete
         id="users-list"
         name="recipient"

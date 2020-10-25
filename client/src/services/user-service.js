@@ -16,6 +16,14 @@ class UserService extends Component {
         console.log(error);
       });
 
+  getUsersRelevantToConversation(users, conversation) {
+    const relevantUsers = {};
+    conversation.users.forEach((user) => {
+      relevantUsers[user] = users[user];
+    });
+    return relevantUsers;
+  }
+
   getConversations = () =>
     axios
       .get(`/users/conversations`)

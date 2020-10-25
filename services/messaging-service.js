@@ -25,30 +25,26 @@ export default class MessagingService {
   async saveInteraction(token, data) {
     const { reciever_id, contents } = data;
     const user = await this.userService.findUserByEmail(token.email);
+    const message = await this.createMessage(user._id, reciever_id, contents);
     let conversation = await this.findConversation(user._id, reciever_id);
     if (!conversation) {
       conversation = await this.createConversation(
-        sender_id,
+        user._id,
         reciever_id,
-        message_id
+        message._id
       );
+    } else {
+      await this.addMessageToConversation(conversation._id, message._id);
     }
-    const message = await this.createMessage(
-      user._id,
-      reciever_id,
-      contents,
-      conversation._id
-    );
     return conversation && message;
   }
 
-  async createMessage(sender_id, reciever_id, contents, conversation_id) {
+  async createMessage(sender_id, reciever_id, contents) {
     const message = new Message({
       sender: sender_id,
       reciever: reciever_id,
       contents,
     });
-    await this.addMessageToConversation(conversation_id, message._id);
     const result = await message.save();
 
     return result;
