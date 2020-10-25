@@ -10,7 +10,7 @@ export default function Conversations(props) {
       <p>
         <b>{props.correspondent && props.correspondent.email}</b>
       </p>
-      <p>{messages && messages[messages.length - 1].contents}</p>
+      <p>{messages.length > 0 && messages[messages.length - 1].contents}</p>
     </div>
   );
 }

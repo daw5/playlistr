@@ -1,16 +1,21 @@
 .conversation-snippet {
   display: grid;
   grid-template-rows: auto auto;
-  // box-sizing: border-box;
+  box-sizing: border-box;
   border-radius: 5px;
   padding: 10px;
-  height: 120px;
+  height: 90px;
   width: 300px;
   background-color: lightblue;
   color: black;
 
   p {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    margin: 0;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }
