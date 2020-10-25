@@ -40,9 +40,7 @@ export default function Messaging(props) {
         id="users-list"
         name="recipient"
         options={props.users ? Object.values(props.users) : []}
-        onChange={(evt) =>
-          setRecipient(Object.values(props.users)[evt.target.value])
-        }
+        onChange={(evt, value) => setRecipient(value)}
         getOptionLabel={(option) => option.email}
         style={{ width: 300 }}
         renderInput={(params) => (
@@ -57,7 +55,10 @@ export default function Messaging(props) {
         multiline
       />
       <Button
-        onClick={() => socketService.sendMessage(recipient._id, messageToSend)}
+        onClick={() => {
+          console.log("users: ", Object.values(props.users));
+          socketService.sendMessage(recipient._id, messageToSend);
+        }}
         variant="contained"
       >
         Send Message

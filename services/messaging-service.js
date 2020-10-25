@@ -29,7 +29,7 @@ export default class MessagingService {
       conversation = await this.createConversation(token._id, reciever_id);
     }
     const message = await this.createMessage(
-      user._id,
+      token._id,
       reciever_id,
       contents,
       conversation._id
