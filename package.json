@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
+  "nodemonConfig": {
+    "ignore": ["client/*"]
+ },
   "scripts": {
     "start": "ENV=prod node -r esm server.js",
     "dev": "nodemon -r esm server.js",
