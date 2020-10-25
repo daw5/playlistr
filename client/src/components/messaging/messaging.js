@@ -32,14 +32,17 @@ export default function Messaging(props) {
     >
       <Conversations
         users={props.users}
+        currentUser={props.currentUser}
         conversations={conversations}
         setRecipient={setRecipient}
       />
       {/* <Autocomplete
         id="users-list"
         name="recipient"
-        options={users}
-        onChange={(evt) => setRecipient(users[evt.target.value])}
+        options={props.users ? Object.values(props.users) : []}
+        onChange={(evt) =>
+          setRecipient(Object.values(props.users)[evt.target.value])
+        }
         getOptionLabel={(option) => option.email}
         style={{ width: 300 }}
         renderInput={(params) => (

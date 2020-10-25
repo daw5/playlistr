@@ -5,6 +5,12 @@ require("dotenv").config();
 const axios = require("axios");
 
 class UserService extends Component {
+  getCorrespondent = (currentUser, relevantUserIds, users) => {
+    return relevantUserIds[0] !== currentUser
+      ? users[relevantUserIds[0]]
+      : users[relevantUserIds[1]];
+  };
+
   getCurrentUser = () =>
     axios
       .get(`/users/current`)

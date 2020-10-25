@@ -7,7 +7,10 @@ export default function Conversations(props) {
   const messages = props.conversation.messages;
   return (
     <div className="conversation-snippet">
-      <p></p>
+      <p>
+        <b>{props.correspondent && props.correspondent.email}</b>
+      </p>
+      <p>{messages && messages[messages.length - 1].contents}</p>
     </div>
   );
 }

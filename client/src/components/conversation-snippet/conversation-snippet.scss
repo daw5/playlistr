@@ -1,5 +1,16 @@
 .conversation-snippet {
-  width: 90%;
-  height: 50px;
-  background-color: red;
+  display: grid;
+  grid-template-rows: auto auto;
+  // box-sizing: border-box;
+  border-radius: 5px;
+  padding: 10px;
+  height: 120px;
+  width: 300px;
+  background-color: lightblue;
+  color: black;
+
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }

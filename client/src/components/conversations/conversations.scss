@@ -3,12 +3,17 @@
   height: 100%;
 }
 
-.users-list-autocomplete {
-  padding-top: 30px;
-  padding-bottom: 30px;
-}
-
 #searchContainer {
   display: flex;
   justify-content: center;
+}
+
+#conversation-snippets-container {
+  display: flex;
+  justify-content: center;
+}
+
+.users-list-autocomplete {
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
