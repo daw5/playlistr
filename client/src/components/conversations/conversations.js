@@ -9,7 +9,6 @@ require("dotenv").config();
 
 export default function Conversations(props) {
   const userService = new UserService();
-
   const users = props.users ? Object.values(props.users) : [];
 
   return (
@@ -30,8 +29,9 @@ export default function Conversations(props) {
       </div>
       <div>
         {props.conversations &&
-          props.conversations.forEach(async (conversation) => (
+          props.conversations.map((conversation) => (
             <ConversationSnippet
+              key={`conversation${conversation._id}`}
               users={userService.getUsersRelevantToConversation(
                 props.users,
                 conversation

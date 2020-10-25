@@ -4,9 +4,9 @@ import "./conversation-snippet.scss";
 require("dotenv").config();
 
 export default function Conversations(props) {
-  const messages = props.conversations.messages;
+  const messages = props.conversation.messages;
   return (
-    <div class="conversation-snippet">
+    <div className="conversation-snippet">
       <p></p>
     </div>
   );
