@@ -10,11 +10,17 @@ require("dotenv").config();
 
 export default function Messaging(props) {
   const userService = new UserService();
-  const users = props.users ? Object.values(props.users) : [];
-
   const socketService = new SocketService();
+
+  const [conversations, setConversations] = useState([]);
   const [recipient, setRecipient] = useState({});
   const [messageToSend, setMessageToSend] = useState("");
+
+  useEffect(() => {
+    userService.getConversations().then((conversations) => {
+      setConversations(conversations);
+    });
+  }, []);
 
   return (
     <div
@@ -24,12 +30,12 @@ export default function Messaging(props) {
           : "hidden messaging-container"
       }
     >
-      {/* <Conversations
+      <Conversations
         users={props.users}
-        conversations={props.conversations}
+        conversations={conversations}
         setRecipient={setRecipient}
-      /> */}
-      <Autocomplete
+      />
+      {/* <Autocomplete
         id="users-list"
         name="recipient"
         options={users}
@@ -52,7 +58,7 @@ export default function Messaging(props) {
         variant="contained"
       >
         Send Message
-      </Button>
+      </Button> */}
     </div>
   );
 }

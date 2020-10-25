@@ -10,6 +10,8 @@ require("dotenv").config();
 export default function Conversations(props) {
   const userService = new UserService();
 
+  const users = props.users ? Object.values(props.users) : [];
+
   return (
     <div id="conversationsContainer">
       <div id="searchContainer">
@@ -17,8 +19,8 @@ export default function Conversations(props) {
           id="users-list"
           className="users-list-autocomplete"
           name="recipient"
-          options={props.users ? Object.values(props.users) : []}
-          onChange={(evt) => props.setRecipient(props.users[evt.target.value])}
+          options={users}
+          onChange={(evt) => props.setRecipient(users[evt.target.value])}
           getOptionLabel={(option) => option.email}
           style={{ width: 300 }}
           renderInput={(params) => (

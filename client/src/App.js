@@ -11,15 +11,11 @@ export default function App() {
   const userService = new UserService();
   const [messagingSidebarStatus, setMessagingSidebarStatus] = useToggle();
   const [users, setUsers] = useState({});
-  const [conversations, setConversations] = useState([]);
 
   useEffect(() => {
     socketService.authenticateSocket();
     userService.getUsers().then((users) => {
       setUsers(users);
-    });
-    userService.getConversations().then((conversations) => {
-      setConversations(conversations);
     });
   }, []);
 
@@ -46,7 +42,6 @@ export default function App() {
           </Router>
           <Messaging
             users={users}
-            conversations={conversations}
             messagingSidebarOpen={messagingSidebarStatus}
           />
         </div>
