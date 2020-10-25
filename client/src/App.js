@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useToggle } from "./hooks";
 import { Login, Messaging, Header } from "./components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -11,9 +11,13 @@ export default function App() {
   const userService = new UserService();
   const [messagingSidebarStatus, setMessagingSidebarStatus] = useToggle();
   const [users, setUsers] = useState({});
+  const [currentUser, setCurrentUser] = useState({});
 
   useEffect(() => {
     socketService.authenticateSocket();
+    userService.getCurrentUser().then((user) => {
+      setCurrentUser(user);
+    });
     userService.getUsers().then((users) => {
       setUsers(users);
     });
@@ -42,6 +46,7 @@ export default function App() {
           </Router>
           <Messaging
             users={users}
+            currentUser={currentUser}
             messagingSidebarOpen={messagingSidebarStatus}
           />
         </div>

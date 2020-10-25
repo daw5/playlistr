@@ -5,6 +5,16 @@ require("dotenv").config();
 const axios = require("axios");
 
 class UserService extends Component {
+  getCurrentUser = () =>
+    axios
+      .get(`/users/current`)
+      .then((response) => {
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
   getUsers = () =>
     axios
       .get(`/users`)

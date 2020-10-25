@@ -16,6 +16,18 @@ userController.get("/", async (req, res, next) => {
 });
 
 userController.get(
+  "/current",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res, next) => {
+    try {
+      res.status(200).send(req.user);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+userController.get(
   "/conversations",
   passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
