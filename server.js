@@ -46,6 +46,10 @@ io.sockets
     clients[socket.decoded_token._id] = socket;
     console.log("authenticated: ", socket.decoded_token);
     require("./socket/listeners").default(socket, clients);
+    socket.on("disconnect", (reason) => {
+      console.log("client disconnected: ", reason);
+      delete clients[socket.decoded_token._id];
+    });
   });
 
 app.listen(PORT, function () {
