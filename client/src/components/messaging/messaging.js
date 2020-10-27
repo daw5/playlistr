@@ -27,6 +27,7 @@ export default function Messaging(props) {
       {correspondent && (
         <Chat
           correspondent={correspondent}
+          messages={messages}
           setCorrespondent={setCorrespondent}
         />
       )}

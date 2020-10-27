@@ -5,12 +5,6 @@ require("dotenv").config();
 const axios = require("axios");
 
 class UserService extends Component {
-  getCorrespondent = (currentUser, relevantUserIds, users) => {
-    return relevantUserIds[0] !== currentUser
-      ? users[relevantUserIds[0]]
-      : users[relevantUserIds[1]];
-  };
-
   getCurrentUser = () =>
     axios
       .get(`/users/current`)
@@ -40,11 +34,14 @@ class UserService extends Component {
     return relevantUsers;
   }
 
-  getConversations = () =>
+  getConversations = (currentUser) =>
     axios
       .get(`/users/conversations`)
       .then((response) => {
-        return this.indexItems(response.data);
+        return this.indexConversationsByCorrespondent(
+          response.data,
+          currentUser
+        );
       })
       .catch(function (error) {
         console.log(error);
@@ -56,6 +53,18 @@ class UserService extends Component {
       indexedItems[item._id] = item;
     });
     return indexedItems;
+  };
+
+  indexConversationsByCorrespondent = (conversations, currentUser) => {
+    const indexedConversations = {};
+    conversations.forEach((conversation) => {
+      indexedConversations[
+        conversation.users[0] !== currentUser
+          ? conversation.users[0]
+          : conversation.users[1]
+      ] = conversation;
+    });
+    return indexedConversations;
   };
 }
 

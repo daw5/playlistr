@@ -13,10 +13,12 @@ export default function Conversations(props) {
   const [conversations, setConversations] = useState([]);
 
   useEffect(() => {
-    userService.getConversations().then((conversations) => {
-      setConversations(conversations);
-    });
-  }, []);
+    userService
+      .getConversations(props.currentUser._id)
+      .then((conversations) => {
+        setConversations(conversations);
+      });
+  }, [props.currentUser]);
 
   return (
     <div id="conversationsContainer">
@@ -35,22 +37,19 @@ export default function Conversations(props) {
       </div>
       <div id="conversation-snippets-container">
         {conversations &&
-          Object.values(conversations).map((conversation) => {
-            const correspondent = userService.getCorrespondent(
-              props.currentUser._id,
-              conversation.users,
-              props.users
-            );
+          Object.keys(conversations).map((correspondent) => {
             return (
               <div
-                key={`conversation${conversation._id}`}
-                onClick={(evt, value) => props.setCorrespondent(correspondent)}
+                key={`conversation${conversations[correspondent]._id}`}
+                onClick={(evt) =>
+                  props.setCorrespondent(props.users[correspondent])
+                }
                 className={"conversation-snippet-container"}
               >
                 <ConversationSnippet
                   currentUser={props.currentUser}
-                  correspondent={correspondent}
-                  conversation={conversation}
+                  correspondent={props.users[correspondent]}
+                  conversation={conversations[correspondent]}
                 />
               </div>
             );
