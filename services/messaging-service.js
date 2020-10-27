@@ -34,8 +34,8 @@ export default class MessagingService {
       contents,
       conversation._id
     );
-    conversation = this.addMessageToConversation(conversation._id, message._id);
-    return conversation && message;
+    this.addMessageToConversation(conversation._id, message._id);
+    return message;
   }
 
   async createMessage(sender_id, reciever_id, contents, conversation_id) {

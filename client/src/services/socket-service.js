@@ -9,7 +9,7 @@ class SocketService extends Component {
       socket.emit("authenticate");
 
       socket.on("message", function (data) {
-        console.log("data: ", data);
+        console.log("data message: ", data);
       });
 
       socket.on("general", function (data) {
