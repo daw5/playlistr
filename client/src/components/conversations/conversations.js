@@ -10,6 +10,13 @@ require("dotenv").config();
 export default function Conversations(props) {
   const users = props.users ? Object.values(props.users) : [];
   const userService = new UserService();
+  const [conversations, setConversations] = useState([]);
+
+  useEffect(() => {
+    userService.getConversations().then((conversations) => {
+      setConversations(conversations);
+    });
+  }, []);
 
   return (
     <div id="conversationsContainer">
@@ -27,19 +34,27 @@ export default function Conversations(props) {
         />
       </div>
       <div id="conversation-snippets-container">
-        {props.conversations &&
-          props.conversations.map((conversation) => (
-            <ConversationSnippet
-              key={`conversation${conversation._id}`}
-              currentUser={props.currentUser}
-              correspondent={userService.getCorrespondent(
-                props.currentUser._id,
-                conversation.users,
-                props.users
-              )}
-              conversation={conversation}
-            />
-          ))}
+        {conversations &&
+          Object.values(conversations).map((conversation) => {
+            const correspondent = userService.getCorrespondent(
+              props.currentUser._id,
+              conversation.users,
+              props.users
+            );
+            return (
+              <div
+                key={`conversation${conversation._id}`}
+                onClick={(evt, value) => props.setCorrespondent(correspondent)}
+                className={"conversation-snippet-container"}
+              >
+                <ConversationSnippet
+                  currentUser={props.currentUser}
+                  correspondent={correspondent}
+                  conversation={conversation}
+                />
+              </div>
+            );
+          })}
       </div>
     </div>
   );

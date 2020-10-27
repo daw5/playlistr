@@ -1,13 +1,8 @@
 .conversation-snippet {
+  height: 100%;
+  width: 100%;
   display: grid;
   grid-template-rows: auto auto;
-  box-sizing: border-box;
-  border-radius: 5px;
-  padding: 10px;
-  height: 90px;
-  width: 90%;
-  background-color: lightblue;
-  color: black;
 
   p {
     display: flex;

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./chat.scss";
 import TextField from "@material-ui/core/TextField";
-import NativeListener from "react-native-listener";
 import Button from "@material-ui/core/Button";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import { SocketService } from "../../services";
@@ -32,7 +31,6 @@ export default function Chat(props) {
         <h2 id="chatHeader">{props.correspondent.email}</h2>
       </div>
       <div id="messageSendingArea">
-        {/* <NativeListener onKeyDow> */}
         <TextField
           onKeyDown={(evt) => sendMessage(evt)}
           value={messageToSend}
@@ -41,7 +39,6 @@ export default function Chat(props) {
           placeholder="Say something!"
           multiline
         />
-        {/* </NativeListener> */}
         <Button
           id="sendMessageButton"
           onClick={(evt) => sendMessage(evt)}

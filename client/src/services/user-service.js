@@ -25,7 +25,7 @@ class UserService extends Component {
     axios
       .get(`/users`)
       .then((response) => {
-        const users = this.indexUsers(response.data);
+        const users = this.indexItems(response.data);
         return users;
       })
       .catch(function (error) {
@@ -44,18 +44,18 @@ class UserService extends Component {
     axios
       .get(`/users/conversations`)
       .then((response) => {
-        return response.data;
+        return this.indexItems(response.data);
       })
       .catch(function (error) {
         console.log(error);
       });
 
-  indexUsers = (users) => {
-    const indexedUsers = {};
-    users.forEach((user) => {
-      indexedUsers[user._id] = user;
+  indexItems = (items) => {
+    const indexedItems = {};
+    items.forEach((item) => {
+      indexedItems[item._id] = item;
     });
-    return indexedUsers;
+    return indexedItems;
   };
 }
 
