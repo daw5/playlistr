@@ -8,7 +8,9 @@ import { ConversationSnippet } from "..";
 require("dotenv").config();
 
 export default function Conversations(props) {
-  const users = props.users ? Object.values(props.users) : [];
+  const users = props.users
+    ? delete props.users[props.currentUser._id] && Object.values(props.users)
+    : [];
   const userService = new UserService();
   const [conversations, setConversations] = useState([]);
 
@@ -29,7 +31,11 @@ export default function Conversations(props) {
           name="recipient"
           options={users}
           onChange={(evt, correspondent) => {
-            props.setMessages(conversations[correspondent._id].messages);
+            props.setMessages(
+              conversations.hasOwnProperty(correspondent._id)
+                ? conversations[correspondent._id].messages
+                : []
+            );
             props.setCorrespondent(correspondent);
           }}
           getOptionLabel={(option) => option.email}
@@ -40,24 +46,26 @@ export default function Conversations(props) {
       </div>
       <div id="conversation-snippets-container">
         {conversations &&
-          Object.keys(conversations).map((correspondent) => {
-            return (
-              <div
-                key={`conversation${conversations[correspondent]._id}`}
-                onClick={(evt) => {
-                  props.setMessages(conversations[correspondent].messages);
-                  props.setCorrespondent(props.users[correspondent]);
-                }}
-                className={"conversation-snippet-container"}
-              >
-                <ConversationSnippet
-                  currentUser={props.currentUser}
-                  correspondent={props.users[correspondent]}
-                  conversation={conversations[correspondent]}
-                />
-              </div>
-            );
-          })}
+          Object.keys(conversations).map((correspondent) => (
+            <div
+              key={`conversation${conversations[correspondent]._id}`}
+              onClick={(evt) => {
+                props.setMessages(
+                  conversations.hasOwnProperty(correspondent._id)
+                    ? conversations[correspondent._id].messages
+                    : []
+                );
+                props.setCorrespondent(props.users[correspondent]);
+              }}
+              className={"conversation-snippet-container"}
+            >
+              <ConversationSnippet
+                currentUser={props.currentUser}
+                correspondent={props.users[correspondent]}
+                conversation={conversations[correspondent]}
+              />
+            </div>
+          ))}
       </div>
     </div>
   );
