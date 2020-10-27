@@ -3,22 +3,13 @@ import "./chat.scss";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
-import { SocketService } from "../../services";
+import { UserService } from "../../services";
 
 require("dotenv").config();
 
 export default function Chat(props) {
-  const socketService = new SocketService();
+  const userService = new UserService();
   const [messageToSend, setMessageToSend] = useState("");
-
-  const sendMessage = (evt) => {
-    if (evt.key === "Enter" || evt.type === "click") {
-      evt.preventDefault();
-      const message = messageToSend;
-      setMessageToSend("");
-      socketService.sendMessage(props.correspondent._id, message);
-    }
-  };
 
   return (
     <div id="chatContainer">
@@ -32,7 +23,13 @@ export default function Chat(props) {
       </div>
       <div id="messageSendingArea">
         <TextField
-          onKeyDown={(evt) => sendMessage(evt)}
+          onKeyDown={(evt) =>
+            userService.sendPrivateMessage(
+              evt,
+              messageToSend,
+              props.correspondent._id
+            ) && setMessageToSend("")
+          }
           value={messageToSend}
           className="send-message-text-area"
           onChange={(evt) => setMessageToSend(evt.target.value)}
@@ -41,7 +38,13 @@ export default function Chat(props) {
         />
         <Button
           id="sendMessageButton"
-          onClick={(evt) => sendMessage(evt)}
+          onClick={(evt) =>
+            userService.sendPrivateMessage(
+              evt,
+              messageToSend,
+              props.correspondent._id
+            ) && setMessageToSend("")
+          }
           variant="contained"
         >
           Send
