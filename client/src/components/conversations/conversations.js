@@ -28,7 +28,6 @@ export default function Conversations(props) {
         <Autocomplete
           id="users-list"
           className="users-list-autocomplete"
-          name="recipient"
           options={users}
           onChange={(evt, correspondent) => {
             props.setMessages(
@@ -47,13 +46,13 @@ export default function Conversations(props) {
           Object.keys(conversations).map((correspondent) => (
             <div
               key={`conversation${conversations[correspondent]._id}`}
+              className={"conversation-snippet-container"}
               onClick={(evt) => {
                 props.setMessages(
                   userService.getMessages(conversations, correspondent._id)
                 );
                 props.setCorrespondent(props.users[correspondent]);
               }}
-              className={"conversation-snippet-container"}
             >
               <ConversationSnippet
                 currentUser={props.currentUser}
