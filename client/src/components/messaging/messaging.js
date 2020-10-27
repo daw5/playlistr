@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./messaging.scss";
 import { Conversations, Chat } from "../";
 
@@ -26,8 +26,8 @@ export default function Messaging(props) {
       )}
       {correspondent && (
         <Chat
-          correspondent={correspondent}
           messages={messages}
+          correspondent={correspondent}
           setCorrespondent={setCorrespondent}
         />
       )}

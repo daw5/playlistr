@@ -28,7 +28,10 @@ export default function Conversations(props) {
           className="users-list-autocomplete"
           name="recipient"
           options={users}
-          onChange={(evt, value) => props.setCorrespondent(value)}
+          onChange={(evt, correspondent) => {
+            props.setMessages(conversations[correspondent._id].messages);
+            props.setCorrespondent(correspondent);
+          }}
           getOptionLabel={(option) => option.email}
           renderInput={(params) => (
             <TextField {...params} label="User" variant="outlined" />
@@ -41,9 +44,10 @@ export default function Conversations(props) {
             return (
               <div
                 key={`conversation${conversations[correspondent]._id}`}
-                onClick={(evt) =>
-                  props.setCorrespondent(props.users[correspondent])
-                }
+                onClick={(evt) => {
+                  props.setMessages(conversations[correspondent].messages);
+                  props.setCorrespondent(props.users[correspondent]);
+                }}
                 className={"conversation-snippet-container"}
               >
                 <ConversationSnippet
