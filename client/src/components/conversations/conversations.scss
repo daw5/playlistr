@@ -8,11 +8,6 @@
   justify-content: center;
 }
 
-#conversation-snippets-container {
-  display: flex;
-  justify-content: center;
-}
-
 .users-list-autocomplete {
   padding-top: 30px;
   padding-bottom: 30px;
@@ -20,7 +15,11 @@
 }
 
 .conversation-snippet-container {
+  display: flex;
+  justify-content: center;
   box-sizing: border-box;
+  margin: auto;
+  margin-bottom: 20px;
   border-radius: 5px;
   padding: 10px;
   height: 90px;
