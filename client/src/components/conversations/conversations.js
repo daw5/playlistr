@@ -32,9 +32,7 @@ export default function Conversations(props) {
           options={users}
           onChange={(evt, correspondent) => {
             props.setMessages(
-              conversations.hasOwnProperty(correspondent._id)
-                ? conversations[correspondent._id].messages
-                : []
+              userService.getMessages(conversations, correspondent._id)
             );
             props.setCorrespondent(correspondent);
           }}
@@ -51,9 +49,7 @@ export default function Conversations(props) {
               key={`conversation${conversations[correspondent]._id}`}
               onClick={(evt) => {
                 props.setMessages(
-                  conversations.hasOwnProperty(correspondent._id)
-                    ? conversations[correspondent._id].messages
-                    : []
+                  userService.getMessages(conversations, correspondent._id)
                 );
                 props.setCorrespondent(props.users[correspondent]);
               }}

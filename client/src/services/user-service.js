@@ -40,6 +40,12 @@ class UserService extends Component {
     return relevantUsers;
   }
 
+  getMessages = (conversations, correspondent) => {
+    return conversations.hasOwnProperty(correspondent)
+      ? conversations[correspondent].messages
+      : [];
+  };
+
   getConversations = (currentUser) =>
     axios
       .get(`/users/conversations`)
