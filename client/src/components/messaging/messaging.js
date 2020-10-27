@@ -1,26 +1,22 @@
 import React, { useState, useEffect } from "react";
-import TextField from "@material-ui/core/TextField";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import Button from "@material-ui/core/Button";
-import { UserService, SocketService } from "../../services";
-import { Conversations } from "../";
 import "./messaging.scss";
+import { UserService } from "../../services";
+import { Conversations, Chat } from "../";
 
 require("dotenv").config();
 
 export default function Messaging(props) {
-  const userService = new UserService();
-  const socketService = new SocketService();
-
+  const [correspondent, setCorrespondent] = useState(null);
   const [conversations, setConversations] = useState([]);
-  const [recipient, setRecipient] = useState({});
-  const [messageToSend, setMessageToSend] = useState("");
+  const userService = new UserService();
 
   useEffect(() => {
-    userService.getConversations().then((conversations) => {
-      setConversations(conversations);
-    });
-  }, []);
+    if (!correspondent) {
+      userService.getConversations().then((conversations) => {
+        setConversations(conversations);
+      });
+    }
+  }, [correspondent]);
 
   return (
     <div
@@ -30,39 +26,20 @@ export default function Messaging(props) {
           : "hidden messaging-container"
       }
     >
-      <Conversations
-        users={props.users}
-        currentUser={props.currentUser}
-        conversations={conversations}
-        setRecipient={setRecipient}
-      />
-      {/* <Autocomplete
-        id="users-list"
-        name="recipient"
-        options={props.users ? Object.values(props.users) : []}
-        onChange={(evt, value) => setRecipient(value)}
-        getOptionLabel={(option) => option.email}
-        style={{ width: 300 }}
-        renderInput={(params) => (
-          <TextField {...params} label="User" variant="outlined" />
-        )}
-      />
-      <TextField
-        id="standard-textarea"
-        label="Multiline Placeholder"
-        onChange={(evt) => setMessageToSend(evt.target.value)}
-        placeholder="Placeholder"
-        multiline
-      />
-      <Button
-        onClick={() => {
-          console.log("users: ", Object.values(props.users));
-          socketService.sendMessage(recipient._id, messageToSend);
-        }}
-        variant="contained"
-      >
-        Send Message
-      </Button> */}
+      {!correspondent && (
+        <Conversations
+          users={props.users}
+          conversations={conversations}
+          currentUser={props.currentUser}
+          setCorrespondent={setCorrespondent}
+        />
+      )}
+      {correspondent && (
+        <Chat
+          correspondent={correspondent}
+          setCorrespondent={setCorrespondent}
+        />
+      )}
     </div>
   );
 }

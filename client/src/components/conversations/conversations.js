@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import "./conversations.scss";
 import { UserService } from "../../services";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { ConversationSnippet } from "..";
-import "./conversations.scss";
 
 require("dotenv").config();
 
 export default function Conversations(props) {
-  const userService = new UserService();
   const users = props.users ? Object.values(props.users) : [];
+  const userService = new UserService();
 
   return (
     <div id="conversationsContainer">
@@ -19,9 +19,8 @@ export default function Conversations(props) {
           className="users-list-autocomplete"
           name="recipient"
           options={users}
-          onChange={(evt, value) => props.setRecipient(value)}
+          onChange={(evt, value) => props.setCorrespondent(value)}
           getOptionLabel={(option) => option.email}
-          style={{ width: 300 }}
           renderInput={(params) => (
             <TextField {...params} label="User" variant="outlined" />
           )}

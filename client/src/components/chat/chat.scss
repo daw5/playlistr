@@ -1,0 +1,51 @@
+#chatContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+
+  #chatHeaderContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    grid-template-columns: 50px auto;
+    height: 50px;
+    width: 90%;
+  }
+
+  #chatHeader {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: auto;
+    box-sizing: border-box;
+    padding-left: 20px;
+  }
+
+  #backArrow {
+    cursor: pointer;
+
+    &:hover {
+      color: teal;
+    }
+  }
+
+  #messageSendingArea {
+    display: grid;
+    grid-template-columns: auto 70px;
+    grid-column-gap: 5%;
+    height: auto;
+    width: 90%;
+    position: absolute;
+    bottom: 10px;
+  }
+
+  .send-message-text-area {
+    width: auto !important;
+  }
+
+  #sendMessageButton {
+    background-color: teal;
+    color: white;
+  }
+}

@@ -10,12 +10,17 @@ body,
 
 #app {
   background-color: darkgrey;
+  height: 100%;
+}
+
+#app-container {
+  height: 100%;
 }
 
 #main-section-container {
   display: flex;
   justify-content: space-between;
-  height: 100%;
+  height: calc(100% - 60px);
 }
 
 .hidden {
