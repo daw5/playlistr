@@ -12,20 +12,23 @@ export default class MessagingService {
     const conversations = await Conversation.find({ users: user_id }).populate(
       "messages"
     );
+    // console.log("conversations: ", conversations[0].messages);
     return conversations;
   }
 
   async findConversation(sender_id, reciever_id) {
     const conversation = await Conversation.findOne({
-      users: [sender_id, reciever_id],
+      users: sender_id || reciever_id,
     });
     return conversation;
   }
 
   async saveInteraction(token, data) {
     const { reciever_id, contents } = data;
+    let newConversation = false;
     let conversation = await this.findConversation(token._id, reciever_id);
     if (!conversation) {
+      newConversation = true;
       conversation = await this.createConversation(token._id, reciever_id);
     }
     const message = await this.createMessage(
@@ -35,7 +38,12 @@ export default class MessagingService {
       conversation._id
     );
     this.addMessageToConversation(conversation._id, message._id);
-    return message;
+    if (newConversation) {
+      conversation = await Conversation.findById(conversation._id).populate(
+        "messages"
+      );
+    }
+    return { message, newConversation: newConversation ? conversation : null };
   }
 
   async createMessage(sender_id, reciever_id, contents, conversation_id) {
@@ -51,7 +59,7 @@ export default class MessagingService {
   }
 
   async addMessageToConversation(conversation_id, message_id) {
-    const conversation = Conversation.findByIdAndUpdate(conversation_id, {
+    const conversation = await Conversation.findByIdAndUpdate(conversation_id, {
       $push: { messages: message_id },
     });
     return conversation;

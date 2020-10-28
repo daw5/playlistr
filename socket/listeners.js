@@ -4,7 +4,7 @@ const messagingService = new MessagingService();
 
 export default function (socket, clients) {
   socket.on("message", async function (data) {
-    const message = await messagingService.saveInteraction(
+    const { message, newConversation } = await messagingService.saveInteraction(
       socket.decoded_token,
       data
     );
@@ -12,8 +12,13 @@ export default function (socket, clients) {
       clients[data.reciever_id].send({
         correspondent: socket.decoded_token._id,
         message,
+        newConversation,
       });
     }
-    socket.send({ correspondent: data.reciever_id, message });
+    socket.send({
+      correspondent: data.reciever_id,
+      message,
+      newConversation,
+    });
   });
 }

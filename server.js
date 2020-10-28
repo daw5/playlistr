@@ -49,6 +49,7 @@ io.sockets
     socket.on("disconnect", (reason) => {
       console.log("client disconnected: ", reason);
       delete clients[socket.decoded_token._id];
+      // console.log("clients: ", clients.length);
     });
   });
 
