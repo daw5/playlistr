@@ -29,17 +29,18 @@ export default function Chat(props) {
         <h2 id="chatHeader">{props.correspondent.email}</h2>
       </div>
       <div id="personalMessagesContainer">
-        {props.messages.map((message) => (
-          <div
-            className={
-              message.sender === props.correspondent._id
-                ? "their-message"
-                : "my-message"
-            }
-          >
-            {message.contents}
-          </div>
-        ))}
+        {props.conversation &&
+          props.conversation.messages.map((message) => (
+            <div
+              className={
+                message.sender === props.correspondent._id
+                  ? "their-message"
+                  : "my-message"
+              }
+            >
+              {message.contents}
+            </div>
+          ))}
       </div>
       <div id="chatFooter">
         <div id="inputContainer">

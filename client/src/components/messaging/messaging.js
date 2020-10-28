@@ -10,16 +10,6 @@ export default function Messaging(props) {
   const [messages, setMessages] = useState([]);
   const [conversations, setConversations] = useState({});
   const userService = new UserService();
-  // const getMessages = () => {
-  //   if (conversations[correspondent._id]) {
-  //     return conversations[correspondent._id].messages;
-  //   } else if (props.latestMessage) {
-  //     return [props.latestMessage.message];
-  //   } else {
-  //     return [];
-  //   }
-  // };
-  console.log("conversations: ", conversations);
 
   useEffect(() => {
     userService
@@ -32,7 +22,6 @@ export default function Messaging(props) {
   useEffect(() => {
     if (props.latestMessage) {
       if (props.latestMessage.newConversation) {
-        console.log("tell me im in here");
         conversations[props.latestMessage.correspondent] =
           props.latestMessage.newConversation;
       } else {
@@ -62,10 +51,8 @@ export default function Messaging(props) {
       )}
       {correspondent && (
         <Chat
-          messages={
-            conversations[correspondent._id]
-              ? conversations[correspondent._id].messages
-              : []
+          conversation={
+            conversations[correspondent._id] && conversations[correspondent._id]
           }
           correspondent={correspondent}
           setCorrespondent={setCorrespondent}
