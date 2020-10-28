@@ -5,12 +5,8 @@ html,
 body,
 #root,
 #app {
-  height: 100%;
-}
-
-#app {
+  height: 100vh;
   background-color: darkgrey;
-  height: 100%;
 }
 
 #app-container {

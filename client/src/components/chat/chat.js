@@ -10,6 +10,13 @@ require("dotenv").config();
 export default function Chat(props) {
   const userService = new UserService();
   const [messageToSend, setMessageToSend] = useState("");
+  const sendMessage = (evt, messageToSend) => {
+    userService.sendPrivateMessage(
+      evt,
+      messageToSend,
+      props.correspondent._id
+    ) && setMessageToSend("");
+  };
 
   return (
     <div id="chatContainer">
@@ -21,34 +28,29 @@ export default function Chat(props) {
         />
         <h2 id="chatHeader">{props.correspondent.email}</h2>
       </div>
-      <div id="messageSendingArea">
-        <TextField
-          onKeyDown={(evt) =>
-            userService.sendPrivateMessage(
-              evt,
-              messageToSend,
-              props.correspondent._id
-            ) && setMessageToSend("")
-          }
-          value={messageToSend}
-          className="send-message-text-area"
-          onChange={(evt) => setMessageToSend(evt.target.value)}
-          placeholder="Say something!"
-          multiline
-        />
-        <Button
-          id="sendMessageButton"
-          onClick={(evt) =>
-            userService.sendPrivateMessage(
-              evt,
-              messageToSend,
-              props.correspondent._id
-            ) && setMessageToSend("")
-          }
-          variant="contained"
-        >
-          Send
-        </Button>
+      <div id="personalMessagesContainer">
+        {props.messages.map((message) => (
+          <div className="message">{message.contents}</div>
+        ))}
+      </div>
+      <div id="chatFooter">
+        <div id="inputContainer">
+          <TextField
+            onKeyDown={(evt) => sendMessage(evt, messageToSend)}
+            value={messageToSend}
+            id="messageInput"
+            onChange={(evt) => setMessageToSend(evt.target.value)}
+            placeholder="Say something!"
+            multiline
+          />
+          <Button
+            id="sendMessageButton"
+            onClick={(evt) => sendMessage(evt, messageToSend)}
+            variant="contained"
+          >
+            Send
+          </Button>
+        </div>
       </div>
     </div>
   );

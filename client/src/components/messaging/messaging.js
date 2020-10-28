@@ -21,8 +21,9 @@ export default function Messaging(props) {
 
   useEffect(() => {
     if (props.latestMessage) {
-      const conversation = conversations[props.latestMessage.correspondent];
-      conversation.messages.push(props.latestMessage.message);
+      conversations[props.latestMessage.correspondent].messages.push(
+        props.latestMessage.message
+      );
     }
   }, [props.latestMessage]);
 
@@ -45,7 +46,7 @@ export default function Messaging(props) {
       )}
       {correspondent && (
         <Chat
-          messages={messages}
+          messages={conversations[correspondent._id].messages}
           correspondent={correspondent}
           setCorrespondent={setCorrespondent}
         />

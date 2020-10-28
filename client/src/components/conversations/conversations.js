@@ -21,9 +21,9 @@ export default function Conversations(props) {
           className="users-list-autocomplete"
           options={users}
           onChange={(evt, correspondent) => {
-            props.setMessages(
-              userService.getMessages(props.conversations, correspondent._id)
-            );
+            // props.setMessages(
+            //   userService.getMessages(props.conversations, correspondent._id)
+            // );
             props.setCorrespondent(correspondent);
           }}
           getOptionLabel={(option) => option.email}
@@ -39,12 +39,12 @@ export default function Conversations(props) {
               key={`conversation${props.conversations[correspondent]._id}`}
               className={"conversation-snippet-container"}
               onClick={(evt) => {
-                props.setMessages(
-                  userService.getMessages(
-                    props.conversations,
-                    correspondent._id
-                  )
-                );
+                // props.setMessages(
+                //   userService.getMessages(
+                //     props.conversations,
+                //     correspondent._id
+                //   )
+                // );
                 props.setCorrespondent(props.users[correspondent]);
               }}
             >
