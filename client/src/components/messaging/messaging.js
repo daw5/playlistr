@@ -8,7 +8,7 @@ require("dotenv").config();
 export default function Messaging(props) {
   const [correspondent, setCorrespondent] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [conversations, setConversations] = useState([]);
+  const [conversations, setConversations] = useState({});
   const userService = new UserService();
 
   useEffect(() => {
@@ -17,7 +17,14 @@ export default function Messaging(props) {
       .then((conversations) => {
         setConversations(conversations);
       });
-  }, [props.currentUser]);
+  }, []);
+
+  useEffect(() => {
+    if (props.latestMessage) {
+      const conversation = conversations[props.latestMessage.correspondent];
+      conversation.messages.push(props.latestMessage.message);
+    }
+  }, [props.latestMessage]);
 
   return (
     <div

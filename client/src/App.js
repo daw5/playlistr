@@ -11,17 +11,18 @@ export default function App() {
   const userService = new UserService();
   const [messagingSidebarStatus, setMessagingSidebarStatus] = useToggle();
   const [users, setUsers] = useState({});
-  const [currentUser, setCurrentUser] = useState({});
+  const [currentUser, setCurrentUser] = useState(null);
+  const [latestMessage, setLatestMessage] = useState();
 
   useEffect(() => {
-    socketService.authenticateSocket();
+    socketService.authenticateSocket(setLatestMessage);
     userService.getCurrentUser().then((user) => {
       setCurrentUser(user);
     });
     userService.getUsers().then((users) => {
       setUsers(users);
     });
-  }, []);
+  }, [latestMessage]);
 
   return (
     <HelmetProvider>
@@ -44,11 +45,14 @@ export default function App() {
               </Route>
             </Switch>
           </Router>
-          <Messaging
-            users={users}
-            currentUser={currentUser}
-            messagingSidebarOpen={messagingSidebarStatus}
-          />
+          {currentUser && (
+            <Messaging
+              users={users}
+              latestMessage={latestMessage}
+              currentUser={currentUser}
+              messagingSidebarOpen={messagingSidebarStatus}
+            />
+          )}
         </div>
       </div>
     </HelmetProvider>
