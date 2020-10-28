@@ -1,16 +1,11 @@
-import { Component } from "react";
 import { SocketService } from "./index";
 
 require("dotenv").config();
 
 const axios = require("axios");
+const socketService = new SocketService();
 
-class UserService extends Component {
-  constructor() {
-    super();
-
-    this.socketService = new SocketService();
-  }
+export default class UserService {
   getCurrentUser = () =>
     axios
       .get(`/users/current`)
@@ -62,7 +57,7 @@ class UserService extends Component {
   sendPrivateMessage = (evt, messageToSend, correspondent_id) => {
     if (evt.key === "Enter" || evt.type === "click") {
       evt.preventDefault();
-      this.socketService.sendMessage(correspondent_id, messageToSend);
+      socketService.sendMessage(correspondent_id, messageToSend);
       return true;
     }
   };
@@ -87,5 +82,3 @@ class UserService extends Component {
     return indexedConversations;
   };
 }
-
-export default UserService;
