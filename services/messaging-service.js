@@ -12,7 +12,6 @@ export default class MessagingService {
     const conversations = await Conversation.find({ users: user_id }).populate(
       "messages"
     );
-    // console.log("conversations: ", conversations[0].messages);
     return conversations;
   }
 

@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import { useToggle } from "./hooks";
 import { Login, Messaging, Header } from "./components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { SocketService, UserService } from "./services";
+import { MessagingService, UserService } from "./services";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import "./App.scss";
 
 export default function App() {
-  const socketService = new SocketService();
+  const messagingService = new MessagingService();
   const userService = new UserService();
   const [messagingSidebarStatus, setMessagingSidebarStatus] = useToggle();
   const [users, setUsers] = useState({});
@@ -15,7 +15,7 @@ export default function App() {
   const [latestMessage, setLatestMessage] = useState();
 
   useEffect(() => {
-    socketService.authenticateSocket(setLatestMessage);
+    messagingService.authenticateSocket(setLatestMessage);
     userService.getCurrentUser().then((user) => {
       setCurrentUser(user);
     });

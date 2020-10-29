@@ -1,9 +1,6 @@
-import { SocketService } from "./index";
-
 require("dotenv").config();
 
 const axios = require("axios");
-const socketService = new SocketService();
 
 export default class UserService {
   getCurrentUser = () =>
@@ -20,29 +17,16 @@ export default class UserService {
     axios
       .get(`/users`)
       .then((response) => {
-        const users = this.indexItems(response.data);
+        const users = this.indexUsers(response.data);
         return users;
       })
       .catch(function (error) {
         console.log(error);
       });
 
-  getUsersRelevantToConversation(users, conversation) {
-    const relevantUsers = {};
-    conversation.users.forEach((user) => {
-      relevantUsers[user] = users[user];
-    });
-    return relevantUsers;
-  }
-
-  getMessages = (conversations, correspondent) => {
-    return conversations.hasOwnProperty(correspondent)
-      ? conversations[correspondent].messages
-      : [];
-  };
-
   getConversations = (currentUser) =>
     axios
+      // changes this route, since user id isn't necessary...maybe /users/current/conversations?
       .get(`/users/conversations`)
       .then((response) => {
         return this.indexConversationsByCorrespondent(
@@ -54,22 +38,6 @@ export default class UserService {
         console.log(error);
       });
 
-  sendPrivateMessage = (evt, messageToSend, correspondent_id) => {
-    if (evt.key === "Enter" || evt.type === "click") {
-      evt.preventDefault();
-      socketService.sendMessage(correspondent_id, messageToSend);
-      return true;
-    }
-  };
-
-  indexItems = (items) => {
-    const indexedItems = {};
-    items.forEach((item) => {
-      indexedItems[item._id] = item;
-    });
-    return indexedItems;
-  };
-
   indexConversationsByCorrespondent = (conversations, currentUser) => {
     const indexedConversations = {};
     conversations.forEach((conversation) => {
@@ -80,5 +48,13 @@ export default class UserService {
       ] = conversation;
     });
     return indexedConversations;
+  };
+
+  indexUsers = (users) => {
+    const indexedUsers = {};
+    users.forEach((user) => {
+      indexedUsers[user._id] = user;
+    });
+    return indexedUsers;
   };
 }

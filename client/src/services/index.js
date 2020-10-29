@@ -1,4 +1,4 @@
-import SocketService from "./socket-service";
+import MessagingService from "./messaging-service";
 import UserService from "./user-service";
 
-export { SocketService, UserService };
+export { MessagingService, UserService };

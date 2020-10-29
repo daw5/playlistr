@@ -3,17 +3,17 @@ import "./chat.scss";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
-import { UserService } from "../../services";
+import { MessagingService } from "../../services";
 
 require("dotenv").config();
 
 export default function Chat(props) {
-  const userService = new UserService();
+  const messagingService = new MessagingService();
   const [messageToSend, setMessageToSend] = useState("");
   const endOfChat = useRef(null);
 
   const sendMessage = (evt, messageToSend) => {
-    userService.sendPrivateMessage(
+    messagingService.sendPrivateMessage(
       evt,
       messageToSend,
       props.correspondent._id
