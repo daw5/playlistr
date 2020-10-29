@@ -30,7 +30,7 @@
 
   #personalMessagesContainer {
     overflow: scroll;
-    height: calc(100% - 50px);
+    height: calc(100% - 105px);
     .message {
       margin-top: 10px;
       color: black;
@@ -58,12 +58,14 @@
     z-index: 1;
     background-color: darkgrey;
     width: 100%;
+    min-height: 35px;
     bottom: 0;
     padding-bottom: 10px;
     padding-top: 10px;
 
     #inputContainer {
       display: grid;
+      width: 100%;
       padding-right: 10px;
       padding-left: 10px;
       grid-template-columns: auto 70px;

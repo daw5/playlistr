@@ -49,7 +49,6 @@ export default function Chat(props) {
             value={messageToSend}
             id="messageInput"
             onChange={(evt) => setMessageToSend(evt.target.value)}
-            placeholder="Say something!"
             multiline
           />
           <Button
