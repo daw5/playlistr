@@ -13,7 +13,6 @@ export default function App() {
   const [users, setUsers] = useState({});
   const [currentUser, setCurrentUser] = useState(null);
   const [latestMessage, setLatestMessage] = useState();
-  console.log("and what about me?");
 
   useEffect(() => {
     messagingService.authenticateSocket(setLatestMessage);
