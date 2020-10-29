@@ -32,6 +32,7 @@ export default function Chat(props) {
         {props.conversation &&
           props.conversation.messages.map((message) => (
             <div
+              key={`message${message._id}`}
               className={
                 message.sender === props.correspondent._id
                   ? "their-message"

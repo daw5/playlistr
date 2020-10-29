@@ -41,7 +41,7 @@
         margin-top: 10px;
         padding: 10px;
         border-radius: 10px;
-        background-color: lightblue;
+        background-color: rgba(73, 73, 196, 0.637);
         color: black;
         width: fit-content;
       }
@@ -49,6 +49,10 @@
     .their-message {
       @extend .message-container;
       margin-right: 10px;
+
+      :first-child {
+        background-color: lightblue;
+      }
     }
 
     .my-message {
