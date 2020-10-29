@@ -3,19 +3,16 @@ import io from "socket.io-client";
 const socket = io.connect("http://localhost:4001");
 
 export default class MessagingService {
-  authenticateSocket(setLatestMessage) {
+  authenticateSocket() {
     socket.on("connect", function () {
       socket
         .emit("authenticate")
-        .on("authenticated", () => {
-          socket.on("message", function (data) {
-            setLatestMessage(data);
-          });
-        })
+        .on("authenticated", () => {})
         .on("unauthorized", (msg) => {
           console.log(`unauthorized: ${JSON.stringify(msg.data)}`);
         });
     });
+    return socket;
   }
 
   sendPrivateMessage = (evt, messageToSend, correspondent_id) => {

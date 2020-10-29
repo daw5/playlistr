@@ -8,11 +8,11 @@ import { MessagingService } from "../../services";
 require("dotenv").config();
 
 export default function Chat(props) {
-  const messagingService = new MessagingService();
   const [messageToSend, setMessageToSend] = useState("");
   const endOfChat = useRef(null);
 
   const sendMessage = (evt, messageToSend) => {
+    const messagingService = new MessagingService();
     messagingService.sendPrivateMessage(
       evt,
       messageToSend,

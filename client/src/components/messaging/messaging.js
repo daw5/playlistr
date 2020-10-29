@@ -9,23 +9,29 @@ export default function Messaging(props) {
   const [correspondent, setCorrespondent] = useState(null);
   const [conversations, setConversations] = useState({});
   const [newMessageCount, setNewMessageCount] = useState(0);
-  const userService = new UserService();
-  const messagingService = new MessagingService();
+  const [latestMessage, setLatestMessage] = useState();
 
   useEffect(() => {
+    //probably shouldn't be using classes for these services seeing as we are in functional components
+    // should just be able to export functions
+    const userService = new UserService();
     userService
       .getConversations(props.currentUser._id)
       .then((conversations) => {
         setConversations(conversations);
       });
+    props.socket.on("message", function (data) {
+      setLatestMessage(data);
+    });
   }, []);
 
   useEffect(() => {
+    const messagingService = new MessagingService();
     setConversations(
-      messagingService.updateConversations(props.latestMessage, conversations)
+      messagingService.updateConversations(latestMessage, conversations)
     );
     setNewMessageCount(newMessageCount + 1);
-  }, [props.latestMessage]);
+  }, [latestMessage]);
 
   return (
     <div

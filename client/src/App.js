@@ -7,18 +7,16 @@ import { Helmet, HelmetProvider } from "react-helmet-async";
 import "./App.scss";
 
 export default function App() {
-  const messagingService = new MessagingService();
-  const userService = new UserService();
   const [messagingSidebarStatus, setMessagingSidebarStatus] = useToggle();
   const [users, setUsers] = useState({});
+  const [socket, setSocket] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
-  const [latestMessage, setLatestMessage] = useState();
 
   useEffect(() => {
-    messagingService.authenticateSocket(setLatestMessage);
-  }, [latestMessage]);
-
-  useEffect(() => {
+    console.log("i really only want this running once");
+    const messagingService = new MessagingService();
+    setSocket(messagingService.authenticateSocket());
+    const userService = new UserService();
     userService.getCurrentUser().then((user) => {
       setCurrentUser(user);
     });
@@ -51,7 +49,7 @@ export default function App() {
           {currentUser && (
             <Messaging
               users={users}
-              latestMessage={latestMessage}
+              socket={socket}
               currentUser={currentUser}
               messagingSidebarOpen={messagingSidebarStatus}
             />
