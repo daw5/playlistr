@@ -31,21 +31,29 @@
   #personalMessagesContainer {
     overflow: scroll;
     height: calc(100% - 105px);
-    .message {
-      margin-top: 10px;
-      color: black;
-      background-color: lightblue;
-      border-radius: 10px;
-      padding: 10px;
-    }
+    .message-container {
+      display: flex;
+      flex-flow: column wrap;
+      padding-left: 10px;
+      padding-right: 10px;
 
+      .message {
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 10px;
+        background-color: lightblue;
+        color: black;
+        width: fit-content;
+      }
+    }
     .their-message {
-      @extend .message;
+      @extend .message-container;
       margin-right: 10px;
     }
 
     .my-message {
-      @extend .message;
+      @extend .message-container;
+      align-content: flex-end;
       margin-left: 10px;
     }
   }

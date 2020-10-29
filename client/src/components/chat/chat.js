@@ -38,7 +38,7 @@ export default function Chat(props) {
                   : "my-message"
               }
             >
-              {message.contents}
+              <div className={"message"}>{message.contents}</div>
             </div>
           ))}
       </div>
