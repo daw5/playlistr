@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./chat.scss";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
@@ -10,6 +10,8 @@ require("dotenv").config();
 export default function Chat(props) {
   const userService = new UserService();
   const [messageToSend, setMessageToSend] = useState("");
+  const endOfChat = useRef(null);
+
   const sendMessage = (evt, messageToSend) => {
     userService.sendPrivateMessage(
       evt,
@@ -17,6 +19,10 @@ export default function Chat(props) {
       props.correspondent._id
     ) && setMessageToSend("");
   };
+
+  useEffect(() => {
+    endOfChat.current.scrollIntoView();
+  }, [props.conversation.messages.length]);
 
   return (
     <div id="chatContainer">
@@ -42,6 +48,7 @@ export default function Chat(props) {
               <div className={"message"}>{message.contents}</div>
             </div>
           ))}
+        <div ref={endOfChat}></div>
       </div>
       <div id="chatFooter">
         <div id="inputContainer">
