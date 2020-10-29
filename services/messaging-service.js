@@ -13,7 +13,7 @@ export default class MessagingService {
       path: "messages",
       options: {
         sort: { _id: -1 },
-        limit: 20,
+        limit: 30,
       },
     });
     return conversations;
