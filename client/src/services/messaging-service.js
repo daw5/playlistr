@@ -16,11 +16,9 @@ export default class MessagingService {
   }
 
   sendPrivateMessage = (evt, messageToSend, correspondent_id) => {
-    if (evt.key === "Enter" || evt.type === "click") {
-      evt.preventDefault();
-      this.sendMessage(correspondent_id, messageToSend);
-      return true;
-    }
+    evt.preventDefault();
+    this.sendMessage(correspondent_id, messageToSend);
+    return true;
   };
 
   sendMessage(reciever_id, contents) {

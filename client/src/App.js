@@ -13,10 +13,9 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
-    console.log("i really only want this running once");
     const messagingService = new MessagingService();
-    setSocket(messagingService.authenticateSocket());
     const userService = new UserService();
+    setSocket(messagingService.authenticateSocket());
     userService.getCurrentUser().then((user) => {
       setCurrentUser(user);
     });

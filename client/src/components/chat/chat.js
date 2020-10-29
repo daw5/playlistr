@@ -9,16 +9,20 @@ require("dotenv").config();
 
 export default function Chat(props) {
   const [messageToSend, setMessageToSend] = useState("");
+  const [messagingService, setMessagingService] = useState(null);
   const endOfChat = useRef(null);
 
   const sendMessage = (evt, messageToSend) => {
-    const messagingService = new MessagingService();
     messagingService.sendPrivateMessage(
       evt,
       messageToSend,
       props.correspondent._id
     ) && setMessageToSend("");
   };
+
+  useEffect(() => {
+    setMessagingService(new MessagingService());
+  }, []);
 
   useEffect(() => {
     endOfChat.current.scrollIntoView();
@@ -53,7 +57,9 @@ export default function Chat(props) {
       <div id="chatFooter">
         <div id="inputContainer">
           <TextField
-            onKeyDown={(evt) => sendMessage(evt, messageToSend)}
+            onKeyDown={(evt) =>
+              evt.key === "Enter" && sendMessage(evt, messageToSend)
+            }
             value={messageToSend}
             id="messageInput"
             onChange={(evt) => setMessageToSend(evt.target.value)}

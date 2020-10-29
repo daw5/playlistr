@@ -10,10 +10,10 @@ export default function Messaging(props) {
   const [conversations, setConversations] = useState({});
   const [newMessageCount, setNewMessageCount] = useState(0);
   const [latestMessage, setLatestMessage] = useState();
+  const [messagingService, setMessagingService] = useState(null);
 
   useEffect(() => {
-    //probably shouldn't be using classes for these services seeing as we are in functional components
-    // should just be able to export functions
+    setMessagingService(new MessagingService());
     const userService = new UserService();
     userService
       .getConversations(props.currentUser._id)
@@ -26,10 +26,10 @@ export default function Messaging(props) {
   }, []);
 
   useEffect(() => {
-    const messagingService = new MessagingService();
-    setConversations(
-      messagingService.updateConversations(latestMessage, conversations)
-    );
+    latestMessage &&
+      setConversations(
+        messagingService.updateConversations(latestMessage, conversations)
+      );
     setNewMessageCount(newMessageCount + 1);
   }, [latestMessage]);
 
