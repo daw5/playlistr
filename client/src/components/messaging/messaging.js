@@ -8,6 +8,7 @@ require("dotenv").config();
 export default function Messaging(props) {
   const [correspondent, setCorrespondent] = useState(null);
   const [conversations, setConversations] = useState({});
+  const [newMessageCount, setNewMessageCount] = useState(0);
   const userService = new UserService();
   const messagingService = new MessagingService();
 
@@ -23,6 +24,7 @@ export default function Messaging(props) {
     setConversations(
       messagingService.updateConversations(props.latestMessage, conversations)
     );
+    setNewMessageCount(newMessageCount + 1);
   }, [props.latestMessage]);
 
   return (
@@ -46,6 +48,7 @@ export default function Messaging(props) {
           conversation={
             conversations[correspondent._id] && conversations[correspondent._id]
           }
+          newMessageCount={newMessageCount}
           correspondent={correspondent}
           setCorrespondent={setCorrespondent}
         />

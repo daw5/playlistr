@@ -22,7 +22,7 @@ export default function Chat(props) {
 
   useEffect(() => {
     endOfChat.current.scrollIntoView();
-  }, [props.conversation.messages.length]);
+  }, [props.newMessageCount]);
 
   return (
     <div id="chatContainer">
