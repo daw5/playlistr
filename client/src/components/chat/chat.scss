@@ -17,13 +17,12 @@
       margin: auto;
       box-sizing: border-box;
       padding-left: 20px;
+    }
+    #backArrow {
+      cursor: pointer;
 
-      #backArrow {
-        cursor: pointer;
-
-        &:hover {
-          color: teal;
-        }
+      &:hover {
+        color: teal;
       }
     }
   }
