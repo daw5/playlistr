@@ -40,7 +40,7 @@ export default function Conversations(props) {
               <ConversationSnippet
                 currentUser={props.currentUser}
                 correspondent={props.users[correspondent]}
-                conversation={props.conversations[correspondent]}
+                message={props.conversations[correspondent].messages[0]}
               />
             </div>
           ))}

@@ -20,6 +20,25 @@ export default function Chat(props) {
     ) && setMessageToSend("");
   };
 
+  const displayMessages = () => {
+    const messages = [];
+    for (let i = props.messages.length - 1; i >= 0; i--) {
+      messages.push(
+        <div
+          key={`message${props.messages[i]._id}`}
+          className={
+            props.messages[i].sender === props.correspondent._id
+              ? "their-message"
+              : "my-message"
+          }
+        >
+          <div className={"message"}>{props.messages[i].contents}</div>
+        </div>
+      );
+    }
+    return messages;
+  };
+
   useEffect(() => {
     setMessagingService(new MessagingService());
   }, []);
@@ -39,19 +58,7 @@ export default function Chat(props) {
         <h2 id="chatHeader">{props.correspondent.email}</h2>
       </div>
       <div id="personalMessagesContainer">
-        {props.conversation &&
-          props.conversation.messages.map((message) => (
-            <div
-              key={`message${message._id}`}
-              className={
-                message.sender === props.correspondent._id
-                  ? "their-message"
-                  : "my-message"
-              }
-            >
-              <div className={"message"}>{message.contents}</div>
-            </div>
-          ))}
+        {displayMessages()}
         <div ref={endOfChat}></div>
       </div>
       <div id="chatFooter">

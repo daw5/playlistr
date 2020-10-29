@@ -9,9 +9,13 @@ export default class MessagingService {
   }
 
   async findConversationsByUser(user_id) {
-    const conversations = await Conversation.find({ users: user_id }).populate(
-      "messages"
-    );
+    const conversations = await Conversation.find({ users: user_id }).populate({
+      path: "messages",
+      options: {
+        sort: { _id: -1 },
+        limit: 20,
+      },
+    });
     return conversations;
   }
 

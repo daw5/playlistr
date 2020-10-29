@@ -11,7 +11,6 @@ export default function Messaging(props) {
   const [newMessageCount, setNewMessageCount] = useState(0);
   const [latestMessage, setLatestMessage] = useState();
   const [messagingService, setMessagingService] = useState(null);
-
   useEffect(() => {
     setMessagingService(new MessagingService());
     const userService = new UserService();
@@ -51,8 +50,10 @@ export default function Messaging(props) {
       )}
       {correspondent && (
         <Chat
-          conversation={
-            conversations[correspondent._id] && conversations[correspondent._id]
+          messages={
+            conversations[correspondent._id]
+              ? [...conversations[correspondent._id].messages]
+              : []
           }
           newMessageCount={newMessageCount}
           correspondent={correspondent}

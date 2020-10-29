@@ -40,7 +40,7 @@ export default class MessagingService {
         updatedConversations[latestMessage.correspondent] =
           latestMessage.newConversation;
       } else {
-        updatedConversations[latestMessage.correspondent].messages.push(
+        updatedConversations[latestMessage.correspondent].messages.unshift(
           latestMessage.message
         );
       }
