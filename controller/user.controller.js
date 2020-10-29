@@ -28,7 +28,7 @@ userController.get(
 );
 
 userController.get(
-  "/conversations",
+  "/current/conversations",
   passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
     try {

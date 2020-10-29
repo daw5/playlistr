@@ -27,7 +27,7 @@ export default class UserService {
   getConversations = (currentUser) =>
     axios
       // changes this route, since user id isn't necessary...maybe /users/current/conversations?
-      .get(`/users/conversations`)
+      .get(`/users/current/conversations`)
       .then((response) => {
         return this.indexConversationsByCorrespondent(
           response.data,
