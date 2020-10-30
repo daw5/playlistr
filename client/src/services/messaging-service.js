@@ -1,4 +1,5 @@
 import io from "socket.io-client";
+const axios = require("axios");
 
 const socket = io.connect("http://localhost:4001");
 
@@ -7,13 +8,29 @@ export default class MessagingService {
     socket.on("connect", function () {
       socket
         .emit("authenticate")
-        .on("authenticated", () => {})
+        .on("authenticated", () => {
+          console.log("socket authentication complete");
+        })
         .on("unauthorized", (msg) => {
           console.log(`unauthorized: ${JSON.stringify(msg.data)}`);
         });
     });
     return socket;
   }
+
+  fetchMoreMessages = (messagesLoaded, conversation_id) => {
+    axios
+      .get(
+        `/users/current/conversations/${conversation_id}/load-messages/${messagesLoaded}`
+      )
+      .then((response) => {
+        console.log("loaded messages: ", response.data);
+        return true;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
 
   sendPrivateMessage = (evt, messageToSend, correspondent_id) => {
     evt.preventDefault();

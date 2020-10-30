@@ -21,7 +21,9 @@ export default class MessagingService {
 
   async findConversation(sender_id, reciever_id) {
     const conversation = await Conversation.findOne({
-      users: sender_id || reciever_id,
+      users: {
+        $all: [sender_id, reciever_id],
+      },
     });
     return conversation;
   }
@@ -74,5 +76,20 @@ export default class MessagingService {
     });
     const result = await conversation.save();
     return result;
+  }
+
+  async loadMessages(user, { conversationId, messagesLoaded }) {
+    const conversation = await Conversation.findOne({
+      _id: conversationId,
+      users: user._id,
+    });
+    if (conversation) {
+      const messages = await Message.find({ conversation: conversationId })
+        .sort({ _id: -1 })
+        .skip(Number(messagesLoaded))
+        .limit(30);
+      return messages;
+    }
+    return null;
   }
 }

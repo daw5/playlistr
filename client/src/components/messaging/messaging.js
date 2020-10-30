@@ -25,11 +25,16 @@ export default function Messaging(props) {
   }, []);
 
   useEffect(() => {
-    latestMessage &&
+    if (latestMessage) {
       setConversations(
         messagingService.updateConversations(latestMessage, conversations)
       );
-    setNewMessageCount(newMessageCount + 1);
+      setNewMessageCount(newMessageCount + 1);
+      messagingService.fetchMoreMessages(
+        conversations[correspondent._id].messages.length,
+        conversations[correspondent._id]._id
+      );
+    }
   }, [latestMessage]);
 
   return (

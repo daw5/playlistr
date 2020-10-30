@@ -42,4 +42,20 @@ userController.get(
   }
 );
 
+userController.get(
+  "/current/conversations/:conversationId/load-messages/:messagesLoaded",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res, next) => {
+    try {
+      const messages = await messagingService.loadMessages(
+        req.user,
+        req.params
+      );
+      res.status(200).send(messages);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
 export default userController;
