@@ -24,7 +24,7 @@ export default function Chat(props) {
   const displayMessages = () => {
     const messages = [];
     for (let i = props.messages.length - 1; i >= 0; i--) {
-      let message = (
+      messages.push(
         <div
           key={`message${props.messages[i]._id}`}
           className={
@@ -38,7 +38,7 @@ export default function Chat(props) {
           </div>
         </div>
       );
-      messages.push(message);
+
       if (i === props.messages.length - 30)
         messages.push(<div key="scrollPosition" ref={scrollPosition}></div>);
     }
