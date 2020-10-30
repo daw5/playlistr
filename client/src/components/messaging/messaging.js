@@ -6,11 +6,12 @@ import { UserService, MessagingService } from "../../services";
 require("dotenv").config();
 
 export default function Messaging(props) {
+  const [messagingService, setMessagingService] = useState(null);
   const [correspondent, setCorrespondent] = useState(null);
   const [conversations, setConversations] = useState({});
-  const [newMessageCount, setNewMessageCount] = useState(0);
   const [latestMessage, setLatestMessage] = useState();
-  const [messagingService, setMessagingService] = useState(null);
+  const [newMessageCount, incrementNewMessageCount] = useState(0);
+  const [fetchCount, incrementFetchCount] = useState(0);
 
   useEffect(() => {
     setMessagingService(new MessagingService());
@@ -30,7 +31,7 @@ export default function Messaging(props) {
       setConversations(
         messagingService.updateConversations(latestMessage, conversations)
       );
-      setNewMessageCount(newMessageCount + 1);
+      incrementNewMessageCount(newMessageCount + 1);
     }
   }, [latestMessage]);
 
@@ -39,7 +40,7 @@ export default function Messaging(props) {
       .fetchMoreMessages(conversations, correspondent._id)
       .then((updatedConversations) => {
         setConversations(updatedConversations);
-        setNewMessageCount(newMessageCount + 1);
+        incrementFetchCount(fetchCount + 1);
       });
   };
 
@@ -66,12 +67,13 @@ export default function Messaging(props) {
               ? [...conversations[correspondent._id].messages]
               : []
           }
+          fetchCount={fetchCount}
           newMessageCount={newMessageCount}
           correspondent={correspondent}
+          getMessages={getMessages}
           setCorrespondent={setCorrespondent}
         />
       )}
-      <button onClick={getMessages}>fetch</button>
     </div>
   );
 }

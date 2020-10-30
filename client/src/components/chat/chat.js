@@ -11,6 +11,7 @@ export default function Chat(props) {
   const [messageToSend, setMessageToSend] = useState("");
   const [messagingService, setMessagingService] = useState(null);
   const endOfChat = useRef(null);
+  const scrollPosition = useRef(null);
 
   const sendMessage = (evt, messageToSend) => {
     messagingService.sendPrivateMessage(
@@ -23,7 +24,7 @@ export default function Chat(props) {
   const displayMessages = () => {
     const messages = [];
     for (let i = props.messages.length - 1; i >= 0; i--) {
-      messages.push(
+      let message = (
         <div
           key={`message${props.messages[i]._id}`}
           className={
@@ -32,9 +33,14 @@ export default function Chat(props) {
               : "my-message"
           }
         >
-          <div className={"message"}>{props.messages[i].contents}</div>
+          <div className={"message"}>
+            {props.messages[i].contents}count {i}
+          </div>
         </div>
       );
+      messages.push(message);
+      if (i === props.messages.length - 30)
+        messages.push(<div key="scrollPosition" ref={scrollPosition}></div>);
     }
     return messages;
   };
@@ -42,6 +48,10 @@ export default function Chat(props) {
   useEffect(() => {
     setMessagingService(new MessagingService());
   }, []);
+
+  useEffect(() => {
+    props.fetchCount > 0 && scrollPosition.current.scrollIntoView();
+  }, [props.fetchCount]);
 
   useEffect(() => {
     endOfChat.current.scrollIntoView();
@@ -58,6 +68,14 @@ export default function Chat(props) {
         <h2 id="chatHeader">{props.correspondent.email}</h2>
       </div>
       <div id="personalMessagesContainer">
+        <Button
+          onClick={() => {
+            props.getMessages();
+          }}
+          variant="contained"
+        >
+          Fetch Messages
+        </Button>
         {displayMessages()}
         <div ref={endOfChat}></div>
       </div>
