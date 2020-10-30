@@ -11,6 +11,7 @@ export default function Messaging(props) {
   const [newMessageCount, setNewMessageCount] = useState(0);
   const [latestMessage, setLatestMessage] = useState();
   const [messagingService, setMessagingService] = useState(null);
+
   useEffect(() => {
     setMessagingService(new MessagingService());
     const userService = new UserService();
@@ -18,10 +19,10 @@ export default function Messaging(props) {
       .getConversations(props.currentUser._id)
       .then((conversations) => {
         setConversations(conversations);
+        props.socket.on("message", function (data) {
+          setLatestMessage(data);
+        });
       });
-    props.socket.on("message", function (data) {
-      setLatestMessage(data);
-    });
   }, []);
 
   useEffect(() => {
@@ -30,12 +31,17 @@ export default function Messaging(props) {
         messagingService.updateConversations(latestMessage, conversations)
       );
       setNewMessageCount(newMessageCount + 1);
-      messagingService.fetchMoreMessages(
-        conversations[correspondent._id].messages.length,
-        conversations[correspondent._id]._id
-      );
     }
   }, [latestMessage]);
+
+  const getMessages = () => {
+    messagingService
+      .fetchMoreMessages(conversations, correspondent._id)
+      .then((updatedConversations) => {
+        setConversations(updatedConversations);
+        setNewMessageCount(newMessageCount + 1);
+      });
+  };
 
   return (
     <div
@@ -65,6 +71,7 @@ export default function Messaging(props) {
           setCorrespondent={setCorrespondent}
         />
       )}
+      <button onClick={getMessages}>fetch</button>
     </div>
   );
 }

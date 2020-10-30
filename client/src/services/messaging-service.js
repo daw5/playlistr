@@ -1,6 +1,6 @@
 import io from "socket.io-client";
-const axios = require("axios");
 
+const axios = require("axios");
 const socket = io.connect("http://localhost:4001");
 
 export default class MessagingService {
@@ -18,18 +18,25 @@ export default class MessagingService {
     return socket;
   }
 
-  fetchMoreMessages = (messagesLoaded, conversation_id) => {
+  fetchMoreMessages = (conversations, correspondent_id) =>
     axios
       .get(
-        `/users/current/conversations/${conversation_id}/load-messages/${messagesLoaded}`
+        `/users/current/conversations/${conversations[correspondent_id]._id}/load-messages/${conversations[correspondent_id].messages.length}`
       )
       .then((response) => {
-        console.log("loaded messages: ", response.data);
-        return true;
+        return this.addMessages(conversations, correspondent_id, response.data);
       })
       .catch(function (error) {
         console.log(error);
       });
+
+  addMessages = (conversations, correspondent_id, messages) => {
+    const updatedMessages = conversations[correspondent_id].messages.concat(
+      messages
+    );
+    let updatedConversations = conversations;
+    updatedConversations[correspondent_id].messages = updatedMessages;
+    return updatedConversations;
   };
 
   sendPrivateMessage = (evt, messageToSend, correspondent_id) => {
