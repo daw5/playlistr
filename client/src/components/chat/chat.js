@@ -67,15 +67,10 @@ export default function Chat(props) {
         />
         <h2 id="chatHeader">{props.correspondent.email}</h2>
       </div>
-      <div id="personalMessagesContainer">
-        <Button
-          onClick={() => {
-            props.getMessages();
-          }}
-          variant="contained"
-        >
-          Fetch Messages
-        </Button>
+      <div
+        id="personalMessagesContainer"
+        onScroll={(evt) => evt.target.scrollTop === 0 && props.getMessages()}
+      >
         {displayMessages()}
         <div ref={endOfChat}></div>
       </div>
