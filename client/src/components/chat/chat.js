@@ -33,9 +33,7 @@ export default function Chat(props) {
               : "my-message"
           }
         >
-          <div className={"message"}>
-            {props.messages[i].contents}count {i}
-          </div>
+          <div className={"message"}>{props.messages[i].contents}</div>
         </div>
       );
 
