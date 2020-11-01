@@ -3,9 +3,14 @@ import CloseIcon from "@material-ui/icons/Close";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import { SideMenu } from "..";
+import {
+  TextField,
+  Button,
+  createMuiTheme,
+  makeStyles,
+  ThemeProvider,
+} from "@material-ui/core";
 import "./header.scss";
 
 function Header(props) {
@@ -17,6 +22,24 @@ function Header(props) {
     passwordConfirm: "",
   });
 
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: "#fff",
+      },
+    },
+  });
+
+  const authInputs = makeStyles((theme) => ({
+    root: {
+      border: "1px solid white",
+      overflow: "hidden",
+      color: "white",
+    },
+  }));
+
+  const authInput = authInputs();
+
   return (
     <div id="header">
       <div>
@@ -27,8 +50,14 @@ function Header(props) {
           />
         ) : (
           <div id="loginButtonContainer">
-            {!showLoginInputs ? (
-              <Button id="loginButton" onClick={() => setShowLoginInputs(true)}>
+            {!showLoginInputs || showRegisterInputs ? (
+              <Button
+                id="loginButton"
+                onClick={() => {
+                  setShowLoginInputs(true);
+                  setShowRegisterInputs(false);
+                }}
+              >
                 Login
               </Button>
             ) : (
@@ -44,37 +73,42 @@ function Header(props) {
       </div>
       {showLoginInputs && (
         <div id="loginInputs">
-          <TextField
-            value={loginInput.email}
-            className={"loginInput"}
-            size="small"
-            onChange={(evt) => setLoginInput({ email: evt.target.value })}
-            variant="outlined"
-            placeholder="Email"
-            multiline
-          />
-          <TextField
-            value={loginInput.password}
-            className={"loginInput"}
-            size="small"
-            onChange={(evt) => setLoginInput({ password: evt.target.value })}
-            variant="outlined"
-            placeholder="Password"
-            multiline
-          />
-          {showRegisterInputs && (
+          <ThemeProvider theme={theme}>
             <TextField
-              value={loginInput.passwordConfirm}
+              value={loginInput.email}
               className={"loginInput"}
               size="small"
-              onChange={(evt) =>
-                setLoginInput({ passwordConfirm: evt.target.value })
-              }
+              onChange={(evt) => setLoginInput({ email: evt.target.value })}
               variant="outlined"
-              placeholder="Confirm Password"
+              placeholder="Email"
+              InputProps={{ classes: authInput }}
               multiline
             />
-          )}
+            <TextField
+              value={loginInput.password}
+              className={"loginInput"}
+              size="small"
+              onChange={(evt) => setLoginInput({ password: evt.target.value })}
+              variant="outlined"
+              placeholder="Password"
+              InputProps={{ classes: authInput }}
+              multiline
+            />
+            {showRegisterInputs && (
+              <TextField
+                value={loginInput.passwordConfirm}
+                className={"loginInput"}
+                size="small"
+                onChange={(evt) =>
+                  setLoginInput({ passwordConfirm: evt.target.value })
+                }
+                variant="outlined"
+                placeholder="Confirm Password"
+                InputProps={{ classes: authInput }}
+                multiline
+              />
+            )}
+          </ThemeProvider>
           <div
             className={
               showRegisterInputs
