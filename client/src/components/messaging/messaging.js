@@ -14,16 +14,18 @@ export default function Messaging(props) {
   const [fetchCount, incrementFetchCount] = useState(0);
 
   useEffect(() => {
-    setMessagingService(new MessagingService());
-    const userService = new UserService();
-    userService
-      .getConversations(props.currentUser._id)
-      .then((conversations) => {
-        setConversations(conversations);
-        props.socket.on("message", function (data) {
-          setLatestMessage(data);
+    if (props.currentUser) {
+      setMessagingService(new MessagingService());
+      const userService = new UserService();
+      userService
+        .getConversations(props.currentUser._id)
+        .then((conversations) => {
+          setConversations(conversations);
+          props.socket.on("message", function (data) {
+            setLatestMessage(data);
+          });
         });
-      });
+    }
   }, []);
 
   useEffect(() => {

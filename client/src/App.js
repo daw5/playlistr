@@ -11,13 +11,15 @@ export default function App() {
   const [users, setUsers] = useState({});
   const [socket, setSocket] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const messagingService = new MessagingService();
     const userService = new UserService();
-    setSocket(messagingService.authenticateSocket());
     userService.getCurrentUser().then((user) => {
       setCurrentUser(user);
+      setSocket(messagingService.authenticateSocket());
+      setLoaded(true);
     });
     userService.getUsers().then((users) => {
       setUsers(users);
@@ -36,6 +38,9 @@ export default function App() {
         <Header
           messagingSidebarOpen={messagingSidebarStatus}
           toggleMessagingSidebar={setMessagingSidebarStatus}
+          currentUser={currentUser}
+          loaded={loaded}
+          setCurrentUser={setCurrentUser}
         ></Header>
         <div id="main-section-container">
           <Router>

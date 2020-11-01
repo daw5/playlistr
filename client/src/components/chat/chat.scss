@@ -30,6 +30,7 @@
 
   #personalMessagesContainer {
     overflow: scroll;
+    word-break: break-all;
     .message-container {
       display: flex;
       flex-flow: column wrap;
