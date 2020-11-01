@@ -78,4 +78,13 @@ authController.post("/login", loginValidation, async (req, res, next) => {
   }
 });
 
+authController.post("/logout", async (req, res, next) => {
+  try {
+    res.clearCookie("token");
+    res.send(204);
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default authController;
