@@ -14,17 +14,23 @@ export default function App() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    loadUserData();
+  }, []);
+
+  const loadUserData = () => {
     const messagingService = new MessagingService();
     const userService = new UserService();
     userService.getCurrentUser().then((user) => {
       setCurrentUser(user);
-      setSocket(messagingService.authenticateSocket());
+      if (user) {
+        setSocket(messagingService.authenticateSocket());
+        userService.getUsers().then((users) => {
+          setUsers(users);
+        });
+      }
       setLoaded(true);
     });
-    userService.getUsers().then((users) => {
-      setUsers(users);
-    });
-  }, []);
+  };
 
   return (
     <HelmetProvider>
@@ -38,9 +44,9 @@ export default function App() {
         <Header
           messagingSidebarOpen={messagingSidebarStatus}
           toggleMessagingSidebar={setMessagingSidebarStatus}
-          currentUser={currentUser}
           loaded={loaded}
-          setCurrentUser={setCurrentUser}
+          currentUser={currentUser}
+          loadUserData={loadUserData}
         ></Header>
         <div id="main-section-container">
           <Router>
@@ -50,7 +56,7 @@ export default function App() {
               </Route>
             </Switch>
           </Router>
-          {currentUser && (
+          {socket && currentUser && (
             <Messaging
               users={users}
               socket={socket}

@@ -17,8 +17,7 @@ export default class UserService {
     axios
       .get(`/users`)
       .then((response) => {
-        const users = this.indexUsers(response.data);
-        return users;
+        return this.indexUsers(response.data);
       })
       .catch(function (error) {
         console.log(error);

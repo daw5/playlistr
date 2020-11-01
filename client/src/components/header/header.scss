@@ -14,7 +14,7 @@
 }
 
 #messaging-icon-column {
-  grid-column: 2;
+  grid-column: 3;
   height: 100%;
   color: white;
   display: flex;
@@ -25,10 +25,16 @@
     cursor: pointer;
   }
 }
+#navButtonsContainer div {
+  height: 100%;
+}
 
 #loginButtonContainer {
   height: 100%;
   width: auto;
+  &:first-child {
+    height: 100%;
+  }
   .button {
     padding: 10px;
     height: 100%;

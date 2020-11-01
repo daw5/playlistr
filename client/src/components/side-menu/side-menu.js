@@ -34,8 +34,9 @@ export default function SideMenu(props) {
   };
 
   const handleLogout = () => {
-    const loggedOut = authService.logout();
-    props.setCurrentUser(!loggedOut);
+    authService.logout().then(() => {
+      props.loadUserData();
+    });
   };
 
   const list = (anchor) => (

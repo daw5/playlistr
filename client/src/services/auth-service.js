@@ -11,4 +11,18 @@ export default class AuthService {
       .catch(function (error) {
         console.log(error);
       });
+
+  login = (email, password) =>
+    axios
+      .post(`/api/auth/login`, {
+        email,
+        password,
+      })
+      .then(function (response) {
+        console.log("authenticated: ", response);
+        return response.data;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 }
