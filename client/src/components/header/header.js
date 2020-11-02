@@ -46,7 +46,7 @@ function Header(props) {
   };
 
   const handleAuthResponse = (response) => {
-    const message = Object.values(response.data)[0]
+    const message = Object.values(response.data)[0].msg
       ? Object.values(response.data)[0].msg
       : response.data;
     displayTemporaryMessage(message.toUpperCase());
