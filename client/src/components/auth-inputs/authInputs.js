@@ -28,11 +28,14 @@ function AuthInputs(props) {
   const authInputClasses = authInputStyles();
 
   return (
-    <div id="authInputs">
+    <div
+      id="authInputs"
+      className={props.showRegisterInputs ? "showRegisterInputs" : ""}
+    >
       <ThemeProvider theme={theme}>
         <TextField
           value={authInput.email}
-          className={"authInput"}
+          className={"authInput emailInput"}
           size="small"
           onChange={(evt) =>
             setAuthInput({ ...authInput, email: evt.target.value })
@@ -44,7 +47,7 @@ function AuthInputs(props) {
         <TextField
           type="password"
           value={authInput.password}
-          className={"authInput"}
+          className={"authInput passwordInput"}
           size="small"
           onChange={(evt) =>
             setAuthInput({ ...authInput, password: evt.target.value })
@@ -57,7 +60,7 @@ function AuthInputs(props) {
           <TextField
             type="password"
             value={authInput.passwordConfirm}
-            className={"authInput"}
+            className={"authInput confirmPasswordInput"}
             size="small"
             onChange={(evt) =>
               setAuthInput({
