@@ -1,18 +1,10 @@
 import React, { useEffect, useState } from "react";
-import CloseIcon from "@material-ui/icons/Close";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { AuthService } from "../../services";
+import { AuthInputs } from "..";
 import { SideMenu } from "..";
-import {
-  TextField,
-  Button,
-  createMuiTheme,
-  makeStyles,
-  ThemeProvider,
-  Typography,
-} from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import "./header.scss";
 
 function Header(props) {
@@ -20,25 +12,19 @@ function Header(props) {
   const [showRegisterInputs, setShowRegisterInputs] = useState(false);
   const [authService, setAuthService] = useState(null);
   const [temporaryMessage, setTemporaryMessage] = useState("");
-  const defaultAuthInput = {
-    email: "",
-    password: "",
-    passwordConfirm: "",
-  };
-  const [authInput, setAuthInput] = useState(defaultAuthInput);
 
   useEffect(() => {
     setAuthService(new AuthService());
   }, []);
 
   const resetHeader = () => {
-    setAuthInput(defaultAuthInput);
     setShowRegisterInputs(false);
     setShowLoginInputs(false);
   };
 
-  const handleLogin = () => {
-    authService.login(authInput.email, authInput.password).then((response) => {
+  const handleLogin = (input) => {
+    const { email, password } = input;
+    authService.login(email, password).then((response) => {
       if (response.status === 200) {
         resetHeader();
         displayTemporaryMessage("WELCOME");
@@ -49,14 +35,13 @@ function Header(props) {
     });
   };
 
-  const handleRegister = () => {
-    authInput.passwordConfirm === authInput.password
-      ? authService
-          .register(authInput.email, authInput.password)
-          .then((response) => {
-            handleAuthResponse(response);
-            response.status === 200 && resetHeader();
-          })
+  const handleRegister = (input) => {
+    const { email, password, passwordConfirm } = input;
+    passwordConfirm === password
+      ? authService.register(email, password).then((response) => {
+          handleAuthResponse(response);
+          response.status === 200 && resetHeader();
+        })
       : displayTemporaryMessage("PASSWORDS DO NOT MATCH");
   };
 
@@ -67,29 +52,20 @@ function Header(props) {
     displayTemporaryMessage(message.toUpperCase());
   };
 
+  const loginOrRegister = (input) => {
+    if (!showRegisterInputs) {
+      handleLogin(input);
+    } else {
+      handleRegister(input);
+    }
+  };
+
   const displayTemporaryMessage = (message) => {
     setTemporaryMessage(message);
     setTimeout(() => {
       setTemporaryMessage(null);
     }, 2000);
   };
-
-  const theme = createMuiTheme({
-    palette: {
-      primary: {
-        main: "#fff",
-      },
-    },
-  });
-
-  const authInputStyles = makeStyles((theme) => ({
-    root: {
-      border: "1px solid white",
-      color: "white",
-    },
-  }));
-
-  const authInputClasses = authInputStyles();
 
   return (
     <div id="header" className={temporaryMessage && "animate-header"}>
@@ -130,72 +106,11 @@ function Header(props) {
         </div>
       )}
       {showLoginInputs && !temporaryMessage && (
-        <div id="authInputs">
-          <ThemeProvider theme={theme}>
-            <TextField
-              value={authInput.email}
-              className={"authInput"}
-              size="small"
-              onChange={(evt) =>
-                setAuthInput({ ...authInput, email: evt.target.value })
-              }
-              variant="outlined"
-              placeholder="Email"
-              InputProps={{ classes: authInputClasses }}
-            />
-            <TextField
-              type="password"
-              value={authInput.password}
-              className={"authInput"}
-              size="small"
-              onChange={(evt) =>
-                setAuthInput({ ...authInput, password: evt.target.value })
-              }
-              variant="outlined"
-              placeholder="Password"
-              InputProps={{ classes: authInputClasses }}
-            />
-            {showRegisterInputs && (
-              <TextField
-                type="password"
-                value={authInput.passwordConfirm}
-                className={"authInput"}
-                size="small"
-                onChange={(evt) =>
-                  setAuthInput({
-                    ...authInput,
-                    passwordConfirm: evt.target.value,
-                  })
-                }
-                variant="outlined"
-                placeholder="Confirm Password"
-                InputProps={{ classes: authInputClasses }}
-              />
-            )}
-            <div
-              className={
-                showRegisterInputs
-                  ? "loginSubmitContainerRegister"
-                  : "loginSubmitContainer"
-              }
-            >
-              <Button
-                onClick={!showRegisterInputs ? handleLogin : handleRegister}
-                variant="outlined"
-                className={"submit"}
-              >
-                <ChevronRightIcon fontSize="large" />
-              </Button>
-              <Button
-                onClick={() => resetHeader()}
-                variant="outlined"
-                className={"close"}
-              >
-                <CloseIcon fontSize="default" />
-              </Button>
-            </div>
-          </ThemeProvider>
-        </div>
+        <AuthInputs
+          resetHeader={resetHeader}
+          loginOrRegister={loginOrRegister}
+          showRegisterInputs={showRegisterInputs}
+        />
       )}
       {props.currentUser && !temporaryMessage && (
         <div id="messaging-icon-column">
