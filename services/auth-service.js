@@ -52,10 +52,12 @@ export default class AuthService {
     if (!user) {
       await this.userService.createUser(email, password);
       const newUser = await this.userService.findUserByEmail(email);
-      const code = randomKeyGenerator.generate();
-      this.mailingService.sendVerificationEmail(email, code, newUser._id);
-      await this.createEmailVerificationInstance(email, code);
-      return this.userService.findUserByEmail(email);
+      if (newUser) {
+        const code = randomKeyGenerator.generate();
+        this.mailingService.sendVerificationEmail(email, code, newUser._id);
+        await this.createEmailVerificationInstance(email, code);
+        return this.userService.findUserByEmail(email);
+      }
     } else {
       return null;
     }

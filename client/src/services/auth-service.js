@@ -4,12 +4,11 @@ export default class AuthService {
   logout = () =>
     axios
       .post("/api/auth/logout")
-      .then((response) => {
-        console.log("response: ", response);
+      .then(() => {
         return true;
       })
-      .catch(function (error) {
-        console.log(error);
+      .catch(function () {
+        return false;
       });
 
   login = (email, password) =>
@@ -19,10 +18,22 @@ export default class AuthService {
         password,
       })
       .then(function (response) {
-        console.log("authenticated: ", response);
-        return response.data;
+        return response;
       })
       .catch(function (error) {
-        console.log(error);
+        return error.response;
+      });
+
+  register = (email, password) =>
+    axios
+      .post(`/api/auth/register`, {
+        email,
+        password,
+      })
+      .then(function (response) {
+        return response;
+      })
+      .catch(function (error) {
+        return error.response;
       });
 }

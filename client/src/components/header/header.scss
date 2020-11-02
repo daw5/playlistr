@@ -3,14 +3,16 @@
   background: linear-gradient(298deg, #33c19c, #4184aa, #31a85b, #9b3597);
   background-size: 800% 800%;
 
-  // -webkit-animation: AnimationName 5s ease infinite;
-  // -moz-animation: AnimationName 5s ease infinite;
-  // animation: AnimationName 5s ease infinite;
-
   filter: drop-shadow(0 0 0.1rem black);
 
   display: grid;
   grid-template-columns: auto auto 100px;
+}
+
+.animate-header {
+  -webkit-animation: AnimationName 5s ease infinite;
+  -moz-animation: AnimationName 5s ease infinite;
+  animation: AnimationName 5s ease infinite;
 }
 
 #messaging-icon-column {
@@ -52,16 +54,31 @@
   }
 }
 
-#loginInputs {
+.temporaryMessage {
+  display: flex;
+  grid-column: 1 / span 3;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  width: 100%;
+  font-weight: 500 !important;
+  font-size: 20px !important;
+}
+
+#authInputs {
   grid-column: 2 / span 3;
   height: 100%;
   display: grid;
   grid-template-columns: auto auto auto auto;
-  .loginInput {
+  .authInput {
     display: flex;
     justify-content: center;
     margin-left: 10px;
     margin-right: 10px;
+
+    textarea {
+      max-height: 19px;
+    }
   }
 
   .loginSubmitContainer {
@@ -93,7 +110,7 @@
 }
 
 #submitLoginButton {
-  @extend .loginInput;
+  @extend .authInput;
 }
 
 #loginEmailInput {

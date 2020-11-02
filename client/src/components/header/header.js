@@ -11,6 +11,7 @@ import {
   createMuiTheme,
   makeStyles,
   ThemeProvider,
+  Typography,
 } from "@material-ui/core";
 import "./header.scss";
 
@@ -18,25 +19,59 @@ function Header(props) {
   const [showLoginInputs, setShowLoginInputs] = useState(false);
   const [showRegisterInputs, setShowRegisterInputs] = useState(false);
   const [authService, setAuthService] = useState(null);
-  const [loginInput, setLoginInput] = useState({
+  const [temporaryMessage, setTemporaryMessage] = useState("");
+  const defaultAuthInput = {
     email: "",
     password: "",
     passwordConfirm: "",
-  });
+  };
+  const [authInput, setAuthInput] = useState(defaultAuthInput);
 
   useEffect(() => {
     setAuthService(new AuthService());
   }, []);
 
+  const resetHeader = () => {
+    setAuthInput(defaultAuthInput);
+    setShowRegisterInputs(false);
+    setShowLoginInputs(false);
+  };
+
   const handleLogin = () => {
-    authService
-      .login(loginInput.email, loginInput.password)
-      .then((loggedIn) => {
-        if (loggedIn) {
-          setShowLoginInputs(false);
-          props.loadUserData();
-        }
-      });
+    authService.login(authInput.email, authInput.password).then((response) => {
+      if (response.status === 200) {
+        resetHeader();
+        displayTemporaryMessage("WELCOME");
+        props.loadUserData();
+      } else {
+        handleAuthResponse(response);
+      }
+    });
+  };
+
+  const handleRegister = () => {
+    authInput.passwordConfirm === authInput.password
+      ? authService
+          .register(authInput.email, authInput.password)
+          .then((response) => {
+            handleAuthResponse(response);
+            response.status === 200 && resetHeader();
+          })
+      : displayTemporaryMessage("PASSWORDS DO NOT MATCH");
+  };
+
+  const handleAuthResponse = (response) => {
+    const message = Object.values(response.data)[0]
+      ? Object.values(response.data)[0].msg
+      : response.data;
+    displayTemporaryMessage(message.toUpperCase());
+  };
+
+  const displayTemporaryMessage = (message) => {
+    setTemporaryMessage(message);
+    setTimeout(() => {
+      setTemporaryMessage(null);
+    }, 2000);
   };
 
   const theme = createMuiTheme({
@@ -47,19 +82,23 @@ function Header(props) {
     },
   });
 
-  const authInputs = makeStyles((theme) => ({
+  const authInputStyles = makeStyles((theme) => ({
     root: {
       border: "1px solid white",
-      overflow: "hidden",
       color: "white",
     },
   }));
 
-  const authInput = authInputs();
+  const authInputClasses = authInputStyles();
 
   return (
-    <div id="header">
-      {props.loaded && (
+    <div id="header" className={temporaryMessage && "animate-header"}>
+      {temporaryMessage && (
+        <Typography className={"temporaryMessage"} variant="h5">
+          {temporaryMessage}
+        </Typography>
+      )}
+      {props.loaded && !temporaryMessage && (
         <div id="navButtonsContainer">
           {props.currentUser ? (
             <SideMenu
@@ -90,79 +129,75 @@ function Header(props) {
           )}
         </div>
       )}
-      {showLoginInputs && (
-        <div id="loginInputs">
+      {showLoginInputs && !temporaryMessage && (
+        <div id="authInputs">
           <ThemeProvider theme={theme}>
             <TextField
-              value={loginInput.email}
-              className={"loginInput"}
+              value={authInput.email}
+              className={"authInput"}
               size="small"
               onChange={(evt) =>
-                setLoginInput({ ...loginInput, email: evt.target.value })
+                setAuthInput({ ...authInput, email: evt.target.value })
               }
               variant="outlined"
               placeholder="Email"
-              InputProps={{ classes: authInput }}
-              multiline
+              InputProps={{ classes: authInputClasses }}
             />
             <TextField
               type="password"
-              value={loginInput.password}
-              className={"loginInput"}
+              value={authInput.password}
+              className={"authInput"}
               size="small"
               onChange={(evt) =>
-                setLoginInput({ ...loginInput, password: evt.target.value })
+                setAuthInput({ ...authInput, password: evt.target.value })
               }
               variant="outlined"
               placeholder="Password"
-              InputProps={{ classes: authInput }}
+              InputProps={{ classes: authInputClasses }}
             />
             {showRegisterInputs && (
               <TextField
                 type="password"
-                value={loginInput.passwordConfirm}
-                className={"loginInput"}
+                value={authInput.passwordConfirm}
+                className={"authInput"}
                 size="small"
                 onChange={(evt) =>
-                  setLoginInput({
-                    ...loginInput,
+                  setAuthInput({
+                    ...authInput,
                     passwordConfirm: evt.target.value,
                   })
                 }
                 variant="outlined"
                 placeholder="Confirm Password"
-                InputProps={{ classes: authInput }}
+                InputProps={{ classes: authInputClasses }}
               />
             )}
+            <div
+              className={
+                showRegisterInputs
+                  ? "loginSubmitContainerRegister"
+                  : "loginSubmitContainer"
+              }
+            >
+              <Button
+                onClick={!showRegisterInputs ? handleLogin : handleRegister}
+                variant="outlined"
+                className={"submit"}
+              >
+                <ChevronRightIcon fontSize="large" />
+              </Button>
+              <Button
+                onClick={() => resetHeader()}
+                variant="outlined"
+                className={"close"}
+              >
+                <CloseIcon fontSize="default" />
+              </Button>
+            </div>
           </ThemeProvider>
-          <div
-            className={
-              showRegisterInputs
-                ? "loginSubmitContainerRegister"
-                : "loginSubmitContainer"
-            }
-          >
-            <Button
-              onClick={handleLogin}
-              variant="outlined"
-              className={"submit"}
-            >
-              <ChevronRightIcon fontSize="large" />
-            </Button>
-            <Button
-              onClick={() => {
-                setShowLoginInputs(false);
-                setShowRegisterInputs(false);
-              }}
-              variant="outlined"
-              className={"close"}
-            >
-              <CloseIcon fontSize="default" />
-            </Button>
-          </div>
         </div>
       )}
-      {props.currentUser && (
+      {props.currentUser && !temporaryMessage && (
         <div id="messaging-icon-column">
           <div
             id="messaging-icon-container"
