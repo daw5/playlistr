@@ -29,7 +29,7 @@ function AuthInputs(props) {
     >
       <ThemeProvider theme={theme}>
         <TextField
-          value={authInput.email}
+          value={authInput.email || ""}
           className={"authInput emailInput"}
           size="small"
           onChange={(evt) =>
@@ -41,7 +41,7 @@ function AuthInputs(props) {
         />
         <TextField
           type="password"
-          value={authInput.password}
+          value={authInput.password || ""}
           className={"authInput passwordInput"}
           size="small"
           onChange={(evt) =>
@@ -54,7 +54,7 @@ function AuthInputs(props) {
         {props.showRegisterInputs && (
           <TextField
             type="password"
-            value={authInput.passwordConfirm}
+            value={authInput.passwordConfirm || ""}
             className={"authInput confirmPasswordInput"}
             size="small"
             onChange={(evt) =>
