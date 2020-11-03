@@ -11,12 +11,7 @@ import { theme } from "../../material-overrides/header";
 import "../header/header.scss";
 
 function AuthInputs(props) {
-  const defaultAuthInput = {
-    email: "",
-    password: "",
-    passwordConfirm: "",
-  };
-  const [authInput, setAuthInput] = useState(defaultAuthInput);
+  const [authInput, setAuthInput] = useState({});
 
   const authInputStyles = makeStyles((theme) => ({
     root: {
@@ -88,9 +83,7 @@ function AuthInputs(props) {
             <ChevronRightIcon fontSize="large" />
           </Button>
           <Button
-            onClick={() =>
-              props.resetHeader() && setAuthInput(defaultAuthInput)
-            }
+            onClick={() => props.resetHeader() && setAuthInput({})}
             variant="outlined"
             className={"close"}
           >
