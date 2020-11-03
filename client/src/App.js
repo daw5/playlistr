@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useToggle } from "./hooks";
-import { Login, Messaging, Header } from "./components";
+import { Playlist, Messaging, Header } from "./components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { MessagingService, UserService } from "./services";
 import { Helmet, HelmetProvider } from "react-helmet-async";
@@ -51,9 +51,7 @@ export default function App() {
         <div id="main-section-container">
           <Router>
             <Switch>
-              <Route path="/">
-                <Login />
-              </Route>
+              <Route path="/playlist" render={() => <Playlist />}></Route>
             </Switch>
           </Router>
           {socket && currentUser && (
