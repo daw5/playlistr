@@ -20,9 +20,9 @@ export default function Playlist(props) {
           <ChevronRightIcon fontSize="large" />
         </button>
       </div>
-      <div className="group-chat-container">
-        <GroupChat />
-      </div>
+      {/* <div className="group-chat-container"> */}
+      <GroupChat />
+      {/* </div> */}
     </div>
   );
 }
