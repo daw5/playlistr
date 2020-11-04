@@ -8,12 +8,16 @@
 .playlist {
   width: 100%;
   background-color: purple;
-  display: flex;
+  display: grid;
+  grid-template-columns: 60px auto 60px;
 }
 
 .button {
-  width: 60px;
+  width: 100%;
   padding: 0;
+  color: white;
+  background-color: black;
+  border: none;
 }
 
 .forward-button {
@@ -26,5 +30,6 @@
 
 .group-chat-container {
   width: 100%;
-  background-color: grey;
+  background-color: black;
+  color: white;
 }

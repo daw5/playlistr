@@ -12,12 +12,12 @@ export default function Playlist(props) {
     <div className="playlist-container">
       <div className="playlist">
         <button className="back-button">
-          <ChevronLeftIcon style={{ fontSize: 50 }} />
+          <ChevronLeftIcon style={{ fontSize: 45 }} />
         </button>
         <Player />
         <button className="forward-button">
           {" "}
-          <ChevronRightIcon style={{ fontSize: 50 }} />
+          <ChevronRightIcon style={{ fontSize: 45 }} />
         </button>
       </div>
       {/* <div className="group-chat-container"> */}
