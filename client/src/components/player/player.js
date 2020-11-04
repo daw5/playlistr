@@ -10,7 +10,11 @@ export default function Player(props) {
     <div className="player-wrapper">
       <ReactPlayer
         className="react-player"
-        url="https://youtu.be/IGM1T0t7qts"
+        url={[
+          "https://www.youtube.com/watch?v=dbDRkaNO8dE",
+          "https://youtu.be/IGM1T0t7qts",
+          "https://www.youtube.com/watch?v=KOEX-8GhicU",
+        ]}
         width="100%"
         height="100%"
         controls={true}

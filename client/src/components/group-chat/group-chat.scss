@@ -3,9 +3,10 @@
 }
 
 #groupMessagesContainer {
+  height: 500px;
   overflow: scroll;
   word-break: break-all;
-  height: calc(100% - 56px);
+  height: calc(100% - 55px);
   .message-container {
     display: flex;
     flex-flow: column wrap;
@@ -45,8 +46,8 @@
   background-color: darkgrey;
   width: 100%;
   min-height: 35px;
-  padding-bottom: 10px;
   padding-top: 10px;
+  padding-bottom: 10px;
 
   #inputContainer {
     display: grid;
