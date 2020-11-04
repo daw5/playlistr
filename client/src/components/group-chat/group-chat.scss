@@ -4,40 +4,6 @@
   grid-template-rows: auto 40px;
 }
 
-#groupMessagesContainer {
-  overflow: scroll;
-  word-break: break-all;
-  .message-container {
-    display: flex;
-    flex-flow: column wrap;
-    padding-left: 10px;
-    padding-right: 10px;
-
-    .message {
-      margin-top: 10px;
-      padding: 10px;
-      border-radius: 10px;
-      background-color: rgba(73, 73, 196, 0.637);
-      color: black;
-      width: fit-content;
-    }
-  }
-  .their-message {
-    @extend .message-container;
-    margin-right: 10px;
-
-    :first-child {
-      background-color: lightblue;
-    }
-  }
-
-  .my-message {
-    @extend .message-container;
-    align-content: flex-end;
-    margin-left: 10px;
-  }
-}
-
 #groupChatFooter {
   display: flex;
   justify-content: center;
@@ -46,25 +12,5 @@
   background-color: darkgrey;
   width: 100%;
   min-height: 35px;
-  // padding-top: 10px;
-  // padding-bottom: 10px;
-
-  #inputContainer {
-    display: grid;
-    width: 100%;
-    padding-right: 10px;
-    padding-left: 10px;
-    grid-template-columns: auto 70px;
-    grid-column-gap: 10px;
-
-    #messageInput {
-      width: auto !important;
-    }
-
-    #sendMessageButton {
-      background-color: teal;
-      color: white;
-      height: 36px;
-    }
-  }
+  padding-bottom: 4px;
 }

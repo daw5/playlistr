@@ -28,7 +28,7 @@
   display: grid;
   grid-template-columns: 100%;
 
-  #personalMessagesContainer {
+  .messagesContainer {
     overflow: scroll;
     word-break: break-all;
     .message-container {
@@ -61,34 +61,34 @@
       margin-left: 10px;
     }
   }
+}
 
-  #chatFooter {
-    display: flex;
-    justify-content: center;
-    height: auto;
-    z-index: 1;
-    background-color: darkgrey;
-    width: 100%;
-    min-height: 35px;
-    padding-bottom: 4px;
-    padding-top: 10px;
+.inputContainer {
+  display: grid;
+  width: 100%;
+  padding-right: 10px;
+  padding-left: 10px;
+  grid-template-columns: auto 70px;
+  grid-column-gap: 10px;
 
-    #inputContainer {
-      display: grid;
-      width: 100%;
-      padding-right: 10px;
-      padding-left: 10px;
-      grid-template-columns: auto 70px;
-      grid-column-gap: 10px;
-
-      #messageInput {
-        width: auto !important;
-      }
-
-      #sendMessageButton {
-        background-color: teal;
-        color: white;
-      }
-    }
+  .messageInput {
+    width: auto !important;
   }
+
+  .sendMessageButton {
+    background-color: teal;
+    color: white;
+  }
+}
+
+.chatFooter {
+  display: flex;
+  justify-content: center;
+  height: auto;
+  z-index: 1;
+  background-color: darkgrey;
+  width: 100%;
+  min-height: 35px;
+  padding-bottom: 4px;
+  padding-top: 10px;
 }
