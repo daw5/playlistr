@@ -1,6 +1,29 @@
 .playlist-container {
   height: 100%;
   width: 100%;
+}
+
+.playlist {
+  width: 100%;
   background-color: purple;
-  flex: 0 1 auto;
+  display: flex;
+}
+
+.button {
+  width: 40px;
+  padding: 0;
+}
+
+.forward-button {
+  @extend .button;
+}
+
+.back-button {
+  @extend .button;
+}
+
+.chat-container {
+  width: 100%;
+  min-height: 30px;
+  background-color: grey;
 }
