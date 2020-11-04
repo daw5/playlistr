@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import { Player } from "..";
+import { Player, GroupChat } from "..";
 
 import "./playlist.scss";
 
@@ -20,7 +20,9 @@ export default function Playlist(props) {
           <ChevronRightIcon fontSize="large" />
         </button>
       </div>
-      <div className="chat-container"></div>
+      <div className="group-chat-container">
+        <GroupChat />
+      </div>
     </div>
   );
 }

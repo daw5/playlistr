@@ -6,6 +6,7 @@ import ConversationSnippet from "./conversation-snippet/conversation-snippet";
 import SideMenu from "./side-menu/side-menu";
 import Playlist from "./playlist/playlist";
 import Player from "./player/player";
+import GroupChat from "./group-chat/group-chat";
 import Chat from "./chat/chat";
 
 export {
@@ -17,5 +18,6 @@ export {
   ConversationSnippet,
   Playlist,
   Player,
+  GroupChat,
   Chat,
 };
