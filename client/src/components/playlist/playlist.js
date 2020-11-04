@@ -1,10 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Player } from "..";
 
 import "./playlist.scss";
 
 require("dotenv").config();
 
 export default function Playlist(props) {
-  console.log("isauthed: ", props);
-  return <div>Hello I'm playlist</div>;
+  return (
+    <div className="playlist-container">
+      <Player />
+    </div>
+  );
 }
