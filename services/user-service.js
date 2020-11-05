@@ -21,7 +21,11 @@ export default class UserService {
   async createUser(email, password) {
     const hashedPassword = await argon2.hash(password);
     const user = new User({ email, password: hashedPassword });
-    const result = await user.save();
-    return result;
+    try {
+      const result = await user.save();
+      return result;
+    } catch (error) {
+      return error;
+    }
   }
 }

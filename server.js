@@ -4,6 +4,7 @@ import {
   authController,
   mailingController,
   userController,
+  playlistController,
 } from "./controller";
 import bodyParser from "body-parser";
 import passport from "passport";
@@ -30,6 +31,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use("/api/auth", authController);
 app.use("/users", userController);
+app.use("/api/playlists", playlistController);
 app.use("/mailing", mailingController);
 io.use(socketCookieParser());
 
