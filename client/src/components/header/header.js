@@ -75,64 +75,72 @@ function Header(props) {
             {temporaryMessage}
           </Typography>
         )}
-        {props.loaded && !temporaryMessage && (
-          <div id="navButtonsContainer">
-            {props.currentUser ? (
-              <SideMenu
-                id="sideMenuIconContainer"
-                loadUserData={props.loadUserData}
-              />
-            ) : (
-              <div id="loginButtonContainer">
-                {!showLoginInputs || showRegisterInputs ? (
-                  <Button
-                    id="loginButton"
-                    onClick={() => {
-                      setShowLoginInputs(true);
-                      setShowRegisterInputs(false);
-                    }}
-                  >
-                    Login
-                  </Button>
+        {!temporaryMessage && (
+          <React.Fragment>
+            {props.loaded && (
+              <div id="navButtonsContainer">
+                {props.currentUser ? (
+                  <SideMenu
+                    id="sideMenuIconContainer"
+                    loadUserData={props.loadUserData}
+                  />
                 ) : (
-                  <Button
-                    id="registerButton"
-                    onClick={() => setShowRegisterInputs(true)}
-                  >
-                    No Account?
-                  </Button>
+                  <div id="loginButtonContainer">
+                    {!showLoginInputs || showRegisterInputs ? (
+                      <Button
+                        id="loginButton"
+                        onClick={() => {
+                          setShowLoginInputs(true);
+                          setShowRegisterInputs(false);
+                        }}
+                      >
+                        Login
+                      </Button>
+                    ) : (
+                      <Button
+                        id="registerButton"
+                        onClick={() => setShowRegisterInputs(true)}
+                      >
+                        No Account?
+                      </Button>
+                    )}
+                  </div>
                 )}
               </div>
             )}
-          </div>
-        )}
-        {showLoginInputs && !temporaryMessage && (
-          <AuthInputs
-            resetHeader={resetHeader}
-            loginOrRegister={loginOrRegister}
-            showRegisterInputs={showRegisterInputs}
-          />
-        )}
-        {props.currentUser && !temporaryMessage && (
-          <div id="messaging-icon-column">
-            <div
-              id="messaging-icon-container"
-              onClick={props.toggleMessagingSidebar}
-            >
-              <ChatBubbleOutlineIcon
-                id="messaging-icon-outline"
-                style={{
-                  fontSize: 40,
-                }}
-                className={props.messagingSidebarOpen ? "hidden" : "visible"}
-              ></ChatBubbleOutlineIcon>
-              <ChatBubbleIcon
-                id="messaging-icon-filled"
-                style={{ fontSize: 40 }}
-                className={props.messagingSidebarOpen ? "visible" : "hidden"}
-              ></ChatBubbleIcon>
-            </div>
-          </div>
+            {showLoginInputs && (
+              <AuthInputs
+                resetHeader={resetHeader}
+                loginOrRegister={loginOrRegister}
+                showRegisterInputs={showRegisterInputs}
+              />
+            )}
+            {props.currentUser && (
+              <div id="messaging-icon-column">
+                <div
+                  id="messaging-icon-container"
+                  onClick={props.toggleMessagingSidebar}
+                >
+                  <ChatBubbleOutlineIcon
+                    id="messaging-icon-outline"
+                    style={{
+                      fontSize: 40,
+                    }}
+                    className={
+                      props.messagingSidebarOpen ? "hidden" : "visible"
+                    }
+                  ></ChatBubbleOutlineIcon>
+                  <ChatBubbleIcon
+                    id="messaging-icon-filled"
+                    style={{ fontSize: 40 }}
+                    className={
+                      props.messagingSidebarOpen ? "visible" : "hidden"
+                    }
+                  ></ChatBubbleIcon>
+                </div>
+              </div>
+            )}
+          </React.Fragment>
         )}
       </div>
     </div>
