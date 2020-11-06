@@ -4,6 +4,8 @@ import { Playlist, PlaylistCreate, Messaging, Header } from "./components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { MessagingService, UserService } from "./services";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { ThemeProvider } from "@material-ui/core";
+import { theme } from "./material-overrides/header";
 import "./App.scss";
 
 export default function App() {
@@ -41,32 +43,34 @@ export default function App() {
             content="minimum-scale=1, initial-scale=1, width=device-width"
           />
         </Helmet>
-        <Header
-          messagingSidebarOpen={messagingSidebarStatus}
-          toggleMessagingSidebar={setMessagingSidebarStatus}
-          loaded={loaded}
-          currentUser={currentUser}
-          loadUserData={loadUserData}
-        ></Header>
-        <div id="main-section-container">
-          <Router>
-            <Switch>
-              <Route path="/playlist" render={() => <Playlist />}></Route>
-              <Route
-                path="/playlist-create"
-                render={() => <PlaylistCreate />}
-              ></Route>
-            </Switch>
-          </Router>
-          {socket && currentUser && (
-            <Messaging
-              users={users}
-              socket={socket}
-              currentUser={currentUser}
-              messagingSidebarOpen={messagingSidebarStatus}
-            />
-          )}
-        </div>
+        <ThemeProvider theme={theme}>
+          <Header
+            messagingSidebarOpen={messagingSidebarStatus}
+            toggleMessagingSidebar={setMessagingSidebarStatus}
+            loaded={loaded}
+            currentUser={currentUser}
+            loadUserData={loadUserData}
+          ></Header>
+          <div id="main-section-container">
+            <Router>
+              <Switch>
+                <Route path="/playlist" render={() => <Playlist />}></Route>
+                <Route
+                  path="/playlist-create"
+                  render={() => <PlaylistCreate />}
+                ></Route>
+              </Switch>
+            </Router>
+            {socket && currentUser && (
+              <Messaging
+                users={users}
+                socket={socket}
+                currentUser={currentUser}
+                messagingSidebarOpen={messagingSidebarStatus}
+              />
+            )}
+          </div>
+        </ThemeProvider>
       </div>
     </HelmetProvider>
   );

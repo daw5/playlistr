@@ -6,7 +6,8 @@ import TextField from "@material-ui/core/TextField";
 import { AuthService } from "../../services";
 import { AuthInputs } from "..";
 import { SideMenu } from "..";
-import { Button, Typography } from "@material-ui/core";
+import { Button, Typography, makeStyles } from "@material-ui/core";
+import { theme } from "../../material-overrides/header";
 import "./header.scss";
 
 function Header(props) {
@@ -69,6 +70,14 @@ function Header(props) {
     }, 2000);
   };
 
+  const playlistSearchStyles = makeStyles((theme) => ({
+    root: {
+      color: "white",
+    },
+  }));
+
+  const playlistSearchClasses = playlistSearchStyles();
+
   return (
     <div id="headerContainer">
       <div
@@ -124,7 +133,6 @@ function Header(props) {
             {!showAuthInputs && (
               <div className="playlist-search-bar-container">
                 <Autocomplete
-                  id="playlistAutoComplete"
                   size="small"
                   className="playlist-search-bar"
                   options={props.playlists || []}
@@ -135,6 +143,7 @@ function Header(props) {
                   renderInput={(params) => (
                     <TextField
                       {...params}
+                      InputProps={{ classes: playlistSearchClasses }}
                       label="Search for a playlist"
                       variant="outlined"
                     />
