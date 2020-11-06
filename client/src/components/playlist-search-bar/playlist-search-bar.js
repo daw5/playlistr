@@ -23,8 +23,7 @@ export default function PlaylistSearchBar(props) {
         className="playlist-search-bar"
         options={props.playlists || []}
         onChange={(evt, playlist) => {
-          props.setPlaylist(playlist);
-          history.push("/playlist");
+          history.push(`/playlist/${playlist._id}`);
         }}
         getOptionLabel={(option) => option.title}
         renderInput={(params) => {

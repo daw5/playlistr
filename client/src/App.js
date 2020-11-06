@@ -20,7 +20,6 @@ export default function App() {
   const [socket, setSocket] = useState(null);
   const [recentPlaylists, setRecentPlaylists] = useState([]);
   const [popularPlaylists, setPopularPlaylists] = useState([]);
-  const [playlist, setPlaylist] = useState(null);
   const [loaded, setLoaded] = useState(false);
   // load 1000 most popular and 1000 most recent playlists. Search bar will use these.
   // in addition, will display most recent and most popular on home page
@@ -69,16 +68,10 @@ export default function App() {
               loaded={loaded}
               currentUser={currentUser}
               loadUserData={loadUserData}
-              setPlaylist={setPlaylist}
             ></Header>
             <div id="main-section-container">
               <Switch>
-                <Route
-                  path="/playlist"
-                  render={() => (
-                    <Playlist playlistId={playlist && playlist._id} />
-                  )}
-                ></Route>
+                <Route path="/playlist/:id" component={Playlist}></Route>
                 <Route
                   path="/playlist-create"
                   render={() => <PlaylistCreate />}

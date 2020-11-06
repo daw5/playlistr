@@ -3,7 +3,6 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { playlistService } from "../../services";
 import { Player, GroupChat } from "..";
-
 import "./playlist.scss";
 
 require("dotenv").config();
@@ -12,12 +11,10 @@ export default function Playlist(props) {
   const [playlist, setPlaylist] = useState(null);
 
   useEffect(() => {
-    props.playlistId &&
-      playlistService.getPlaylist(props.playlistId).then((playlist) => {
-        console.log("setting playlist");
-        setPlaylist(playlist);
-      });
-  }, [props.playlistId]);
+    playlistService.getPlaylist(props.match.params.id).then((playlist) => {
+      setPlaylist(playlist);
+    });
+  }, [props.match.params.id]);
 
   return (
     <div className="playlist-container">

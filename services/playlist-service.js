@@ -9,7 +9,10 @@ export default class PlaylistService {
   }
 
   async listRecentPlaylists() {
-    const playlists = await Playlist.find().sort({ _id: -1 }).limit(1000);
+    const playlists = await Playlist.find()
+      .sort({ _id: -1 })
+      .limit(1000)
+      .select("-urls -__v");
     return playlists;
   }
 
