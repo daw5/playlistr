@@ -1,4 +1,5 @@
 import Header from "./header/header";
+import PlaylistSearchBar from "./playlist-search-bar/playlist-search-bar";
 import AuthInputs from "./auth-inputs/authInputs.js";
 import Messaging from "./messaging/messaging";
 import Conversations from "./conversations/conversations";
@@ -14,6 +15,7 @@ export {
   SideMenu,
   Messaging,
   Header,
+  PlaylistSearchBar,
   AuthInputs,
   Conversations,
   ConversationSnippet,

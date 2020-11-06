@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import TextField from "@material-ui/core/TextField";
 import { AuthService } from "../../services";
-import { AuthInputs } from "..";
-import { SideMenu } from "..";
-import { Button, Typography, makeStyles } from "@material-ui/core";
-import { theme } from "../../material-overrides/header";
+import { AuthInputs, PlaylistSearchBar, SideMenu } from "..";
+import { Button, Typography } from "@material-ui/core";
 import "./header.scss";
 
 function Header(props) {
@@ -70,14 +66,6 @@ function Header(props) {
     }, 2000);
   };
 
-  const playlistSearchStyles = makeStyles((theme) => ({
-    root: {
-      color: "white",
-    },
-  }));
-
-  const playlistSearchClasses = playlistSearchStyles();
-
   return (
     <div id="headerContainer">
       <div
@@ -131,25 +119,7 @@ function Header(props) {
               />
             )}
             {!showAuthInputs && (
-              <div className="playlist-search-bar-container">
-                <Autocomplete
-                  size="small"
-                  className="playlist-search-bar"
-                  options={props.playlists || []}
-                  onChange={(evt, playlist) => {
-                    props.setPlaylist(playlist);
-                  }}
-                  getOptionLabel={(option) => option.email}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      InputProps={{ classes: playlistSearchClasses }}
-                      label="Search for a playlist"
-                      variant="outlined"
-                    />
-                  )}
-                />
-              </div>
+              <PlaylistSearchBar playlists={props.playlists} />
             )}
             {props.currentUser && (
               <div id="messaging-icon-column">
