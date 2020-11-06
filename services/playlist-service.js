@@ -13,11 +13,6 @@ export default class PlaylistService {
     return playlist;
   }
 
-  async findPlaylistByEmail(email) {
-    const playlist = await Playlist.findOne({ email });
-    return playlist;
-  }
-
   async createPlaylist(title, creator, urls) {
     const playlist = new Playlist({ title, creator, urls });
     try {

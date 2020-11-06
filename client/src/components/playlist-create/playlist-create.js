@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { PlaylistService } from "../../services";
+import { playlistService } from "../../services";
 
 import "./playlist-create.scss";
 
@@ -7,7 +7,10 @@ require("dotenv").config();
 
 export default function Playlist(props) {
   useEffect(() => {
-    const playlistService = new PlaylistService();
+    createPlaylist();
+  }, []);
+
+  const createPlaylist = () => {
     playlistService
       .createPlaylist("goochmember", [
         "https://img.www.youtube.com/watch?v=UToqjzbV1iA",
@@ -15,10 +18,12 @@ export default function Playlist(props) {
       ])
       .then((playlist) => {
         console.log("playlist: ", playlist);
+        // navigate to newly created playlist
       });
-    playlistService.getPlaylists().then((playlist) => {
-      console.log("playlist: ", playlist);
-    });
-  }, []);
-  return <div className="playlist-create-container"></div>;
+  };
+  return (
+    <div className="playlist-create-container">
+      {/* form for creating playlist goes here */}
+    </div>
+  );
 }
