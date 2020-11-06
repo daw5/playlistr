@@ -8,17 +8,19 @@ require("dotenv").config();
 export default function Player(props) {
   return (
     <div className="player-wrapper">
-      <ReactPlayer
-        className="react-player"
-        url={[
-          "https://www.youtube.com/watch?v=dbDRkaNO8dE",
-          "https://youtu.be/IGM1T0t7qts",
-          "https://www.youtube.com/watch?v=KOEX-8GhicU",
-        ]}
-        width="100%"
-        height="100%"
-        controls={true}
-      />
+      {props.playlist ? (
+        <ReactPlayer
+          className="react-player"
+          url={props.playlist.urls}
+          width="100%"
+          height="100%"
+          controls={true}
+        />
+      ) : (
+        <h2 style={{ color: "white", margin: "auto", textAlign: "center" }}>
+          No Playlist Selected
+        </h2>
+      )}
     </div>
   );
 }

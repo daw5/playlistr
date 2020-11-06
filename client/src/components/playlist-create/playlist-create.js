@@ -12,9 +12,9 @@ export default function Playlist(props) {
 
   const createPlaylist = () => {
     playlistService
-      .createPlaylist("goochmember", [
-        "https://img.www.youtube.com/watch?v=UToqjzbV1iA",
-        "https://www.youtube.com/watch?v=qRZmdzCGLYw",
+      .createPlaylist("greasebucket", [
+        "https://www.youtube.com/watch?v=jkfd6J0oDFg",
+        "https://www.youtube.com/watch?v=VFNR-wFvOns",
       ])
       .then((playlist) => {
         console.log("playlist: ", playlist);
