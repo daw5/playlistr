@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import CloseIcon from "@material-ui/icons/Close";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import { TextField, Button, makeStyles } from "@material-ui/core";
@@ -7,6 +7,15 @@ import "../header/header.scss";
 
 function AuthInputs(props) {
   const [authInput, setAuthInput] = useState({});
+  const emailInput = useRef(null);
+
+  const handleEnterPressed = (evt) => {
+    evt.key === "Enter" && props.loginOrRegister(authInput);
+  };
+
+  useEffect(() => {
+    emailInput && emailInput.current.focus();
+  }, [props.showRegisterInputs]);
 
   const authInputStyles = makeStyles((theme) => ({
     root: {
@@ -23,12 +32,15 @@ function AuthInputs(props) {
       className={props.showRegisterInputs ? "showRegisterInputs" : ""}
     >
       <TextField
+        autoFocus
+        inputRef={emailInput}
         value={authInput.email || ""}
         className={"authInput emailInput"}
         size="small"
         onChange={(evt) =>
           setAuthInput({ ...authInput, email: evt.target.value })
         }
+        onKeyDown={(evt) => handleEnterPressed(evt)}
         variant="outlined"
         placeholder="Email"
         InputProps={{ classes: authInputClasses }}
@@ -41,6 +53,7 @@ function AuthInputs(props) {
         onChange={(evt) =>
           setAuthInput({ ...authInput, password: evt.target.value })
         }
+        onKeyDown={(evt) => handleEnterPressed(evt)}
         variant="outlined"
         placeholder="Password"
         InputProps={{ classes: authInputClasses }}
@@ -57,6 +70,7 @@ function AuthInputs(props) {
               passwordConfirm: evt.target.value,
             })
           }
+          onKeyDown={(evt) => handleEnterPressed(evt)}
           variant="outlined"
           placeholder="Confirm Password"
           InputProps={{ classes: authInputClasses }}
