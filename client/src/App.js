@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useToggle } from "./hooks";
 import { Playlist, PlaylistCreate, Messaging, Header } from "./components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { MessagingService, UserService } from "./services";
+import { MessagingService, UserService, playlistService } from "./services";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { ThemeProvider } from "@material-ui/core";
 import { theme } from "./material-overrides/header";
@@ -10,12 +10,17 @@ import "./App.scss";
 
 export default function App() {
   const [messagingSidebarStatus, setMessagingSidebarStatus] = useToggle();
+  const [currentUser, setCurrentUser] = useState(null);
   const [users, setUsers] = useState({});
   const [socket, setSocket] = useState(null);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [recentPlaylists, setRecentPlaylists] = useState([]);
+  const [popularPlaylists, setPopularPlaylists] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  // load 1000 most popular and 1000 most recent playlists. Search bar will use these.
+  // in addition, will display most recent and most popular on home page
 
   useEffect(() => {
+    loadRecentPlaylists();
     loadUserData();
   }, []);
 
@@ -34,6 +39,12 @@ export default function App() {
     });
   };
 
+  const loadRecentPlaylists = () => {
+    playlistService.getRecentPlaylists().then((playlists) => {
+      setRecentPlaylists(playlists);
+    });
+  };
+
   return (
     <HelmetProvider>
       <div id="app">
@@ -47,6 +58,7 @@ export default function App() {
           <Header
             messagingSidebarOpen={messagingSidebarStatus}
             toggleMessagingSidebar={setMessagingSidebarStatus}
+            playlists={recentPlaylists}
             loaded={loaded}
             currentUser={currentUser}
             loadUserData={loadUserData}

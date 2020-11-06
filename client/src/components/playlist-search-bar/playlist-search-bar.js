@@ -19,18 +19,24 @@ export default function PlaylistSearchBar(props) {
         size="small"
         className="playlist-search-bar"
         options={props.playlists || []}
-        onChange={(evt, playlist) => {
-          props.setPlaylist(playlist);
+        // onChange={(evt, playlist) => {
+        //   props.setPlaylist(playlist);
+        // }}
+        getOptionLabel={(option) => option.title}
+        renderInput={(params) => {
+          console.log("params: ", params);
+          return (
+            <TextField
+              {...params}
+              InputProps={{
+                ...params.InputProps,
+                classes: playlistSearchClasses,
+              }}
+              label="Search for a playlist"
+              variant="outlined"
+            />
+          );
         }}
-        getOptionLabel={(option) => option.email}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            InputProps={{ classes: playlistSearchClasses }}
-            label="Search for a playlist"
-            variant="outlined"
-          />
-        )}
       />
     </div>
   );

@@ -8,6 +8,11 @@ export default class PlaylistService {
     return playlists;
   }
 
+  async listRecentPlaylists() {
+    const playlists = await Playlist.find().sort({ _id: -1 }).limit(1000);
+    return playlists;
+  }
+
   async findPlaylistById(_id) {
     const playlist = await Playlist.findById(_id);
     return playlist;
