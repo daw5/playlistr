@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
+import Autocomplete from "@material-ui/lab/Autocomplete";
+import TextField from "@material-ui/core/TextField";
 import { AuthService } from "../../services";
 import { AuthInputs } from "..";
 import { SideMenu } from "..";
@@ -8,7 +10,7 @@ import { Button, Typography } from "@material-ui/core";
 import "./header.scss";
 
 function Header(props) {
-  const [showLoginInputs, setShowLoginInputs] = useState(false);
+  const [showAuthInputs, setShowAuthInputs] = useState(false);
   const [showRegisterInputs, setShowRegisterInputs] = useState(false);
   const [authService, setAuthService] = useState(null);
   const [temporaryMessage, setTemporaryMessage] = useState("");
@@ -19,7 +21,7 @@ function Header(props) {
 
   const resetHeader = () => {
     setShowRegisterInputs(false);
-    setShowLoginInputs(false);
+    setShowAuthInputs(false);
   };
 
   const handleLogin = (input) => {
@@ -69,7 +71,11 @@ function Header(props) {
 
   return (
     <div id="headerContainer">
-      <div id="header" className={temporaryMessage && "animate-header"}>
+      <div
+        id="header"
+        className={`${temporaryMessage && "animate-header"}
+          ${!showAuthInputs && "signed-in-header"}`}
+      >
         {temporaryMessage && (
           <Typography className={"temporaryMessage"} variant="h5">
             {temporaryMessage}
@@ -86,11 +92,11 @@ function Header(props) {
                   />
                 ) : (
                   <div id="loginButtonContainer">
-                    {!showLoginInputs || showRegisterInputs ? (
+                    {!showAuthInputs || showRegisterInputs ? (
                       <Button
                         id="loginButton"
                         onClick={() => {
-                          setShowLoginInputs(true);
+                          setShowAuthInputs(true);
                           setShowRegisterInputs(false);
                         }}
                       >
@@ -108,12 +114,33 @@ function Header(props) {
                 )}
               </div>
             )}
-            {showLoginInputs && (
+            {showAuthInputs && (
               <AuthInputs
                 resetHeader={resetHeader}
                 loginOrRegister={loginOrRegister}
                 showRegisterInputs={showRegisterInputs}
               />
+            )}
+            {!showAuthInputs && (
+              <div className="playlist-search-bar-container">
+                <Autocomplete
+                  id="playlistAutoComplete"
+                  size="small"
+                  className="playlist-search-bar"
+                  options={props.playlists || []}
+                  onChange={(evt, playlist) => {
+                    props.setPlaylist(playlist);
+                  }}
+                  getOptionLabel={(option) => option.email}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      label="Search for a playlist"
+                      variant="outlined"
+                    />
+                  )}
+                />
+              </div>
             )}
             {props.currentUser && (
               <div id="messaging-icon-column">
@@ -121,22 +148,19 @@ function Header(props) {
                   id="messaging-icon-container"
                   onClick={props.toggleMessagingSidebar}
                 >
-                  <ChatBubbleOutlineIcon
-                    id="messaging-icon-outline"
-                    style={{
-                      fontSize: 40,
-                    }}
-                    className={
-                      props.messagingSidebarOpen ? "hidden" : "visible"
-                    }
-                  ></ChatBubbleOutlineIcon>
-                  <ChatBubbleIcon
-                    id="messaging-icon-filled"
-                    style={{ fontSize: 40 }}
-                    className={
-                      props.messagingSidebarOpen ? "visible" : "hidden"
-                    }
-                  ></ChatBubbleIcon>
+                  {!props.messagingSidebarOpen ? (
+                    <ChatBubbleOutlineIcon
+                      id="messaging-icon-outline"
+                      style={{
+                        fontSize: 40,
+                      }}
+                    ></ChatBubbleOutlineIcon>
+                  ) : (
+                    <ChatBubbleIcon
+                      id="messaging-icon-filled"
+                      style={{ fontSize: 40 }}
+                    ></ChatBubbleIcon>
+                  )}
                 </div>
               </div>
             )}

@@ -10,6 +10,25 @@
   grid-template-columns: auto auto 100px;
 }
 
+#header.signed-in-header {
+  grid-template-columns: 100px auto 100px;
+}
+
+.playlist-search-bar-container {
+  grid-column: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.playlist-search-bar {
+  height: 80%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .animate-header {
   -webkit-animation: AnimationName 5s ease infinite;
   -moz-animation: AnimationName 5s ease infinite;
@@ -119,6 +138,10 @@
     height: auto;
     grid-template-rows: auto 1fr;
     grid-template-columns: 1fr 1fr;
+  }
+
+  .playlist-search-bar-container {
+    grid-column: 1 / span 2;
   }
 
   #navButtonsContainer {
