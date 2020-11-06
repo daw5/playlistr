@@ -9,13 +9,15 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import { AuthService } from "../../services";
+import { AuthService, MessagingService } from "../../services";
 
 export default function SideMenu(props) {
   const [authService, setAuthService] = useState(null);
+  const [messagingService, setMessagingService] = useState(null);
 
   useEffect(() => {
     setAuthService(new AuthService());
+    setMessagingService(new MessagingService());
   }, []);
 
   const [state, setState] = React.useState({
@@ -35,6 +37,7 @@ export default function SideMenu(props) {
 
   const handleLogout = () => {
     authService.logout().then(() => {
+      messagingService.disconnectSocket();
       props.loadUserData();
     });
   };
