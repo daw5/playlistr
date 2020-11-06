@@ -14,6 +14,7 @@ export default function Playlist(props) {
   useEffect(() => {
     props.playlistId &&
       playlistService.getPlaylist(props.playlistId).then((playlist) => {
+        console.log("setting playlist");
         setPlaylist(playlist);
       });
   }, [props.playlistId]);

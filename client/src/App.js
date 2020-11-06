@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useToggle } from "./hooks";
 import { Playlist, PlaylistCreate, Messaging, Header } from "./components";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import { MessagingService, UserService, playlistService } from "./services";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { ThemeProvider } from "@material-ui/core";
@@ -15,6 +20,7 @@ export default function App() {
   const [socket, setSocket] = useState(null);
   const [recentPlaylists, setRecentPlaylists] = useState([]);
   const [popularPlaylists, setPopularPlaylists] = useState([]);
+  const [playlist, setPlaylist] = useState(null);
   const [loaded, setLoaded] = useState(false);
   // load 1000 most popular and 1000 most recent playlists. Search bar will use these.
   // in addition, will display most recent and most popular on home page
@@ -55,33 +61,39 @@ export default function App() {
           />
         </Helmet>
         <ThemeProvider theme={theme}>
-          <Header
-            messagingSidebarOpen={messagingSidebarStatus}
-            toggleMessagingSidebar={setMessagingSidebarStatus}
-            playlists={recentPlaylists}
-            loaded={loaded}
-            currentUser={currentUser}
-            loadUserData={loadUserData}
-          ></Header>
-          <div id="main-section-container">
-            <Router>
+          <Router>
+            <Header
+              messagingSidebarOpen={messagingSidebarStatus}
+              toggleMessagingSidebar={setMessagingSidebarStatus}
+              playlists={recentPlaylists}
+              loaded={loaded}
+              currentUser={currentUser}
+              loadUserData={loadUserData}
+              setPlaylist={setPlaylist}
+            ></Header>
+            <div id="main-section-container">
               <Switch>
-                <Route path="/playlist" render={() => <Playlist />}></Route>
+                <Route
+                  path="/playlist"
+                  render={() => (
+                    <Playlist playlistId={playlist && playlist._id} />
+                  )}
+                ></Route>
                 <Route
                   path="/playlist-create"
                   render={() => <PlaylistCreate />}
                 ></Route>
               </Switch>
-            </Router>
-            {socket && currentUser && (
-              <Messaging
-                users={users}
-                socket={socket}
-                currentUser={currentUser}
-                messagingSidebarOpen={messagingSidebarStatus}
-              />
-            )}
-          </div>
+              {socket && currentUser && (
+                <Messaging
+                  users={users}
+                  socket={socket}
+                  currentUser={currentUser}
+                  messagingSidebarOpen={messagingSidebarStatus}
+                />
+              )}
+            </div>
+          </Router>
         </ThemeProvider>
       </div>
     </HelmetProvider>

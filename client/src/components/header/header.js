@@ -117,7 +117,10 @@ function Header(props) {
               />
             )}
             {!showAuthInputs && (
-              <PlaylistSearchBar playlists={props.playlists} />
+              <PlaylistSearchBar
+                playlists={props.playlists}
+                setPlaylist={props.setPlaylist}
+              />
             )}
             {props.currentUser && (
               <div id="messaging-icon-column">
