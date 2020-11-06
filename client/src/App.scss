@@ -26,3 +26,9 @@ body,
 .visible {
   display: block !important;
 }
+
+@media only screen and (max-width: 600px) {
+  #main-section-container {
+    height: calc(100% - 100px);
+  }
+}

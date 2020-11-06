@@ -78,39 +78,37 @@ function Header(props) {
             {temporaryMessage}
           </Typography>
         )}
-        {!temporaryMessage && (
+        {!temporaryMessage && props.loaded && (
           <React.Fragment>
-            {props.loaded && (
-              <div id="navButtonsContainer">
-                {props.currentUser ? (
-                  <SideMenu
-                    id="sideMenuIconContainer"
-                    loadUserData={props.loadUserData}
-                  />
-                ) : (
-                  <div id="loginButtonContainer">
-                    {!showAuthInputs || showRegisterInputs ? (
-                      <Button
-                        id="loginButton"
-                        onClick={() => {
-                          setShowAuthInputs(true);
-                          setShowRegisterInputs(false);
-                        }}
-                      >
-                        Login
-                      </Button>
-                    ) : (
-                      <Button
-                        id="registerButton"
-                        onClick={() => setShowRegisterInputs(true)}
-                      >
-                        No Account?
-                      </Button>
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
+            <div id="navButtonsContainer">
+              {props.currentUser ? (
+                <SideMenu
+                  id="sideMenuIconContainer"
+                  loadUserData={props.loadUserData}
+                />
+              ) : (
+                <div id="loginButtonContainer">
+                  {!showAuthInputs || showRegisterInputs ? (
+                    <Button
+                      id="loginButton"
+                      onClick={() => {
+                        setShowAuthInputs(true);
+                        setShowRegisterInputs(false);
+                      }}
+                    >
+                      Login
+                    </Button>
+                  ) : (
+                    <Button
+                      id="registerButton"
+                      onClick={() => setShowRegisterInputs(true)}
+                    >
+                      No Account?
+                    </Button>
+                  )}
+                </div>
+              )}
+            </div>
             {showAuthInputs && (
               <AuthInputs
                 resetHeader={resetHeader}
