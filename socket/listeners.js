@@ -21,4 +21,11 @@ export default function (socket, clients) {
       newConversation,
     });
   });
+
+  // listener for joining room, make sure to leave old room if socket.room
+  // room can be room + playlistId
+  // payload should include room, add room to socket.room
+
+  // listener for room message
+  // emit to socket.room which should be set from when they joined room
 }

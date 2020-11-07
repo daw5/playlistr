@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useToggle } from "./hooks";
 import { Playlist, PlaylistCreate, Messaging, Header } from "./components";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { MessagingService, UserService, playlistService } from "./services";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { ThemeProvider } from "@material-ui/core";
@@ -71,7 +66,10 @@ export default function App() {
             ></Header>
             <div id="main-section-container">
               <Switch>
-                <Route path="/playlist/:id" component={Playlist}></Route>
+                <Route
+                  path="/playlist/:id"
+                  render={(props) => <Playlist {...props} socket={socket} />}
+                ></Route>
                 <Route
                   path="/playlist-create"
                   render={() => <PlaylistCreate />}
