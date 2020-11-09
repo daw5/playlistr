@@ -17,6 +17,7 @@
   margin-bottom: 10px;
   margin-left: 10px;
   margin-right: 10px;
+  color: white;
 
   p {
     margin: 0;
@@ -29,7 +30,7 @@
     white-space: nowrap;
     overflow: hidden;
     padding: 10px;
-    background-color: teal + 40;
+    // background-color: teal + 40;
     border-radius: 10px;
     color: white;
   }
@@ -38,7 +39,7 @@
     grid-column: 2;
     padding: 10px;
     box-sizing: border-box;
-    background-color: lightBlue;
+    // background-color: lightBlue;
     box-sizing: border-box;
     border-radius: 10px;
     width: fit-content;

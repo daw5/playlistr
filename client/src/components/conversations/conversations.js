@@ -1,6 +1,6 @@
 import React from "react";
 import "./conversations.scss";
-import TextField from "@material-ui/core/TextField";
+import { TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { ConversationSnippet } from "..";
 
@@ -23,7 +23,15 @@ export default function Conversations(props) {
           }}
           getOptionLabel={(option) => option.email}
           renderInput={(params) => (
-            <TextField {...params} label="User" variant="outlined" />
+            <TextField
+              {...params}
+              InputLabelProps={{
+                style: { color: "#fff" },
+              }}
+              placeholder="Search for a user"
+              label="Search for a user"
+              variant="outlined"
+            />
           )}
         />
       </div>

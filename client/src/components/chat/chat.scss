@@ -27,6 +27,7 @@
   height: 100%;
   display: grid;
   grid-template-columns: 100%;
+  background-color: black;
 
   .messagesContainer {
     overflow: scroll;
@@ -42,7 +43,7 @@
         padding: 10px;
         border-radius: 10px;
         background-color: rgba(73, 73, 196, 0.637);
-        color: black;
+        color: white;
         width: fit-content;
       }
     }
@@ -51,6 +52,7 @@
       margin-right: 10px;
 
       :first-child {
+        color: black;
         background-color: lightblue;
       }
     }
@@ -82,11 +84,11 @@
 }
 
 .chatFooter {
+  background-color: black;
   display: flex;
   justify-content: center;
   height: auto;
   z-index: 1;
-  background-color: darkgrey;
   width: 100%;
   min-height: 35px;
   padding-bottom: 4px;
