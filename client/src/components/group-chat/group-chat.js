@@ -53,6 +53,7 @@ export default function GroupChat(props) {
             onKeyDown={(evt) =>
               evt.key === "Enter" && sendMessage(evt, messageToSend)
             }
+            placeholder="Send a message"
             value={messageToSend}
             className="messageInput"
             onChange={(evt) => setMessageToSend(evt.target.value)}

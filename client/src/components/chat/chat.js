@@ -78,9 +78,13 @@ export default function Chat(props) {
             onKeyDown={(evt) =>
               evt.key === "Enter" && sendMessage(evt, messageToSend)
             }
+            placeholder="Send a message"
             value={messageToSend}
             className="messageInput"
             onChange={(evt) => setMessageToSend(evt.target.value)}
+            InputProps={{
+              style: { color: "#fff" },
+            }}
             multiline
           />
           <Button
