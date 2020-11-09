@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button";
 import { MessagingService } from "../../services";
 import "./group-chat.scss";
 import "../chat/chat.scss";
-import { Divider } from "@material-ui/core";
 
 require("dotenv").config();
 
@@ -19,12 +18,14 @@ export default function GroupChat(props) {
   }, []);
 
   useEffect(() => {
-    console.log("adding latestmessages");
+    setMessages([]);
+  }, [props.group]);
+
+  useEffect(() => {
     props.latestMessage && setMessages([props.latestMessage, ...messages]);
   }, [props.latestMessage]);
 
   const sendMessage = (evt, messageToSend) => {
-    console.log("wefwefwefwe: ", messages);
     messagingService.sendGroupMessage(
       evt,
       messageToSend,
