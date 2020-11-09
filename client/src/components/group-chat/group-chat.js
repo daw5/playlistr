@@ -8,6 +8,7 @@ require("dotenv").config();
 
 export default function GroupChat(props) {
   const [messages, setMessages] = useState([]);
+  const [messagesSent, setMessagesSent] = useState(0);
   const [messageToSend, setMessageToSend] = useState("");
   const [messagingService, setMessagingService] = useState(null);
   const endOfChat = useRef(null);
@@ -20,20 +21,32 @@ export default function GroupChat(props) {
     setMessages([]);
   }, [props.group]);
 
+  const throttleMessages = () => {
+    if (messagesSent === 0) {
+      setTimeout(() => {
+        setMessagesSent(0);
+      }, 5000);
+    }
+    setMessagesSent(messagesSent + 1);
+  };
+
   useEffect(() => {
     props.latestMessage && setMessages([props.latestMessage, ...messages]);
   }, [props.latestMessage]);
 
   const sendMessage = (evt, messageToSend) => {
-    messagingService.sendGroupMessage(
-      evt,
-      messageToSend,
-      {
-        _id: props.currentUser._id || "",
-        email: props.currentUser.email || "",
-      },
-      props.group
-    ) && setMessageToSend("");
+    if (messageToSend.length > 0 && messagesSent < 3) {
+      throttleMessages();
+      messagingService.sendGroupMessage(
+        evt,
+        messageToSend,
+        {
+          _id: props.currentUser._id || "",
+          email: props.currentUser.email || "",
+        },
+        props.group
+      ) && setMessageToSend("");
+    }
   };
 
   return (
