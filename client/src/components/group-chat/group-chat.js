@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import { MessagingService } from "../../services";
+import { makeStyles } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 import "./group-chat.scss";
 import "../chat/chat.scss";
 
@@ -37,6 +39,16 @@ export default function GroupChat(props) {
     ) && setMessageToSend("");
   };
 
+  const history = useHistory();
+
+  const groupChatFooter = makeStyles((theme) => ({
+    root: {
+      color: "white",
+    },
+  }));
+
+  const groupChatFooterClasses = groupChatFooter();
+
   return (
     <div className="group-chat">
       <div id="groupMessagesContainer" className="messages-container">
@@ -57,6 +69,9 @@ export default function GroupChat(props) {
             value={messageToSend}
             className="messageInput"
             onChange={(evt) => setMessageToSend(evt.target.value)}
+            InputProps={{
+              classes: groupChatFooterClasses,
+            }}
           />
           <Button
             className="sendMessageButton"
