@@ -3,6 +3,7 @@
   flex-direction: column;
   height: 100%;
   width: 100%;
+  overflow: auto;
 }
 
 .playlist {
@@ -26,10 +27,4 @@
 
 .back-button {
   @extend .button;
-}
-
-.group-chat-container {
-  width: 100%;
-  background-color: black;
-  color: white;
 }
