@@ -9,7 +9,6 @@ export const createPlaylist = (title, urls) =>
       urls,
     })
     .then(function (response) {
-      console.log("response: ", response);
       return response.data;
     })
     .catch(function (error) {
@@ -20,7 +19,6 @@ export const getPlaylists = () =>
   axios
     .get(`/api/playlists`)
     .then(function (response) {
-      console.log("response: ", response);
       return response.data;
     })
     .catch(function (error) {
@@ -31,7 +29,6 @@ export const getPlaylist = (playlistId) =>
   axios
     .get(`/api/playlists/${playlistId}`)
     .then(function (response) {
-      console.log("response: ", response);
       return response.data;
     })
     .catch(function (error) {
@@ -42,7 +39,6 @@ export const getRecentPlaylists = () =>
   axios
     .get(`/api/playlists/recent`)
     .then(function (response) {
-      console.log("response: ", response.data);
       return response.data;
     })
     .catch(function (error) {

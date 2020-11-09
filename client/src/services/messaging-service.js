@@ -42,13 +42,16 @@ export default class MessagingService {
 
   sendPrivateMessage = (evt, messageToSend, correspondent_id) => {
     evt.preventDefault();
-    this.sendMessage(correspondent_id, messageToSend);
+    socket.emit({ reciever_id: correspondent_id, contents: messageToSend });
     return true;
   };
 
-  sendMessage(reciever_id, contents) {
-    socket.emit("message", { reciever_id, contents });
-  }
+  sendGroupMessage = (evt, messageToSend, correspondent, group) => {
+    evt.preventDefault();
+    console.log("gettins sent");
+    socket.emit("group-message", { correspondent, messageToSend, group });
+    return true;
+  };
 
   disconnectSocket() {
     socket.close();

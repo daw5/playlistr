@@ -3,6 +3,4 @@ import UserService from "./user-service";
 import AuthService from "./auth-service";
 import * as playlistService from "./playlist-service";
 
-console.log("playlist service: ", playlistService);
-
 export { MessagingService, UserService, AuthService, playlistService };
