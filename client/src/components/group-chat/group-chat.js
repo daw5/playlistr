@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import { MessagingService } from "../../services";
 import "./group-chat.scss";
 import "../chat/chat.scss";
+import { Divider } from "@material-ui/core";
 
 require("dotenv").config();
 
@@ -18,10 +19,12 @@ export default function GroupChat(props) {
   }, []);
 
   useEffect(() => {
-    props.latestMessage && setMessages([...messages, props.latestMessage]);
+    console.log("adding latestmessages");
+    props.latestMessage && setMessages([props.latestMessage, ...messages]);
   }, [props.latestMessage]);
 
   const sendMessage = (evt, messageToSend) => {
+    console.log("wefwefwefwe: ", messages);
     messagingService.sendGroupMessage(
       evt,
       messageToSend,
@@ -35,11 +38,13 @@ export default function GroupChat(props) {
 
   return (
     <div className="group-chat">
-      <div
-        className="messagesContainer"
-        onScroll={(evt) => evt.target.scrollTop === 0 && props.getMessages()}
-      >
-        {/* display messages here */}
+      <div id="groupMessagesContainer" className="messages-container">
+        {messages.map((message, index) => (
+          <div className="message" key={`message${index}`}>
+            <p className="message-sender">{message.correspondent.email}</p>
+            <p className="group-message-content">{message.message}</p>
+          </div>
+        ))}
         <div ref={endOfChat}></div>
       </div>
       <div id="groupChatFooter">
@@ -51,7 +56,6 @@ export default function GroupChat(props) {
             value={messageToSend}
             className="messageInput"
             onChange={(evt) => setMessageToSend(evt.target.value)}
-            multiline
           />
           <Button
             className="sendMessageButton"
