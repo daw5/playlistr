@@ -14,6 +14,7 @@ export default function PlaylistSearchBar(props) {
         className="playlist-search-bar"
         options={props.playlists || []}
         onChange={(evt, playlist) => {
+          props.displayTemporaryMessage(`\u266b ${playlist.title} \u266b`);
           history.push(`/playlist/${playlist._id}`);
         }}
         getOptionLabel={(option) => option.title}

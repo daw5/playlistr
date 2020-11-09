@@ -29,7 +29,7 @@ function Header(props) {
         displayTemporaryMessage("WELCOME");
         props.loadUserData();
       } else {
-        handleAuthResponse(response);
+        displayAuthResponse(response);
       }
     });
   };
@@ -38,13 +38,13 @@ function Header(props) {
     const { email, password, passwordConfirm } = input;
     passwordConfirm === password
       ? authService.register(email, password).then((response) => {
-          handleAuthResponse(response);
+          displayAuthResponse(response);
           response.status === 200 && resetHeader();
         })
       : displayTemporaryMessage("PASSWORDS DO NOT MATCH");
   };
 
-  const handleAuthResponse = (response) => {
+  const displayAuthResponse = (response) => {
     const message = Object.values(response.data)[0].msg
       ? Object.values(response.data)[0].msg
       : response.data;
@@ -117,7 +117,10 @@ function Header(props) {
               />
             )}
             {!showAuthInputs && (
-              <PlaylistSearchBar playlists={props.playlists} />
+              <PlaylistSearchBar
+                playlists={props.playlists}
+                displayTemporaryMessage={displayTemporaryMessage}
+              />
             )}
             {props.currentUser && (
               <div id="messaging-icon-column">
