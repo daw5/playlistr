@@ -10,32 +10,44 @@ require("dotenv").config();
 export default function Playlist(props) {
   const [playlist, setPlaylist] = useState(null);
   const [latestMessage, setLatestMessage] = useState(null);
+  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const group = `group${props.match.params.id}`;
+
   useEffect(() => {
-    playlist && props.socket.emit("leave-group", `group${playlist._id}`);
+    playlist && props.socket.emit("leave-group", group);
     playlistService.getPlaylist(props.match.params.id).then((playlist) => {
       setPlaylist(playlist);
       props.socket.emit("join-group", group);
       props.socket.on("group-message", function (data) {
         setLatestMessage(data);
-        console.log("group mesage recieved: ", data);
       });
     });
   }, [props.match.params.id]);
 
-  // store currently playing playlist url in state in this component along with index
-  // when back or forward button clicked, grab new url using index and pass to player
+  const trackBack = () => {
+    currentTrackIndex - 1 >= 0 && setCurrentTrackIndex(currentTrackIndex - 1);
+  };
+
+  const trackForward = () => {
+    currentTrackIndex + 1 <= playlist.urls.length - 1 &&
+      setCurrentTrackIndex(currentTrackIndex + 1);
+  };
 
   return (
     <div className="playlist-container">
       <div className="playlist">
         <button className="back-button">
-          <ChevronLeftIcon style={{ fontSize: 45 }} />
+          <ChevronLeftIcon onClick={trackBack} style={{ fontSize: 45 }} />
         </button>
-        <Player playlist={playlist} />
+        {playlist && (
+          <Player
+            currentTrack={playlist.urls[currentTrackIndex]}
+            trackForward={trackForward}
+          />
+        )}
         <button className="forward-button">
           {" "}
-          <ChevronRightIcon style={{ fontSize: 45 }} />
+          <ChevronRightIcon onClick={trackForward} style={{ fontSize: 45 }} />
         </button>
       </div>
       <GroupChat
