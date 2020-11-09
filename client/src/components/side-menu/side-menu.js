@@ -5,16 +5,19 @@ import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
+import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { AuthService, MessagingService } from "../../services";
+import { useHistory } from "react-router-dom";
 import "./side-menu.scss";
 
 export default function SideMenu(props) {
   const [authService, setAuthService] = useState(null);
   const [messagingService, setMessagingService] = useState(null);
+  const history = useHistory();
 
   useEffect(() => {
     setAuthService(new AuthService());
@@ -50,6 +53,17 @@ export default function SideMenu(props) {
       onKeyDown={toggleSideMenu(anchor, false)}
     >
       <List>
+        <ListItem
+          onClick={() => history.push(`/playlist-create`)}
+          button
+          key={"newPlaylist"}
+        >
+          <ListItemIcon>
+            <AddCircleOutlineIcon />
+            {/* when this is clicked, navigate to create playlist using history */}
+          </ListItemIcon>
+          <ListItemText primary={"New Playlist"} />
+        </ListItem>
         <ListItem onClick={handleLogout} button key={"logout"}>
           <ListItemIcon>
             <ExitToAppIcon />
