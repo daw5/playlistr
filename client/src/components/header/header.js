@@ -2,13 +2,12 @@ import React, { useEffect, useState } from "react";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import { AuthService } from "../../services";
-import { AuthInputs } from "..";
-import { SideMenu } from "..";
+import { AuthInputs, PlaylistSearchBar, SideMenu } from "..";
 import { Button, Typography } from "@material-ui/core";
 import "./header.scss";
 
 function Header(props) {
-  const [showLoginInputs, setShowLoginInputs] = useState(false);
+  const [showAuthInputs, setShowAuthInputs] = useState(false);
   const [showRegisterInputs, setShowRegisterInputs] = useState(false);
   const [authService, setAuthService] = useState(null);
   const [temporaryMessage, setTemporaryMessage] = useState("");
@@ -19,7 +18,7 @@ function Header(props) {
 
   const resetHeader = () => {
     setShowRegisterInputs(false);
-    setShowLoginInputs(false);
+    setShowAuthInputs(false);
   };
 
   const handleLogin = (input) => {
@@ -30,7 +29,7 @@ function Header(props) {
         displayTemporaryMessage("WELCOME");
         props.loadUserData();
       } else {
-        handleAuthResponse(response);
+        displayAuthResponse(response);
       }
     });
   };
@@ -39,13 +38,13 @@ function Header(props) {
     const { email, password, passwordConfirm } = input;
     passwordConfirm === password
       ? authService.register(email, password).then((response) => {
-          handleAuthResponse(response);
+          displayAuthResponse(response);
           response.status === 200 && resetHeader();
         })
       : displayTemporaryMessage("PASSWORDS DO NOT MATCH");
   };
 
-  const handleAuthResponse = (response) => {
+  const displayAuthResponse = (response) => {
     const message = Object.values(response.data)[0].msg
       ? Object.values(response.data)[0].msg
       : response.data;
@@ -69,70 +68,83 @@ function Header(props) {
 
   return (
     <div id="headerContainer">
-      <div id="header" className={temporaryMessage && "animate-header"}>
+      <div
+        id="header"
+        className={`${temporaryMessage && "animate-header"}
+          ${!showAuthInputs && "signed-in-header"}`}
+      >
         {temporaryMessage && (
           <Typography className={"temporaryMessage"} variant="h5">
             {temporaryMessage}
           </Typography>
         )}
-        {props.loaded && !temporaryMessage && (
-          <div id="navButtonsContainer">
-            {props.currentUser ? (
-              <SideMenu
-                id="sideMenuIconContainer"
-                loadUserData={props.loadUserData}
+        {!temporaryMessage && props.loaded && (
+          <React.Fragment>
+            <div id="navButtonsContainer">
+              {props.currentUser ? (
+                <SideMenu
+                  id="sideMenuIconContainer"
+                  loadUserData={props.loadUserData}
+                />
+              ) : (
+                <div id="loginButtonContainer">
+                  {!showAuthInputs || showRegisterInputs ? (
+                    <Button
+                      id="loginButton"
+                      onClick={() => {
+                        setShowAuthInputs(true);
+                        setShowRegisterInputs(false);
+                      }}
+                    >
+                      Login
+                    </Button>
+                  ) : (
+                    <Button
+                      id="registerButton"
+                      onClick={() => setShowRegisterInputs(true)}
+                    >
+                      No Account?
+                    </Button>
+                  )}
+                </div>
+              )}
+            </div>
+            {showAuthInputs && (
+              <AuthInputs
+                resetHeader={resetHeader}
+                loginOrRegister={loginOrRegister}
+                showRegisterInputs={showRegisterInputs}
               />
-            ) : (
-              <div id="loginButtonContainer">
-                {!showLoginInputs || showRegisterInputs ? (
-                  <Button
-                    id="loginButton"
-                    onClick={() => {
-                      setShowLoginInputs(true);
-                      setShowRegisterInputs(false);
-                    }}
-                  >
-                    Login
-                  </Button>
-                ) : (
-                  <Button
-                    id="registerButton"
-                    onClick={() => setShowRegisterInputs(true)}
-                  >
-                    No Account?
-                  </Button>
-                )}
+            )}
+            {!showAuthInputs && (
+              <PlaylistSearchBar
+                playlists={props.playlists}
+                displayTemporaryMessage={displayTemporaryMessage}
+              />
+            )}
+            {props.currentUser && (
+              <div id="messaging-icon-column">
+                <div
+                  id="messaging-icon-container"
+                  onClick={props.toggleMessagingSidebar}
+                >
+                  {!props.messagingSidebarOpen ? (
+                    <ChatBubbleOutlineIcon
+                      id="messaging-icon-outline"
+                      style={{
+                        fontSize: 40,
+                      }}
+                    ></ChatBubbleOutlineIcon>
+                  ) : (
+                    <ChatBubbleIcon
+                      id="messaging-icon-filled"
+                      style={{ fontSize: 40 }}
+                    ></ChatBubbleIcon>
+                  )}
+                </div>
               </div>
             )}
-          </div>
-        )}
-        {showLoginInputs && !temporaryMessage && (
-          <AuthInputs
-            resetHeader={resetHeader}
-            loginOrRegister={loginOrRegister}
-            showRegisterInputs={showRegisterInputs}
-          />
-        )}
-        {props.currentUser && !temporaryMessage && (
-          <div id="messaging-icon-column">
-            <div
-              id="messaging-icon-container"
-              onClick={props.toggleMessagingSidebar}
-            >
-              <ChatBubbleOutlineIcon
-                id="messaging-icon-outline"
-                style={{
-                  fontSize: 40,
-                }}
-                className={props.messagingSidebarOpen ? "hidden" : "visible"}
-              ></ChatBubbleOutlineIcon>
-              <ChatBubbleIcon
-                id="messaging-icon-filled"
-                style={{ fontSize: 40 }}
-                className={props.messagingSidebarOpen ? "visible" : "hidden"}
-              ></ChatBubbleIcon>
-            </div>
-          </div>
+          </React.Fragment>
         )}
       </div>
     </div>

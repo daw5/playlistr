@@ -1,5 +1,6 @@
 #header {
   min-height: 60px;
+  height: 60px;
   background: linear-gradient(298deg, #33c19c, #4184aa, #31a85b, #9b3597);
   background-size: 800% 800%;
 
@@ -7,6 +8,25 @@
 
   display: grid;
   grid-template-columns: auto auto 100px;
+}
+
+#header.signed-in-header {
+  grid-template-columns: 100px auto 100px;
+}
+
+.playlist-search-bar-container {
+  grid-column: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.playlist-search-bar {
+  height: 80%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .animate-header {
@@ -118,6 +138,14 @@
     height: auto;
     grid-template-rows: auto 1fr;
     grid-template-columns: 1fr 1fr;
+    min-height: 100px;
+  }
+
+  .playlist-search-bar-container {
+    width: 98%;
+    margin: auto;
+    grid-column: 1 / span 4;
+    padding-bottom: 5px;
   }
 
   #navButtonsContainer {
@@ -142,7 +170,7 @@
   #messaging-icon-column {
     grid-row: 1;
     grid-column: 4;
-    align-self: end;
+    justify-content: flex-end;
 
     #messaging-icon-container {
       padding: 6px 8px;

@@ -1,19 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useToggle } from "./hooks";
-import { Login, Messaging, Header } from "./components";
+import { Playlist, PlaylistCreate, Messaging, Header } from "./components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { MessagingService, UserService } from "./services";
+import { MessagingService, UserService, playlistService } from "./services";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { ThemeProvider } from "@material-ui/core";
+import { theme } from "./material-overrides/header";
 import "./App.scss";
 
 export default function App() {
   const [messagingSidebarStatus, setMessagingSidebarStatus] = useToggle();
+  const [currentUser, setCurrentUser] = useState(null);
   const [users, setUsers] = useState({});
   const [socket, setSocket] = useState(null);
-  const [currentUser, setCurrentUser] = useState(null);
+  const [recentPlaylists, setRecentPlaylists] = useState([]);
+  const [popularPlaylists, setPopularPlaylists] = useState([]);
   const [loaded, setLoaded] = useState(false);
+  // load 1000 most popular and 1000 most recent playlists. Search bar will use these.
+  // in addition, will display most recent and most popular on home page
 
   useEffect(() => {
+    loadRecentPlaylists();
     loadUserData();
   }, []);
 
@@ -32,6 +39,12 @@ export default function App() {
     });
   };
 
+  const loadRecentPlaylists = () => {
+    playlistService.getRecentPlaylists().then((playlists) => {
+      setRecentPlaylists(playlists);
+    });
+  };
+
   return (
     <HelmetProvider>
       <div id="app">
@@ -41,30 +54,46 @@ export default function App() {
             content="minimum-scale=1, initial-scale=1, width=device-width"
           />
         </Helmet>
-        <Header
-          messagingSidebarOpen={messagingSidebarStatus}
-          toggleMessagingSidebar={setMessagingSidebarStatus}
-          loaded={loaded}
-          currentUser={currentUser}
-          loadUserData={loadUserData}
-        ></Header>
-        <div id="main-section-container">
+        <ThemeProvider theme={theme}>
           <Router>
-            <Switch>
-              <Route path="/">
-                <Login />
-              </Route>
-            </Switch>
-          </Router>
-          {socket && currentUser && (
-            <Messaging
-              users={users}
-              socket={socket}
-              currentUser={currentUser}
+            <Header
               messagingSidebarOpen={messagingSidebarStatus}
-            />
-          )}
-        </div>
+              toggleMessagingSidebar={setMessagingSidebarStatus}
+              playlists={recentPlaylists}
+              loaded={loaded}
+              currentUser={currentUser}
+              loadUserData={loadUserData}
+            ></Header>
+            <div id="main-section-container">
+              <Switch>
+                <Route
+                  path="/playlist/:id"
+                  render={(props) =>
+                    socket && (
+                      <Playlist
+                        {...props}
+                        currentUser={currentUser}
+                        socket={socket}
+                      />
+                    )
+                  }
+                ></Route>
+                <Route
+                  path="/playlist-create"
+                  render={() => <PlaylistCreate />}
+                ></Route>
+              </Switch>
+              {socket && currentUser && (
+                <Messaging
+                  users={users}
+                  socket={socket}
+                  currentUser={currentUser}
+                  messagingSidebarOpen={messagingSidebarStatus}
+                />
+              )}
+            </div>
+          </Router>
+        </ThemeProvider>
       </div>
     </HelmetProvider>
   );

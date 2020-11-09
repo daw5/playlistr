@@ -1,10 +1,11 @@
 import io from "socket.io-client";
 
 const axios = require("axios");
-const socket = io.connect("http://localhost:4001");
+let socket = io.connect("http://localhost:4001");
 
 export default class MessagingService {
   authenticateSocket() {
+    socket = io.connect("http://localhost:4001");
     socket.on("connect", function () {
       socket
         .emit("authenticate")
@@ -41,12 +42,23 @@ export default class MessagingService {
 
   sendPrivateMessage = (evt, messageToSend, correspondent_id) => {
     evt.preventDefault();
-    this.sendMessage(correspondent_id, messageToSend);
+    socket.emit("message", {
+      reciever_id: correspondent_id,
+      contents: messageToSend,
+    });
     return true;
   };
 
-  sendMessage(reciever_id, contents) {
-    socket.emit("message", { reciever_id, contents });
+  sendGroupMessage = (evt, messageToSend, correspondent, group) => {
+    evt.preventDefault();
+    console.log("gettins sent");
+    socket.emit("group-message", { correspondent, messageToSend, group });
+    return true;
+  };
+
+  disconnectSocket() {
+    socket.close();
+    socket = null;
   }
 
   getUsersRelevantToConversation(users, conversation) {

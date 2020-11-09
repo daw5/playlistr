@@ -1,0 +1,30 @@
+.playlist-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+.playlist {
+  width: 100%;
+  background-color: black;
+  display: grid;
+  grid-template-columns: 60px auto 60px;
+}
+
+.button {
+  width: 100%;
+  padding: 0;
+  color: white;
+  background-color: black;
+  border: none;
+}
+
+.forward-button {
+  @extend .button;
+}
+
+.back-button {
+  @extend .button;
+}

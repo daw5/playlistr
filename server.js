@@ -4,6 +4,7 @@ import {
   authController,
   mailingController,
   userController,
+  playlistController,
 } from "./controller";
 import bodyParser from "body-parser";
 import passport from "passport";
@@ -30,9 +31,26 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use("/api/auth", authController);
 app.use("/users", userController);
+app.use("/api/playlists", playlistController);
 app.use("/mailing", mailingController);
 io.use(socketCookieParser());
+io.on("connect", function (socket) {
+  socket.on("join-group", async function (group, previousGroup) {
+    previousGroup && socket.leave(previousGroup);
+    socket.join(group);
+  });
 
+  socket.on("leave-group", function (group) {
+    socket.leave(group);
+  });
+
+  socket.on("group-message", async function (data) {
+    io.in(data.group).emit("group-message", {
+      correspondent: data.correspondent,
+      message: data.messageToSend,
+    });
+  });
+});
 io.sockets
   .on(
     "connection",
@@ -49,7 +67,6 @@ io.sockets
     socket.on("disconnect", (reason) => {
       console.log("client disconnected: ", reason);
       delete clients[socket.decoded_token._id];
-      // console.log("clients: ", clients.length);
     });
   });
 

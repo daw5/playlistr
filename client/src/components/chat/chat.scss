@@ -27,8 +27,9 @@
   height: 100%;
   display: grid;
   grid-template-columns: 100%;
+  background-color: black;
 
-  #personalMessagesContainer {
+  .messagesContainer {
     overflow: scroll;
     word-break: break-all;
     .message-container {
@@ -42,7 +43,7 @@
         padding: 10px;
         border-radius: 10px;
         background-color: rgba(73, 73, 196, 0.637);
-        color: black;
+        color: white;
         width: fit-content;
       }
     }
@@ -51,6 +52,7 @@
       margin-right: 10px;
 
       :first-child {
+        color: black;
         background-color: lightblue;
       }
     }
@@ -61,34 +63,35 @@
       margin-left: 10px;
     }
   }
+}
 
-  #chatFooter {
-    display: flex;
-    justify-content: center;
-    height: auto;
-    z-index: 1;
-    background-color: darkgrey;
-    width: 100%;
-    min-height: 35px;
-    padding-bottom: 10px;
-    padding-top: 10px;
+.inputContainer {
+  display: grid;
+  width: 100%;
+  padding-right: 10px;
+  padding-left: 10px;
+  grid-template-columns: auto 70px;
+  grid-column-gap: 10px;
 
-    #inputContainer {
-      display: grid;
-      width: 100%;
-      padding-right: 10px;
-      padding-left: 10px;
-      grid-template-columns: auto 70px;
-      grid-column-gap: 5%;
-
-      #messageInput {
-        width: auto !important;
-      }
-
-      #sendMessageButton {
-        background-color: teal;
-        color: white;
-      }
-    }
+  .messageInput {
+    width: auto !important;
   }
+
+  .sendMessageButton {
+    border: 1px solid white;
+    background-color: black !important;
+    color: white;
+  }
+}
+
+.chatFooter {
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  height: auto;
+  z-index: 1;
+  width: 100%;
+  min-height: 35px;
+  padding-bottom: 4px;
+  padding-top: 10px;
 }

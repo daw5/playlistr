@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import "./chat.scss";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
 import { MessagingService } from "../../services";
+import "./chat.scss";
 
 require("dotenv").config();
 
@@ -66,25 +66,29 @@ export default function Chat(props) {
         <h2 id="chatHeader">{props.correspondent.email}</h2>
       </div>
       <div
-        id="personalMessagesContainer"
+        className="messagesContainer"
         onScroll={(evt) => evt.target.scrollTop === 0 && props.getMessages()}
       >
         {displayMessages()}
         <div ref={endOfChat}></div>
       </div>
-      <div id="chatFooter">
-        <div id="inputContainer">
+      <div className="chatFooter">
+        <div className="inputContainer">
           <TextField
             onKeyDown={(evt) =>
               evt.key === "Enter" && sendMessage(evt, messageToSend)
             }
+            placeholder="Send a message"
             value={messageToSend}
-            id="messageInput"
+            className="messageInput"
             onChange={(evt) => setMessageToSend(evt.target.value)}
+            InputProps={{
+              style: { color: "#fff" },
+            }}
             multiline
           />
           <Button
-            id="sendMessageButton"
+            className="sendMessageButton"
             onClick={(evt) => sendMessage(evt, messageToSend)}
             variant="contained"
           >
