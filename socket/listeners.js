@@ -21,17 +21,4 @@ export default function (socket, clients) {
       newConversation,
     });
   });
-
-  // socket.on("joinGroup", async function (group) {
-  //   socket.room
-  // });
-
-  socket.on("groupMessage", async function (data) {});
-
-  // listener for joining room, make sure to leave old room if socket.room
-  // room can be room + playlistId
-  // payload should include room, add room to socket.room
-
-  // listener for room message
-  // emit to socket.room which should be set from when they joined room
 }

@@ -42,7 +42,10 @@ export default class MessagingService {
 
   sendPrivateMessage = (evt, messageToSend, correspondent_id) => {
     evt.preventDefault();
-    socket.emit({ reciever_id: correspondent_id, contents: messageToSend });
+    socket.emit("message", {
+      reciever_id: correspondent_id,
+      contents: messageToSend,
+    });
     return true;
   };
 
