@@ -75,7 +75,7 @@ export default function GroupChat(props) {
             }}
           />
           <Button
-            className="sendMessageButton"
+            className="standardSubmitButton"
             onClick={(evt) => sendMessage(evt, messageToSend)}
             variant="contained"
           >

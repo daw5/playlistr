@@ -2,3 +2,9 @@
   width: 100%;
   background-color: black;
 }
+
+#playlistCreateInputContainer {
+  margin-top: 10px;
+  width: auto;
+  grid-template-columns: auto 120px;
+}

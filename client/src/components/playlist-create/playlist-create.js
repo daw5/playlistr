@@ -27,7 +27,7 @@ export default function Playlist(props) {
 
   return (
     <div className="playlist-create-container">
-      <div className="inputContainer">
+      <div id="playlistCreateInputContainer" className="inputContainer">
         <TextField
           onKeyDown={(evt) => evt.key === "Enter" && addTrack(evt)}
           placeholder="Paste link to media here"
@@ -39,11 +39,11 @@ export default function Playlist(props) {
           }}
         />
         <Button
-          className="sendMessageButton"
+          className="standardSubmitButton"
           onClick={(evt) => addTrack(evt)}
           variant="contained"
         >
-          Send
+          Add Track
         </Button>
       </div>
       <SortableGrid tracks={tracks} setTracks={setTracks} />

@@ -1,7 +1,5 @@
-import React, { Component } from "react";
+import React from "react";
 import { sortableContainer, sortableElement } from "react-sortable-hoc";
-import ReactPlayer from "react-player";
-import { thumbnailService } from "../../services";
 import arrayMove from "array-move";
 import "./sortable-grid.scss";
 import "../player/player.scss";
