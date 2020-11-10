@@ -22,7 +22,6 @@ export default function Playlist(props) {
 
   const addTrack = async () => {
     const thumbnailUrl = await thumbnailService.getThumbnailURL(trackToAdd);
-    console.log("thumbnail url: ", thumbnailUrl);
     setTrackToAdd("");
     setTracks([...tracks, { url: trackToAdd, thumbnailUrl }]);
   };

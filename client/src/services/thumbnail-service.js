@@ -1,15 +1,15 @@
 import { parse } from "url";
 const axios = require("axios");
 
-//extract id from url path
 const RE_VIMEO = /^(?:\/video|\/channels\/[\w-]+|\/groups\/[\w-]+\/videos)?\/(\d+)$/;
 const RE_YOUTUBE = /^(?:\/embed)?\/([\w-]{10,12})$/;
-const RE_FACEBOOK = /^\/[\w-]+\/videos\/(\d+)(\/)?$/;
 
 export const getThumbnailURL = (url) => {
   url = url || "";
 
   const urlobj = parse(url, true);
+
+  // TODO support thumbnails for more video hosting sites
 
   //youtube
   if (
@@ -51,24 +51,5 @@ export const getThumbnailURL = (url) => {
     }
   }
 
-  //facebook
-  if (["facebook.com", "www.facebook.com"].indexOf(urlobj.host) !== -1) {
-    const match = RE_FACEBOOK.exec(urlobj.pathname);
-
-    if (match) {
-      const video_id = match[1];
-      return axios
-        .get(`https://graph.facebook.com/${video_id}`)
-        .then((res) => {
-          console.log("response: ", res);
-          if (res) {
-            return res.picture;
-          }
-        })
-        .catch(function () {
-          return false;
-        });
-    }
-  }
   return null;
 };
