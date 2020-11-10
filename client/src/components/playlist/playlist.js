@@ -29,7 +29,7 @@ export default function Playlist(props) {
   };
 
   const trackForward = () => {
-    currentTrackIndex + 1 <= playlist.urls.length - 1 &&
+    currentTrackIndex + 1 <= playlist.tracks.length - 1 &&
       setCurrentTrackIndex(currentTrackIndex + 1);
   };
 
@@ -41,7 +41,7 @@ export default function Playlist(props) {
         </button>
         {playlist && (
           <Player
-            currentTrack={playlist.urls[currentTrackIndex]}
+            currentTrack={playlist.tracks[currentTrackIndex].url}
             trackForward={trackForward}
           />
         )}

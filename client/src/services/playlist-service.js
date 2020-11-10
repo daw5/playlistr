@@ -2,11 +2,11 @@ require("dotenv").config();
 
 const axios = require("axios");
 
-export const createPlaylist = (title, urls) =>
+export const createPlaylist = (title, tracks) =>
   axios
     .post(`/api/playlists`, {
       title,
-      urls,
+      tracks,
     })
     .then(function (response) {
       return response.data;

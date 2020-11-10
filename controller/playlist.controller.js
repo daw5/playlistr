@@ -40,7 +40,7 @@ playlistController.post(
       const playlist = await playlistService.createPlaylist(
         req.body.title,
         req.user._id,
-        req.body.urls
+        req.body.tracks
       );
       res.status(playlist.status).send(playlist.result);
     } catch (error) {

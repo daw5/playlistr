@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import { playlistService, thumbnailService } from "../../services";
 import { Button, TextField } from "@material-ui/core";
 import { SortableGrid } from "..";
@@ -10,13 +11,13 @@ require("dotenv").config();
 export default function Playlist(props) {
   const [tracks, setTracks] = useState([]);
   const [title, setTitle] = useState(null);
-  const [trackToAdd, setTrackToAdd] = useState("");
+  const [trackToAdd, setTrackToAdd] = useState(null);
+  const history = useHistory();
 
   const createPlaylist = (evt) => {
     evt.preventDefault();
     playlistService.createPlaylist(title, tracks).then((playlist) => {
-      console.log("playlist: ", playlist);
-      // navigate to newly created playlist
+      playlist && history.push(`/playlist/${playlist._id}`);
     });
   };
 
@@ -34,7 +35,7 @@ export default function Playlist(props) {
           <TextField
             onKeyDown={(evt) => evt.key === "Enter" && addTrack(evt)}
             placeholder="Paste link to media here"
-            value={trackToAdd}
+            value={trackToAdd || ""}
             className="message-input"
             onChange={(evt) => setTrackToAdd(evt.target.value)}
             autoFocus
@@ -54,7 +55,7 @@ export default function Playlist(props) {
           <TextField
             onKeyDown={(evt) => evt.key === "Enter" && createPlaylist(evt)}
             placeholder="Enter your playlist title here"
-            value={trackToAdd}
+            value={title || ""}
             className="message-input"
             onChange={(evt) => setTitle(evt.target.value)}
             InputProps={{
