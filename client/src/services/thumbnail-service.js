@@ -40,12 +40,10 @@ export const getThumbnailURL = (url) => {
     const match = RE_VIMEO.exec(urlobj.pathname);
     if (match) {
       const video_id = match[1];
-      axios
+      return axios
         .get(`https://vimeo.com/api/v2/video/${video_id}.json`)
-        .then((data) => {
-          if (data) {
-            return data[0].thumbnail_large;
-          }
+        .then((res) => {
+          return res.data[0].thumbnail_large;
         })
         .catch(function () {
           return false;
@@ -59,11 +57,12 @@ export const getThumbnailURL = (url) => {
 
     if (match) {
       const video_id = match[1];
-      axios
+      return axios
         .get(`https://graph.facebook.com/${video_id}`)
-        .then((data) => {
-          if (data) {
-            return data.picture;
+        .then((res) => {
+          console.log("response: ", res);
+          if (res) {
+            return res.picture;
           }
         })
         .catch(function () {

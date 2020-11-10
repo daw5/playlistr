@@ -20,8 +20,10 @@ export default function Playlist(props) {
   //     });
   // };
 
-  const addTrack = () => {
-    const thumbnailUrl = thumbnailService.getThumbnailURL(trackToAdd);
+  const addTrack = async () => {
+    const thumbnailUrl = await thumbnailService.getThumbnailURL(trackToAdd);
+    console.log("thumbnail url: ", thumbnailUrl);
+    setTrackToAdd("");
     setTracks([...tracks, { url: trackToAdd, thumbnailUrl }]);
   };
 
@@ -34,6 +36,7 @@ export default function Playlist(props) {
           value={trackToAdd}
           className="messageInput"
           onChange={(evt) => setTrackToAdd(evt.target.value)}
+          autoFocus
           InputProps={{
             style: { color: "#fff" },
           }}
