@@ -1,7 +1,7 @@
 .sortable-container {
   display: grid;
   grid-column-gap: 20px;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   width: 100%;
   padding: 10px;
 }
@@ -9,16 +9,6 @@
 .sortable-item {
   color: white;
   border: 1px solid white;
-  justify-content: center;
+  width: 100%;
   border-radius: 10px;
-}
-
-.react-player {
-  position: absolute;
-  top: 0;
-  left: 0;
-
-  iframe {
-    border-radius: 10px;
-  }
 }
