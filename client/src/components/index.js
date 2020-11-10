@@ -8,6 +8,7 @@ import SideMenu from "./side-menu/side-menu";
 import Playlist from "./playlist/playlist";
 import Player from "./player/player";
 import PlaylistCreate from "./playlist-create/playlist-create";
+import SortableGrid from "./sortable-grid/sortable-grid";
 import GroupChat from "./group-chat/group-chat";
 import Chat from "./chat/chat";
 
@@ -21,7 +22,8 @@ export {
   ConversationSnippet,
   Playlist,
   Player,
-  GroupChat,
   PlaylistCreate,
+  SortableGrid,
+  GroupChat,
   Chat,
 };

@@ -1,12 +1,19 @@
 import React, { useState, useRef, useEffect } from "react";
 import { playlistService } from "../../services";
+import { SortableGrid } from "..";
 
 import "./playlist-create.scss";
 
 require("dotenv").config();
 
 export default function Playlist(props) {
-  const [playlist, setPlaylist] = useState({ title: "", urls: [] });
+  const [playlist, setPlaylist] = useState({
+    title: "",
+    urls: [
+      "https://www.youtube.com/watch?v=q187sD7l3BM",
+      "https://www.youtube.com/watch?v=Ozw-IpWalJs",
+    ],
+  });
   useEffect(() => {
     createPlaylist();
   }, []);
@@ -22,7 +29,7 @@ export default function Playlist(props) {
   return (
     <div className="playlist-create-container">
       <p>I am playlist create</p>
-      {/* form for creating playlist goes here */}
+      <SortableGrid items={playlist.urls} />
     </div>
   );
 }
