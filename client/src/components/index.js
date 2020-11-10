@@ -9,6 +9,7 @@ import Playlist from "./playlist/playlist";
 import Player from "./player/player";
 import PlaylistCreate from "./playlist-create/playlist-create";
 import SortableGrid from "./sortable-grid/sortable-grid";
+import TrackThumbnail from "./track-thumbnail/track-thumbnail";
 import GroupChat from "./group-chat/group-chat";
 import Chat from "./chat/chat";
 
@@ -24,6 +25,7 @@ export {
   Player,
   PlaylistCreate,
   SortableGrid,
+  TrackThumbnail,
   GroupChat,
   Chat,
 };

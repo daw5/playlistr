@@ -4,11 +4,7 @@
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   width: 100%;
   padding: 10px;
-}
-
-.sortable-item {
-  color: white;
-  border: 1px solid white;
-  width: 100%;
-  border-radius: 10px;
+  top: 0;
+  left: 0;
+  z-index: 2;
 }

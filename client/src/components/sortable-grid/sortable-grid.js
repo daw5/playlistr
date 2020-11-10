@@ -1,11 +1,12 @@
 import React from "react";
 import { sortableContainer, sortableElement } from "react-sortable-hoc";
 import arrayMove from "array-move";
+import { TrackThumbnail } from "../../components";
 import "./sortable-grid.scss";
 import "../player/player.scss";
 
-const SortableItem = sortableElement(({ value }) => (
-  <img src={value.thumbnailUrl} className="sortable-item" />
+const SortableItem = sortableElement(({ track }) => (
+  <TrackThumbnail thumbnailUrl={track.thumbnailUrl} className="sortable-item" />
 ));
 
 const SortableContainer = sortableContainer(({ children }) => {
@@ -20,8 +21,8 @@ export default function SortableGrid(props) {
 
   return (
     <SortableContainer axis="xy" onSortEnd={onSortEnd}>
-      {props.tracks.map((value, index) => (
-        <SortableItem key={`item-${index}`} index={index} value={value} />
+      {props.tracks.map((track, index) => (
+        <SortableItem key={`item-${index}`} index={index} track={track} />
       ))}
     </SortableContainer>
   );
