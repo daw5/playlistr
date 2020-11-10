@@ -3,8 +3,13 @@
   background-color: black;
 }
 
-#playlistCreateInputContainer {
+div.playlist-create-input-container {
   margin-top: 10px;
   width: auto;
   grid-template-columns: auto 120px;
+}
+
+.playlist-create-inputs-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }

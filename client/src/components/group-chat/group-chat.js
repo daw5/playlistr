@@ -61,21 +61,21 @@ export default function GroupChat(props) {
         <div ref={endOfChat}></div>
       </div>
       <div id="groupChatFooter">
-        <div className="inputContainer">
+        <div className="input-container">
           <TextField
             onKeyDown={(evt) =>
               evt.key === "Enter" && sendMessage(evt, messageToSend)
             }
             placeholder="Send a message"
             value={messageToSend}
-            className="messageInput"
+            className="message-input"
             onChange={(evt) => setMessageToSend(evt.target.value)}
             InputProps={{
               style: { color: "#fff" },
             }}
           />
           <Button
-            className="standardSubmitButton"
+            className="standard-submit-button"
             onClick={(evt) => sendMessage(evt, messageToSend)}
             variant="contained"
           >

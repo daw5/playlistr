@@ -65,7 +65,7 @@
   }
 }
 
-.inputContainer {
+.input-container {
   display: grid;
   width: 100%;
   padding-right: 10px;
@@ -73,11 +73,11 @@
   grid-template-columns: auto 70px;
   grid-column-gap: 10px;
 
-  .messageInput {
+  .message-input {
     width: auto !important;
   }
 
-  .standardSubmitButton {
+  .standard-submit-button {
     border: 1px solid white;
     background-color: black !important;
     color: white;
