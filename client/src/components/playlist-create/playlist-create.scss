@@ -12,4 +12,11 @@ div.playlist-create-input-container {
 .playlist-create-inputs-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+  .playlist-create-inputs-container {
+    grid-template-columns: 1fr;
+  }
 }

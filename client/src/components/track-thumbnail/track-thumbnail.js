@@ -19,14 +19,21 @@ export default function TrackThumbnail(props) {
       />
       {hovered && (
         <Button
+          className="track-remove-button"
           variant="contained"
           color="secondary"
-          className="track-remove-button"
           startIcon={<DeleteIcon />}
         >
           Delete
         </Button>
       )}
+      <Button
+        variant="contained"
+        color="secondary"
+        className="track-remove-button-mobile"
+      >
+        Delete
+      </Button>
     </div>
   );
 }

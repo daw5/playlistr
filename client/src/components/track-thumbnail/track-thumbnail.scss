@@ -12,6 +12,7 @@ Button.track-remove-button {
   width: 100%;
   border-radius: 10px;
   position: relative;
+  display: flex;
 }
 
 .track-preview {
@@ -21,4 +22,21 @@ Button.track-remove-button {
 
 .low-opacity {
   opacity: 30%;
+}
+
+Button.track-remove-button-mobile {
+  display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  Button.track-remove-button-mobile {
+    position: absolute;
+    bottom: 0;
+    display: block;
+    width: 100%;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+  }
 }
