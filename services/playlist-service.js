@@ -9,7 +9,7 @@ export default class PlaylistService {
   }
 
   async findPlaylistsByUser(user_id) {
-    const playlists = await playlist.find({ creator: user_id });
+    const playlists = await Playlist.find({ creator: user_id });
     return playlists;
   }
 

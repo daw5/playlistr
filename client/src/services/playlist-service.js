@@ -23,7 +23,17 @@ export const getPlaylists = () =>
       return response.data;
     })
     .catch(function (error) {
-      return error.response;
+      return error.response.data;
+    });
+
+export const getUserPlaylists = () =>
+  axios
+    .get(`/api/users/current/playlists`)
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      return error.response.data;
     });
 
 export const getPlaylist = (playlistId) =>
@@ -33,7 +43,7 @@ export const getPlaylist = (playlistId) =>
       return response.data;
     })
     .catch(function (error) {
-      return error.response;
+      return error.response.data;
     });
 
 export const getRecentPlaylists = () =>
@@ -43,5 +53,5 @@ export const getRecentPlaylists = () =>
       return response.data;
     })
     .catch(function (error) {
-      return error.response;
+      return error.response.data;
     });
