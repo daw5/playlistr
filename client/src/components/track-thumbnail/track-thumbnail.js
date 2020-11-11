@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import DefaultThumbnail from "../../assets/cassette.gif";
 import "./track-thumbnail.scss";
 
 export default function TrackThumbnail(props) {
@@ -12,7 +13,7 @@ export default function TrackThumbnail(props) {
     >
       {/* thumbnail */}
       <img
-        src={props.thumbnailUrl}
+        src={props.thumbnailUrl ? props.thumbnailUrl : DefaultThumbnail}
         className={`track-preview 
           ${hovered && "low-opacity"}`}
       />

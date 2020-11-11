@@ -12,6 +12,11 @@ button.track-remove-button {
   cursor: pointer;
 }
 
+button.track-remove-button-mobile {
+  @extend button.track-remove-button;
+  display: none;
+}
+
 .sortable-item {
   color: white;
   border: 1px solid white;
@@ -28,11 +33,6 @@ button.track-remove-button {
 
 .low-opacity {
   opacity: 30%;
-}
-
-button.track-remove-button-mobile {
-  @extend button.track-remove-button;
-  display: none;
 }
 
 @media only screen and (max-width: 600px) {
