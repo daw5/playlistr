@@ -31,6 +31,10 @@ export default function Playlist(props) {
     }
   };
 
+  const deleteTrack = (index) => {
+    tracks.splice(index, 1) && setTracks([...tracks]);
+  };
+
   return (
     <div className="playlist-create-container">
       <div className="playlist-create-inputs-container">
@@ -74,7 +78,11 @@ export default function Playlist(props) {
           </Button>
         </div>
       </div>
-      <SortableGrid tracks={tracks} setTracks={setTracks} />
+      <SortableGrid
+        tracks={tracks}
+        setTracks={setTracks}
+        deleteTrack={deleteTrack}
+      />
     </div>
   );
 }

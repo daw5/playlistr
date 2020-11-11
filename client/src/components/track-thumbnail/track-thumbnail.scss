@@ -1,9 +1,15 @@
-Button.track-remove-button {
+button.track-remove-button {
   position: absolute;
+  background-color: red;
+  border: 0;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 5px;
   width: 60%;
   height: 30%;
   top: 35%;
   left: 20%;
+  cursor: pointer;
 }
 
 .sortable-item {
@@ -24,14 +30,16 @@ Button.track-remove-button {
   opacity: 30%;
 }
 
-Button.track-remove-button-mobile {
+button.track-remove-button-mobile {
+  @extend button.track-remove-button;
   display: none;
 }
 
 @media only screen and (max-width: 600px) {
-  Button.track-remove-button-mobile {
-    position: absolute;
+  button.track-remove-button-mobile {
     bottom: 0;
+    top: auto;
+    left: auto;
     display: block;
     width: 100%;
     border-bottom-left-radius: 10px;
