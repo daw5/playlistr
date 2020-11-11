@@ -4,7 +4,7 @@ import MenuOpenIcon from "@material-ui/icons/MenuOpen";
 import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
 import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
+import LibraryMusicIcon from "@material-ui/icons/LibraryMusic";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -54,13 +54,22 @@ export default function SideMenu(props) {
     >
       <List>
         <ListItem
+          onClick={() => history.push(`/my-playlists`)}
+          button
+          key={"myPlaylists"}
+        >
+          <ListItemIcon>
+            <LibraryMusicIcon />
+          </ListItemIcon>
+          <ListItemText primary={"My Playlists"} />
+        </ListItem>
+        <ListItem
           onClick={() => history.push(`/playlist-create`)}
           button
           key={"newPlaylist"}
         >
           <ListItemIcon>
             <AddCircleOutlineIcon />
-            {/* when this is clicked, navigate to create playlist using history */}
           </ListItemIcon>
           <ListItemText primary={"New Playlist"} />
         </ListItem>
