@@ -12,7 +12,8 @@ export const createPlaylist = (title, tracks) =>
       return response.data;
     })
     .catch(function (error) {
-      return error.response;
+      console.log("catch block");
+      return error.response.data;
     });
 
 export const getPlaylists = () =>

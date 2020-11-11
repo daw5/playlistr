@@ -12,22 +12,32 @@ require("dotenv").config();
 export default function Playlist(props) {
   const [tracks, setTracks] = useState([]);
   const [title, setTitle] = useState(null);
+  const [errors, setErrors] = useState({ title: null, tracks: null });
   const [trackToAdd, setTrackToAdd] = useState(null);
   const history = useHistory();
 
   const createPlaylist = (evt) => {
     evt.preventDefault();
-    playlistService.createPlaylist(title, tracks).then((playlist) => {
-      playlist && history.push(`/playlist/${playlist._id}`);
-    });
+    if (tracks.length > 0) {
+      playlistService.createPlaylist(title, tracks).then((playlist) => {
+        playlist.errors
+          ? setErrors({ title: playlist.errors.title })
+          : playlist && history.push(`/playlist/${playlist._id}`);
+      });
+    } else {
+      setErrors({ tracks: "Add some tracks!" });
+    }
   };
 
   const addTrack = async (evt) => {
     evt.preventDefault();
     if (ReactPlayer.canPlay(trackToAdd)) {
       const thumbnailUrl = await thumbnailService.getThumbnailURL(trackToAdd);
-      setTrackToAdd("");
       setTracks([...tracks, { url: trackToAdd, thumbnailUrl }]);
+      setTrackToAdd("");
+      errors.tracks && setErrors({ tracks: null });
+    } else {
+      setErrors({ tracks: "Cannot add track" });
     }
   };
 
@@ -43,6 +53,7 @@ export default function Playlist(props) {
             onKeyDown={(evt) => evt.key === "Enter" && addTrack(evt)}
             placeholder="Paste link to media here"
             value={trackToAdd || ""}
+            error={errors.tracks}
             className="message-input"
             onChange={(evt) => setTrackToAdd(evt.target.value)}
             autoFocus
@@ -62,6 +73,7 @@ export default function Playlist(props) {
           <TextField
             onKeyDown={(evt) => evt.key === "Enter" && createPlaylist(evt)}
             placeholder="Enter your playlist title here"
+            error={errors.title}
             value={title || ""}
             className="message-input"
             onChange={(evt) => setTitle(evt.target.value)}
