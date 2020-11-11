@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
+import ReactPlayer from "react-player";
 import { playlistService, thumbnailService } from "../../services";
 import { Button, TextField } from "@material-ui/core";
 import { SortableGrid } from "..";
@@ -23,9 +24,11 @@ export default function Playlist(props) {
 
   const addTrack = async (evt) => {
     evt.preventDefault();
-    const thumbnailUrl = await thumbnailService.getThumbnailURL(trackToAdd);
-    setTrackToAdd("");
-    setTracks([...tracks, { url: trackToAdd, thumbnailUrl }]);
+    if (ReactPlayer.canPlay(trackToAdd)) {
+      const thumbnailUrl = await thumbnailService.getThumbnailURL(trackToAdd);
+      setTrackToAdd("");
+      setTracks([...tracks, { url: trackToAdd, thumbnailUrl }]);
+    }
   };
 
   return (
