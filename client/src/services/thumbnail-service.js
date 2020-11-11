@@ -9,7 +9,7 @@ export const getThumbnailURL = (url) => {
 
   const urlobj = parse(url, true);
 
-  // TODO support thumbnails for more video hosting sites
+  // TODO support thumbnails for more video hosting
 
   //youtube
   if (
