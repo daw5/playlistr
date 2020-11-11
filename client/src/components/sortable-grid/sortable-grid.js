@@ -29,7 +29,12 @@ export default function SortableGrid(props) {
   return (
     <SortableContainer axis="xy" onSortEnd={onSortEnd}>
       {props.tracks.map((track, index) => (
-        <SortableItem key={`item-${index}`} i={index} track={track} />
+        <SortableItem
+          key={`item-${index}`}
+          index={index}
+          i={index}
+          track={track}
+        />
       ))}
     </SortableContainer>
   );
