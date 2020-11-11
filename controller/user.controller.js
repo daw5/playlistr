@@ -1,10 +1,15 @@
 import express from "express";
 import passport from "passport";
-import { UserService, MessagingService } from "../services/index";
+import {
+  UserService,
+  MessagingService,
+  PlaylistService,
+} from "../services/index";
 
 const userController = express.Router();
 const userService = new UserService();
 const messagingService = new MessagingService();
+const playlistService = new PlaylistService();
 
 userController.get("/", async (req, res, next) => {
   try {
@@ -21,6 +26,19 @@ userController.get(
   async (req, res, next) => {
     try {
       res.status(200).send(req.user);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+userController.get(
+  "/current/playlists",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res, next) => {
+    try {
+      const playlists = await playlistService.findPlaylistsByUser(req.user._id);
+      res.status(200).send(playlists);
     } catch (error) {
       next(error);
     }
