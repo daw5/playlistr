@@ -1,7 +1,32 @@
 .my-playlists-container {
   width: 100%;
   background-color: black;
-  h1 {
-    color: white;
-  }
+}
+
+.playlist {
+  border: 1px solid white;
+  border-radius: 10px;
+  width: auto;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+  height: 100px;
+  display: grid;
+  grid-template-columns: 200px auto;
+}
+
+.playlist-head {
+  grid-column: 1;
+  display: grid;
+  grid-template-rows: 50% 50%;
+  background-color: orange;
+  border-top-left-radius: inherit;
+  border-bottom-left-radius: inherit;
+}
+
+.playlist-body {
+  grid-column: 2;
+  border-top-right-radius: inherit;
+  border-bottom-right-radius: inherit;
 }

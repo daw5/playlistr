@@ -4,7 +4,10 @@ import "./my-playlists.scss";
 export default function MyPlaylists(props) {
   return (
     <div className="my-playlists-container">
-      <h1>my playlists</h1>
+      <div className="playlist">
+        <div className="playlist-head"></div>
+        <div className="playlist-body"></div>
+      </div>
     </div>
   );
 }
