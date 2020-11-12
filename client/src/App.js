@@ -90,7 +90,9 @@ export default function App() {
                 ></Route>
                 <Route
                   path="/playlist-edit/:id"
-                  render={(props) => <PlaylistCreate {...props} />}
+                  render={(props) => (
+                    <PlaylistCreate {...props} action={"edit"} />
+                  )}
                 ></Route>
                 <Route
                   path="/playlist-create"
