@@ -16,6 +16,17 @@ export const createPlaylist = (title, tracks) =>
       return error.response.data;
     });
 
+export const updatePlaylist = (playlistId, playlistUpdates) =>
+  axios
+    .put(`/api/playlists/${playlistId}`, playlistUpdates)
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      console.log("catch block");
+      return error.response.data;
+    });
+
 export const getPlaylists = () =>
   axios
     .get(`/api/playlists`)

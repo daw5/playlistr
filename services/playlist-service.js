@@ -26,6 +26,11 @@ export default class PlaylistService {
     return playlist;
   }
 
+  async updatePlaylist(_id, playlistUpdates) {
+    const playlist = await Playlist.findByIdAndUpdate(_id, playlistUpdates);
+    return playlist;
+  }
+
   async createPlaylist(title, creator, tracks) {
     const playlist = new Playlist({ title, creator, tracks });
     try {

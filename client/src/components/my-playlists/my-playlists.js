@@ -26,8 +26,8 @@ export default function MyPlaylists(props) {
   return (
     <div className="my-playlists-container">
       {playlists &&
-        playlists.map((playlist) => (
-          <div className="playlist">
+        playlists.map((playlist, index) => (
+          <div key={`playlist${index}`} className="playlist">
             <div className="playlist-head">
               <div className="playlist-title-container">
                 <h2>{playlist.title}</h2>
@@ -51,7 +51,7 @@ export default function MyPlaylists(props) {
             </div>
             <div className="playlist-body">
               {playlist.tracks.map((track, index) => (
-                <div className="my-playlists-thumbnail">
+                <div key={`track${index}`} className="my-playlists-thumbnail">
                   <img
                     src={
                       track.thumbnailUrl ? track.thumbnailUrl : DefaultThumbnail

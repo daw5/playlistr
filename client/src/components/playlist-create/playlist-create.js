@@ -25,8 +25,13 @@ export default function Playlist(props) {
   }, []);
 
   const saveChanges = () => {
-    // save playlist changes;
-    console.log("saving changes");
+    playlistService
+      .updatePlaylist(props.match.params.id, { title, tracks })
+      .then((playlist) => {
+        playlist.errors
+          ? setErrors(playlist.errors)
+          : history.push("/my-playlists");
+      });
   };
 
   const createPlaylist = (evt) => {
@@ -34,7 +39,7 @@ export default function Playlist(props) {
     if (tracks.length > 0) {
       playlistService.createPlaylist(title, tracks).then((playlist) => {
         playlist.errors
-          ? setErrors({ title: playlist.errors.title })
+          ? setErrors(playlist.errors)
           : playlist && history.push(`/playlist/${playlist._id}`);
       });
     } else {
@@ -104,18 +109,22 @@ export default function Playlist(props) {
           />
           <Button
             className="standard-submit-button"
-            onClick={(evt) => createPlaylist(evt)}
+            onClick={(evt) => {
+              props.edit ? saveChanges() : createPlaylist(evt);
+            }}
             variant="contained"
           >
             {!props.edit ? "Create" : "Save Changes"}
           </Button>
         </div>
       </div>
-      <SortableGrid
-        tracks={tracks}
-        setTracks={setTracks}
-        deleteTrack={deleteTrack}
-      />
+      {tracks && (
+        <SortableGrid
+          tracks={tracks}
+          setTracks={setTracks}
+          deleteTrack={deleteTrack}
+        />
+      )}
     </div>
   );
 }

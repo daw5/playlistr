@@ -32,6 +32,18 @@ playlistController.get("/:id", async (req, res, next) => {
   }
 });
 
+playlistController.put("/:id", async (req, res, next) => {
+  try {
+    const playlist = await playlistService.updatePlaylist(
+      req.params.id,
+      req.body
+    );
+    res.status(200).send(playlist);
+  } catch (error) {
+    next(error);
+  }
+});
+
 playlistController.post(
   "/",
   passport.authenticate("jwt", { session: false }),
