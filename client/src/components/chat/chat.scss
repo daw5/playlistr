@@ -76,11 +76,17 @@
   .message-input {
     width: auto !important;
   }
+}
 
-  .standard-submit-button {
-    border: 1px solid white;
-    background-color: black !important;
-    color: white;
+Button.standard-submit-button {
+  border: 1px solid white;
+  background-color: black !important;
+  color: white;
+  &:hover {
+    background: linear-gradient(298deg, #33c19c, #4184aa, #31a85b, #9b3597);
+    background-size: 800% 800%;
+    color: black;
+    border-color: black;
   }
 }
 

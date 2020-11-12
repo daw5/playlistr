@@ -20,8 +20,14 @@ export default function Playlist(props) {
     props.action === "edit" &&
       playlistService.getPlaylist(props.match.params.id).then((playlist) => {
         setTracks(playlist.tracks);
+        setTitle(playlist.title);
       });
   }, []);
+
+  const saveChanges = () => {
+    // save playlist changes;
+    console.log("saving changes");
+  };
 
   const createPlaylist = (evt) => {
     evt.preventDefault();
@@ -54,7 +60,7 @@ export default function Playlist(props) {
 
   return (
     <div className="playlist-create-container">
-      {props.playlist === "create" && (
+      {props.action === "create" ? (
         <div className="playlist-create-inputs-container">
           <div className="input-container playlist-create-input-container">
             <TextField
@@ -95,6 +101,19 @@ export default function Playlist(props) {
               variant="contained"
             >
               Create
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <div className="edit-playlist-header">
+          <h2 className="edit-playlist-title">{title}</h2>
+          <div className="save-changes-button-container">
+            <Button
+              className="standard-submit-button"
+              onClick={saveChanges()}
+              variant="contained"
+            >
+              Save Changes
             </Button>
           </div>
         </div>
