@@ -9,33 +9,14 @@ div.playlist-create-input-container {
   grid-template-columns: auto 120px;
 }
 
+div.edit-inputs-container {
+  grid-template-columns: auto 150px;
+}
+
 .playlist-create-inputs-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin-bottom: 20px;
-}
-
-.edit-playlist-header {
-  display: grid;
-  grid-template-columns: auto 150px;
-  margin-left: 10px;
-  margin-right: 10px;
-
-  .edit-playlist-title {
-    color: #fff;
-    grid-column: 1;
-  }
-
-  .save-changes-button-container {
-    grid-column: 2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    Button {
-      height: 45px;
-    }
-  }
 }
 
 @media only screen and (max-width: 600px) {
