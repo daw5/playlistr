@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
+import { useHistory } from "react-router-dom";
 import { playlistService, thumbnailService } from "../../services";
 import { Button, TextField } from "@material-ui/core";
 import { SortableGrid } from "..";
@@ -15,6 +15,13 @@ export default function Playlist(props) {
   const [errors, setErrors] = useState({ title: null, tracks: null });
   const [trackToAdd, setTrackToAdd] = useState(null);
   const history = useHistory();
+
+  useEffect(() => {
+    props.action === "edit" &&
+      playlistService.getPlaylist(props.match.params.id).then((playlist) => {
+        setTracks(playlist.tracks);
+      });
+  }, []);
 
   const createPlaylist = (evt) => {
     evt.preventDefault();
@@ -47,49 +54,51 @@ export default function Playlist(props) {
 
   return (
     <div className="playlist-create-container">
-      <div className="playlist-create-inputs-container">
-        <div className="input-container playlist-create-input-container">
-          <TextField
-            onKeyDown={(evt) => evt.key === "Enter" && addTrack(evt)}
-            placeholder="Paste link to media here"
-            value={trackToAdd || ""}
-            error={errors.tracks}
-            className="message-input"
-            onChange={(evt) => setTrackToAdd(evt.target.value)}
-            autoFocus
-            InputProps={{
-              style: { color: "#fff" },
-            }}
-          />
-          <Button
-            className="standard-submit-button"
-            onClick={(evt) => addTrack(evt)}
-            variant="contained"
-          >
-            Add Track
-          </Button>
+      {props.playlist === "create" && (
+        <div className="playlist-create-inputs-container">
+          <div className="input-container playlist-create-input-container">
+            <TextField
+              onKeyDown={(evt) => evt.key === "Enter" && addTrack(evt)}
+              placeholder="Paste link to media here"
+              value={trackToAdd || ""}
+              error={errors.tracks}
+              className="message-input"
+              onChange={(evt) => setTrackToAdd(evt.target.value)}
+              autoFocus
+              InputProps={{
+                style: { color: "#fff" },
+              }}
+            />
+            <Button
+              className="standard-submit-button"
+              onClick={(evt) => addTrack(evt)}
+              variant="contained"
+            >
+              Add Track
+            </Button>
+          </div>
+          <div className="input-container playlist-create-input-container">
+            <TextField
+              onKeyDown={(evt) => evt.key === "Enter" && createPlaylist(evt)}
+              placeholder="Enter your playlist title here"
+              error={errors.title}
+              value={title || ""}
+              className="message-input"
+              onChange={(evt) => setTitle(evt.target.value)}
+              InputProps={{
+                style: { color: "#fff" },
+              }}
+            />
+            <Button
+              className="standard-submit-button"
+              onClick={(evt) => createPlaylist(evt)}
+              variant="contained"
+            >
+              Create
+            </Button>
+          </div>
         </div>
-        <div className="input-container playlist-create-input-container">
-          <TextField
-            onKeyDown={(evt) => evt.key === "Enter" && createPlaylist(evt)}
-            placeholder="Enter your playlist title here"
-            error={errors.title}
-            value={title || ""}
-            className="message-input"
-            onChange={(evt) => setTitle(evt.target.value)}
-            InputProps={{
-              style: { color: "#fff" },
-            }}
-          />
-          <Button
-            className="standard-submit-button"
-            onClick={(evt) => createPlaylist(evt)}
-            variant="contained"
-          >
-            Create
-          </Button>
-        </div>
-      </div>
+      )}
       <SortableGrid
         tracks={tracks}
         setTracks={setTracks}

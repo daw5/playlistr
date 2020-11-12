@@ -89,8 +89,12 @@ export default function App() {
                   }
                 ></Route>
                 <Route
+                  path="/playlist-edit/:id"
+                  render={(props) => <PlaylistCreate {...props} />}
+                ></Route>
+                <Route
                   path="/playlist-create"
-                  render={() => <PlaylistCreate />}
+                  render={() => <PlaylistCreate action={"create"} />}
                 ></Route>
               </Switch>
               {socket && currentUser && (

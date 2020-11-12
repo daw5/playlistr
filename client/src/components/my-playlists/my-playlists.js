@@ -1,16 +1,28 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { playlistService } from "../../services";
 import Button from "@material-ui/core/Button";
-import "./my-playlists.scss";
 import DefaultThumbnail from "../../assets/cassette.gif";
+import "./my-playlists.scss";
 
 export default function MyPlaylists(props) {
   const [playlists, setPlaylists] = useState([]);
+  const history = useHistory();
+
+  const play = (playlist) => {
+    history.push(`/playlist/${playlist._id}`);
+  };
+
+  const edit = (playlist) => {
+    history.push(`/playlist-edit/${playlist._id}`);
+  };
+
   useEffect(() => {
     playlistService.getUserPlaylists().then((playlists) => {
       setPlaylists(playlists);
     });
   }, []);
+
   return (
     <div className="my-playlists-container">
       {playlists &&
@@ -24,12 +36,14 @@ export default function MyPlaylists(props) {
                 <Button
                   className="playlist-play-button standard-submit-button"
                   variant="contained"
+                  onClick={() => play(playlist)}
                 >
                   Play
                 </Button>
                 <Button
                   className="playlist-edit-button standard-submit-button"
                   variant="contained"
+                  onClick={() => edit(playlist)}
                 >
                   Edit
                 </Button>
