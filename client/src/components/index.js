@@ -13,6 +13,7 @@ import SortableGrid from "./sortable-grid/sortable-grid";
 import TrackThumbnail from "./track-thumbnail/track-thumbnail";
 import GroupChat from "./group-chat/group-chat";
 import Chat from "./chat/chat";
+import GeneralModal from "./general-modal/general-modal";
 
 export {
   SideMenu,
@@ -30,4 +31,5 @@ export {
   TrackThumbnail,
   GroupChat,
   Chat,
+  GeneralModal,
 };

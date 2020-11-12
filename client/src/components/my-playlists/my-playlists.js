@@ -4,10 +4,13 @@ import { playlistService } from "../../services";
 import Button from "@material-ui/core/Button";
 import ClearIcon from "@material-ui/icons/Clear";
 import DefaultThumbnail from "../../assets/cassette.gif";
+import { GeneralModal } from "..";
 import "./my-playlists.scss";
 
 export default function MyPlaylists(props) {
   const [playlists, setPlaylists] = useState([]);
+  const [playlistToDelete, setPlaylistToDelete] = useState(null);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const history = useHistory();
 
   const play = (playlist) => {
@@ -16,6 +19,21 @@ export default function MyPlaylists(props) {
 
   const edit = (playlist) => {
     history.push(`/playlist-edit/${playlist._id}`);
+  };
+
+  const openDeleteModal = (playlist) => {
+    setPlaylistToDelete(playlist);
+    setDeleteModalOpen(true);
+  };
+
+  const closeDeleteModal = () => {
+    setPlaylistToDelete(null);
+    setDeleteModalOpen(false);
+  };
+
+  const deletePlaylist = (playlist) => {
+    // use service to delete playlist then run:
+    setPlaylistToDelete(null);
   };
 
   useEffect(() => {
@@ -67,11 +85,19 @@ export default function MyPlaylists(props) {
               variant="contained"
               color="secondary"
               size="small"
+              onClick={() => openDeleteModal(playlist)}
             >
               <ClearIcon fontSize="small" />
             </Button>
           </div>
         ))}
+      <GeneralModal
+        action={deletePlaylist}
+        content="Blah dee fucking blah"
+        open={deleteModalOpen}
+        handleClose={closeDeleteModal}
+        item={playlistToDelete && playlistToDelete}
+      />
     </div>
   );
 }
