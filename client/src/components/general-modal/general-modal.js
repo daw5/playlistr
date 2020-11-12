@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff",
     width: 400,
     backgroundColor: "black",
-    border: "5px solid red",
+    border: "1px solid #f50057",
     borderRadius: "10px",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
@@ -36,7 +36,7 @@ export default function GeneralModal(props) {
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">Delete {props.item && props.item.title}?</h2>
       <Button
-        onClick={() => props.deletePlaylist(props.item)}
+        onClick={() => props.action(props.item)}
         variant="outlined"
         color="secondary"
       >
@@ -48,6 +48,7 @@ export default function GeneralModal(props) {
 
   return (
     <Modal
+      id="generalModal"
       open={props.open}
       onClose={props.handleClose}
       aria-labelledby="simple-modal-title"
