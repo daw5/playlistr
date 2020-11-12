@@ -34,8 +34,16 @@
     justify-content: center;
 
     h2 {
-      margin: 10px;
-      word-break: break-all;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      height: 100%;
+      font-size: 20px;
+      text-align: center;
+      hyphens: auto;
+      word-break: break-word;
+      box-sizing: border-box;
+      overflow-y: scroll;
     }
   }
 
@@ -72,4 +80,14 @@
   margin-right: 10px;
   flex: 0 0 auto;
   width: 200px;
+}
+
+@media only screen and (max-width: 600px) {
+  .my-playlists-container .playlist {
+    grid-template-columns: 50% 50%;
+  }
+
+  .my-playlists-thumbnail {
+    margin-left: 0;
+  }
 }
