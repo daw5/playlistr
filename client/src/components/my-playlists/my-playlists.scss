@@ -16,6 +16,23 @@
     display: grid;
     grid-template-columns: 200px auto;
     min-height: 155px;
+    position: relative;
+
+    Button.delete-playlist-button {
+      position: absolute;
+      right: 0;
+      top: 0;
+      min-width: 0;
+      background-color: black;
+      opacity: 50%;
+      border-radius: 10px !important;
+      padding: 3px;
+
+      &:hover {
+        background-color: rgba(255, 0, 0, 0.9);
+        opacity: 100%;
+      }
+    }
   }
 }
 

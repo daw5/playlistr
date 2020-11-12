@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { playlistService } from "../../services";
 import Button from "@material-ui/core/Button";
+import ClearIcon from "@material-ui/icons/Clear";
 import DefaultThumbnail from "../../assets/cassette.gif";
 import "./my-playlists.scss";
 
@@ -61,6 +62,14 @@ export default function MyPlaylists(props) {
                 </div>
               ))}
             </div>
+            <Button
+              className="delete-playlist-button"
+              variant="contained"
+              color="secondary"
+              size="small"
+            >
+              <ClearIcon fontSize="small" />
+            </Button>
           </div>
         ))}
     </div>
