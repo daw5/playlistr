@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import { playlistService } from "../../services";
 import Button from "@material-ui/core/Button";
 import "./my-playlists.scss";
+import DefaultThumbnail from "../../assets/cassette.gif";
 
 export default function MyPlaylists(props) {
   const [playlists, setPlaylists] = useState([]);
   useEffect(() => {
     playlistService.getUserPlaylists().then((playlists) => {
       setPlaylists(playlists);
-      console.log("playlists: ", playlists);
     });
   }, []);
   return (
@@ -21,15 +21,32 @@ export default function MyPlaylists(props) {
                 <h2>{playlist.title}</h2>
               </div>
               <div className="playlist-functions-container">
-                <Button className="playlist-play-button" variant="contained">
+                <Button
+                  className="playlist-play-button standard-submit-button"
+                  variant="contained"
+                >
                   Play
                 </Button>
-                <Button className="playlist-edit-button" variant="contained">
+                <Button
+                  className="playlist-edit-button standard-submit-button"
+                  variant="contained"
+                >
                   Edit
                 </Button>
               </div>
             </div>
-            <div className="playlist-body"></div>
+            <div className="playlist-body">
+              {playlist.tracks.map((track, index) => (
+                <div className="my-playlists-thumbnail">
+                  <img
+                    src={
+                      track.thumbnailUrl ? track.thumbnailUrl : DefaultThumbnail
+                    }
+                    className="track-preview"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         ))}
     </div>
