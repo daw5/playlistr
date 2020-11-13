@@ -34,13 +34,14 @@ export default function App() {
     const messagingService = new MessagingService();
     const userService = new UserService();
     userService.getCurrentUser().then((user) => {
-      setCurrentUser(user);
       if (user) {
+        setCurrentUser(user);
         setSocket(messagingService.authenticateSocket());
         userService.getUsers().then((users) => {
           setUsers(users);
         });
       } else {
+        setCurrentUser(null);
         setSocket(messagingService.connectSocket());
       }
       setLoaded(true);

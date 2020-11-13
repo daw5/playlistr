@@ -1,7 +1,7 @@
 import io from "socket.io-client";
 
 const axios = require("axios");
-let socket = io.connect("http://localhost:4001");
+let socket;
 
 export default class MessagingService {
   connectSocket() {

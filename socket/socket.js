@@ -29,6 +29,10 @@ function onMessage(socket, clients) {
 export function initializeSocketServer(io) {
   io.use(socketCookieParser());
   io.on("connect", function (socket) {
+    socket.on("disconnect", (reason) => {
+      console.log("client disconnected: ", reason);
+    });
+    console.log("we got a connection event", socket.id);
     socket.on("join-group", async function (group, previousGroup) {
       previousGroup && socket.leave(previousGroup);
       socket.join(group);
