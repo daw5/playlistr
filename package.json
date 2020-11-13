@@ -4,8 +4,10 @@
   "description": "",
   "main": "server.js",
   "nodemonConfig": {
-    "ignore": ["client/*"]
- },
+    "ignore": [
+      "client/*"
+    ]
+  },
   "scripts": {
     "start": "ENV=prod node -r esm server.js",
     "dev": "nodemon -r esm server.js",
@@ -17,6 +19,7 @@
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "argon2": "^0.27.0",
+    "cookie": "^0.4.1",
     "cookie-parser": "^1.4.5",
     "dotenv": "^8.2.0",
     "esm": "^3.2.25",

@@ -1,9 +1,10 @@
 import { MessagingService } from "../services/index";
+import jwt from "jsonwebtoken";
 
 const socketCookieParser = require("socket.io-cookie-parser");
 const messagingService = new MessagingService();
-const socketioJwt = require("socketio-jwt");
 const clients = {};
+const cookie = require("cookie");
 
 function onDisconnect(socket) {
   socket.on("disconnect", (reason) => {
@@ -11,23 +12,34 @@ function onDisconnect(socket) {
   });
 }
 
+function getToken(socket) {
+  const parsedCookie = cookie.parse(socket.handshake.headers.cookie);
+
+  return parsedCookie.token || null;
+}
+
 function onMessage(socket, clients) {
   socket.on("message", async function (data) {
-    const { message, newConversation } = await messagingService.saveInteraction(
-      socket.decoded_token,
-      data
-    );
-    if (clients[data.reciever_id]) {
-      clients[data.reciever_id].send({
-        correspondent: socket.decoded_token._id,
-        message,
-        newConversation,
-      });
-    }
-    socket.send({
-      correspondent: data.reciever_id,
-      message,
-      newConversation,
+    jwt.verify(getToken(socket), process.env.PASSPORT_SECRET, function (
+      err,
+      decoded
+    ) {
+      messagingService
+        .saveInteraction(decoded, data)
+        .then(({ message, newConversation }) => {
+          if (clients[data.reciever_id]) {
+            clients[data.reciever_id].send({
+              correspondent: decoded._id,
+              message,
+              newConversation,
+            });
+          }
+          socket.send({
+            correspondent: data.reciever_id,
+            message,
+            newConversation,
+          });
+        });
     });
   });
 }
@@ -55,24 +67,18 @@ function handleGroups(socket) {
 export function initializeSocketServer(io) {
   io.use(socketCookieParser());
   io.on("connect", function (socket) {
+    const token = getToken(socket);
+    if (token) {
+      jwt.verify(getToken(socket), process.env.PASSPORT_SECRET, function (
+        err,
+        decoded
+      ) {
+        clients[decoded._id] = socket;
+        onMessage(socket, clients);
+      });
+    }
     handleGroups(socket);
     onGroupMessage(io, socket);
     onDisconnect(socket);
   });
-
-  io.sockets
-    .on(
-      "connection",
-      socketioJwt.authorize({
-        secret: process.env.PASSPORT_SECRET,
-        timeout: 15000,
-        cookie: "token",
-      })
-    )
-    .on("authenticated", function (socket) {
-      clients[socket.decoded_token._id] = socket;
-      console.log("authenticated: ", socket.decoded_token);
-      onMessage(socket, clients);
-      onDisconnect(socket);
-    });
 }
