@@ -40,6 +40,8 @@ export default function App() {
         userService.getUsers().then((users) => {
           setUsers(users);
         });
+      } else {
+        setSocket(messagingService.connectSocket());
       }
       setLoaded(true);
     });

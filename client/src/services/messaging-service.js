@@ -4,8 +4,13 @@ const axios = require("axios");
 let socket = io.connect("http://localhost:4001");
 
 export default class MessagingService {
-  authenticateSocket() {
+  connectSocket() {
     socket = io.connect("http://localhost:4001");
+    return socket;
+  }
+
+  authenticateSocket() {
+    socket = this.connectSocket();
     socket.on("connect", function () {
       socket
         .emit("authenticate")
