@@ -73,14 +73,14 @@ export default function Chat(props) {
         <div ref={endOfChat}></div>
       </div>
       <div className="chatFooter">
-        <div className="inputContainer">
+        <div className="input-container">
           <TextField
             onKeyDown={(evt) =>
               evt.key === "Enter" && sendMessage(evt, messageToSend)
             }
             placeholder="Send a message"
             value={messageToSend}
-            className="messageInput"
+            className="message-input"
             onChange={(evt) => setMessageToSend(evt.target.value)}
             InputProps={{
               style: { color: "#fff" },
@@ -88,7 +88,7 @@ export default function Chat(props) {
             multiline
           />
           <Button
-            className="sendMessageButton"
+            className="standard-submit-button"
             onClick={(evt) => sendMessage(evt, messageToSend)}
             variant="contained"
           >

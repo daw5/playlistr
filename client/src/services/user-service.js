@@ -5,7 +5,7 @@ const axios = require("axios");
 export default class UserService {
   getCurrentUser = () =>
     axios
-      .get(`/users/current`)
+      .get(`/api/users/current`)
       .then((response) => {
         return response.data;
       })
@@ -15,7 +15,7 @@ export default class UserService {
 
   getUsers = () =>
     axios
-      .get(`/users`)
+      .get(`/api/users`)
       .then((response) => {
         return this.indexUsers(response.data);
       })
@@ -25,7 +25,7 @@ export default class UserService {
 
   getConversations = (currentUser) =>
     axios
-      .get(`/users/current/conversations`)
+      .get(`/api/users/current/conversations`)
       .then((response) => {
         return this.indexConversationsByCorrespondent(
           response.data,

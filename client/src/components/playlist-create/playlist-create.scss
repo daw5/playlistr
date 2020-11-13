@@ -1,0 +1,26 @@
+.playlist-create-container {
+  width: 100%;
+  background-color: black;
+}
+
+div.playlist-create-input-container {
+  margin-top: 20px;
+  width: auto;
+  grid-template-columns: auto 120px;
+}
+
+div.edit-inputs-container {
+  grid-template-columns: auto 150px;
+}
+
+.playlist-create-inputs-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+  .playlist-create-inputs-container {
+    grid-template-columns: 1fr;
+  }
+}

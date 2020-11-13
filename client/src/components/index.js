@@ -8,8 +8,12 @@ import SideMenu from "./side-menu/side-menu";
 import Playlist from "./playlist/playlist";
 import Player from "./player/player";
 import PlaylistCreate from "./playlist-create/playlist-create";
+import MyPlaylists from "./my-playlists/my-playlists";
+import SortableGrid from "./sortable-grid/sortable-grid";
+import TrackThumbnail from "./track-thumbnail/track-thumbnail";
 import GroupChat from "./group-chat/group-chat";
 import Chat from "./chat/chat";
+import GeneralModal from "./general-modal/general-modal";
 
 export {
   SideMenu,
@@ -21,7 +25,11 @@ export {
   ConversationSnippet,
   Playlist,
   Player,
-  GroupChat,
   PlaylistCreate,
+  MyPlaylists,
+  SortableGrid,
+  TrackThumbnail,
+  GroupChat,
   Chat,
+  GeneralModal,
 };

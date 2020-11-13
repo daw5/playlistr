@@ -1,0 +1,50 @@
+button.track-remove-button {
+  position: absolute;
+  background-color: red;
+  border: 0;
+  color: #fff;
+  font-weight: bold;
+  border-radius: 5px;
+  width: 60%;
+  height: 30%;
+  top: 35%;
+  left: 20%;
+  cursor: pointer;
+}
+
+button.track-remove-button-mobile {
+  @extend button.track-remove-button;
+  display: none;
+}
+
+.sortable-item {
+  color: white;
+  border: 1px solid white;
+  width: 100%;
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+}
+
+.track-preview {
+  border-radius: 10px;
+  width: 100%;
+}
+
+.low-opacity {
+  opacity: 30%;
+}
+
+@media only screen and (max-width: 600px) {
+  button.track-remove-button-mobile {
+    bottom: 0;
+    top: auto;
+    left: auto;
+    display: block;
+    width: 100%;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+  }
+}

@@ -4,7 +4,12 @@ import { Playlist } from "../database/models/index";
 
 export default class PlaylistService {
   async listPlaylists() {
-    const playlists = await Playlist.find().select("-urls -__v");
+    const playlists = await Playlist.find().select("-tracks -__v");
+    return playlists;
+  }
+
+  async findPlaylistsByUser(user_id) {
+    const playlists = await Playlist.find({ creator: user_id });
     return playlists;
   }
 
@@ -12,7 +17,7 @@ export default class PlaylistService {
     const playlists = await Playlist.find()
       .sort({ _id: -1 })
       .limit(1000)
-      .select("-urls -__v");
+      .select("-tracks -__v");
     return playlists;
   }
 
@@ -21,8 +26,18 @@ export default class PlaylistService {
     return playlist;
   }
 
-  async createPlaylist(title, creator, urls) {
-    const playlist = new Playlist({ title, creator, urls });
+  async updatePlaylist(_id, playlistUpdates) {
+    const playlist = await Playlist.findByIdAndUpdate(_id, playlistUpdates);
+    return playlist;
+  }
+
+  async deletePlaylist(_id) {
+    const result = await Playlist.findByIdAndDelete(_id);
+    return result;
+  }
+
+  async createPlaylist(title, creator, tracks) {
+    const playlist = new Playlist({ title, creator, tracks });
     try {
       const result = await playlist.save();
       return { status: 200, result };

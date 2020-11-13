@@ -30,7 +30,7 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use("/api/auth", authController);
-app.use("/users", userController);
+app.use("/api/users", userController);
 app.use("/api/playlists", playlistController);
 app.use("/mailing", mailingController);
 io.use(socketCookieParser());

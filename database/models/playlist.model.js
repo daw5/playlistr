@@ -10,10 +10,16 @@ const playlistSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  urls: [
+  tracks: [
     {
-      type: String,
-      required: true,
+      url: {
+        type: String,
+        required: true,
+      },
+      thumbnailUrl: {
+        type: String,
+        required: false,
+      },
     },
   ],
   dateCreated: {

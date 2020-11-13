@@ -1,0 +1,19 @@
+.sortable-container {
+  display: grid;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  width: 100%;
+  padding: 10px;
+  top: 0;
+  left: 0;
+  z-index: 2;
+  box-sizing: border-box;
+  background-color: black;
+}
+
+@media only screen and (max-width: 600px) {
+  .sortable-container {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}

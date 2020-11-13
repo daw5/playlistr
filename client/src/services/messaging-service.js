@@ -22,7 +22,7 @@ export default class MessagingService {
   fetchMoreMessages = (conversations, correspondent_id) =>
     axios
       .get(
-        `/users/current/conversations/${conversations[correspondent_id]._id}/load-messages/${conversations[correspondent_id].messages.length}`
+        `/api/users/current/conversations/${conversations[correspondent_id]._id}/load-messages/${conversations[correspondent_id].messages.length}`
       )
       .then((response) => {
         return this.addMessages(conversations, correspondent_id, response.data);

@@ -2,17 +2,37 @@ require("dotenv").config();
 
 const axios = require("axios");
 
-export const createPlaylist = (title, urls) =>
+export const createPlaylist = (title, tracks) =>
   axios
     .post(`/api/playlists`, {
       title,
-      urls,
+      tracks,
     })
     .then(function (response) {
       return response.data;
     })
     .catch(function (error) {
-      return error.response;
+      return error.response.data;
+    });
+
+export const updatePlaylist = (playlistId, playlistUpdates) =>
+  axios
+    .put(`/api/playlists/${playlistId}`, playlistUpdates)
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      return error.response.data;
+    });
+
+export const deletePlaylist = (playlistId) =>
+  axios
+    .delete(`/api/playlists/${playlistId}`)
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      return error.response.data;
     });
 
 export const getPlaylists = () =>
@@ -22,7 +42,17 @@ export const getPlaylists = () =>
       return response.data;
     })
     .catch(function (error) {
-      return error.response;
+      return error.response.data;
+    });
+
+export const getUserPlaylists = () =>
+  axios
+    .get(`/api/users/current/playlists`)
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      return error.response.data;
     });
 
 export const getPlaylist = (playlistId) =>
@@ -32,7 +62,7 @@ export const getPlaylist = (playlistId) =>
       return response.data;
     })
     .catch(function (error) {
-      return error.response;
+      return error.response.data;
     });
 
 export const getRecentPlaylists = () =>
@@ -42,5 +72,5 @@ export const getRecentPlaylists = () =>
       return response.data;
     })
     .catch(function (error) {
-      return error.response;
+      return error.response.data;
     });
