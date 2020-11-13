@@ -23,7 +23,7 @@ export default function Playlist(props) {
   }, [props.socket]);
 
   const setNewPlaylist = () => {
-    leaveGroup();
+    setCurrentTrackIndex(0);
     playlistService.getPlaylist(props.match.params.id).then((playlist) => {
       setPlaylist(playlist);
       initializeChat();
@@ -31,15 +31,11 @@ export default function Playlist(props) {
   };
 
   const initializeChat = () => {
-    props.socket.emit("join-group", group);
+    props.socket.emit("join-group", group, recentGroup);
     setRecentGroup(group);
     props.socket.on("group-message", function (data) {
       setLatestMessage(data);
     });
-  };
-
-  const leaveGroup = () => {
-    recentGroup && props.socket.emit("leave-group", recentGroup);
   };
 
   const trackBack = () => {

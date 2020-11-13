@@ -32,26 +32,32 @@ function onMessage(socket, clients) {
   });
 }
 
+function onGroupMessage(io, socket) {
+  socket.on("group-message", async function (data) {
+    io.in(data.group).emit("group-message", {
+      correspondent: data.correspondent,
+      message: data.messageToSend,
+    });
+  });
+}
+
+function handleGroups(socket) {
+  socket.on("join-group", async function (group, previousGroup) {
+    previousGroup && socket.leave(previousGroup);
+    socket.join(group);
+  });
+
+  socket.on("leave-group", function (group) {
+    socket.leave(group);
+  });
+}
+
 export function initializeSocketServer(io) {
   io.use(socketCookieParser());
   io.on("connect", function (socket) {
+    handleGroups(socket);
+    onGroupMessage(io, socket);
     onDisconnect(socket);
-    socket.on("join-group", async function (group, previousGroup) {
-      previousGroup && socket.leave(previousGroup);
-      socket.join(group);
-    });
-
-    socket.on("leave-group", function (group) {
-      socket.leave(group);
-    });
-
-    socket.on("group-message", async function (data) {
-      console.log("is this message actually being sent twice ", data);
-      io.in(data.group).emit("group-message", {
-        correspondent: data.correspondent,
-        message: data.messageToSend,
-      });
-    });
   });
 
   io.sockets
