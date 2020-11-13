@@ -26,7 +26,7 @@ export default function Chat(props) {
     for (let i = props.messages.length - 1; i >= 0; i--) {
       messages.push(
         <div
-          key={`message${props.messages[i]._id}`}
+          key={`message${props.messages[i]._id}${i}`}
           className={
             props.messages[i].sender === props.correspondent._id
               ? "their-message"
