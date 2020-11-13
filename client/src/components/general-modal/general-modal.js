@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
     color: "#fff",
-    width: 400,
+    width: 260,
     backgroundColor: "black",
     border: "1px solid #f50057",
     borderRadius: "10px",
