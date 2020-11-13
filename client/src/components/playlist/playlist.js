@@ -24,6 +24,14 @@ export default function Playlist(props) {
     });
   }, [props.match.params.id]);
 
+  useEffect(() => {
+    playlist && props.socket.emit("leave-group", group);
+    props.socket.emit("join-group", group);
+    props.socket.on("group-message", function (data) {
+      setLatestMessage(data);
+    });
+  }, [props.socket]);
+
   const trackBack = () => {
     currentTrackIndex - 1 >= 0 && setCurrentTrackIndex(currentTrackIndex - 1);
   };

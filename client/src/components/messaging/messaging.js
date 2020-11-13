@@ -26,7 +26,7 @@ export default function Messaging(props) {
           });
         });
     }
-  }, []);
+  }, [props.socket]);
 
   useEffect(() => {
     if (latestMessage) {
