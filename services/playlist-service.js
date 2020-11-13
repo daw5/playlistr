@@ -31,6 +31,11 @@ export default class PlaylistService {
     return playlist;
   }
 
+  async deletePlaylist(_id) {
+    const result = await Playlist.findByIdAndDelete(_id);
+    return result;
+  }
+
   async createPlaylist(title, creator, tracks) {
     const playlist = new Playlist({ title, creator, tracks });
     try {

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { playlistService } from "../../services";
+import { GeneralModal } from "..";
 import Button from "@material-ui/core/Button";
 import ClearIcon from "@material-ui/icons/Clear";
 import DefaultThumbnail from "../../assets/cassette.gif";
-import { GeneralModal } from "..";
 import "./my-playlists.scss";
 
 export default function MyPlaylists(props) {
@@ -12,6 +12,10 @@ export default function MyPlaylists(props) {
   const [playlistToDelete, setPlaylistToDelete] = useState(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const history = useHistory();
+
+  useEffect(() => {
+    getPlaylists();
+  }, []);
 
   const play = (playlist) => {
     history.push(`/playlist/${playlist._id}`);
@@ -32,15 +36,19 @@ export default function MyPlaylists(props) {
   };
 
   const deletePlaylist = (playlist) => {
-    // use service to delete playlist then run:
+    // consider making optimistic update in future...maybe index playlists on arrival for easy delete?
+    playlistService.deletePlaylist(playlist._id).then(() => {
+      getPlaylists();
+      closeDeleteModal();
+    });
     setPlaylistToDelete(null);
   };
 
-  useEffect(() => {
+  const getPlaylists = () => {
     playlistService.getUserPlaylists().then((playlists) => {
       setPlaylists(playlists);
     });
-  }, []);
+  };
 
   return (
     <div className="my-playlists-container">
@@ -93,7 +101,6 @@ export default function MyPlaylists(props) {
         ))}
       <GeneralModal
         action={deletePlaylist}
-        content="Blah dee fucking blah"
         open={deleteModalOpen}
         handleClose={closeDeleteModal}
         item={playlistToDelete && playlistToDelete}

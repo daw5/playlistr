@@ -12,7 +12,6 @@ export const createPlaylist = (title, tracks) =>
       return response.data;
     })
     .catch(function (error) {
-      console.log("catch block");
       return error.response.data;
     });
 
@@ -23,7 +22,16 @@ export const updatePlaylist = (playlistId, playlistUpdates) =>
       return response.data;
     })
     .catch(function (error) {
-      console.log("catch block");
+      return error.response.data;
+    });
+
+export const deletePlaylist = (playlistId) =>
+  axios
+    .delete(`/api/playlists/${playlistId}`)
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
       return error.response.data;
     });
 
