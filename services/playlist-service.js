@@ -13,6 +13,11 @@ export default class PlaylistService {
     return playlists;
   }
 
+  async findPlaylistsById(_ids) {
+    const playlists = await Playlist.find({ _id: _ids });
+    return playlists;
+  }
+
   async listRecentPlaylists() {
     const playlists = await Playlist.find()
       .sort({ _id: -1 })

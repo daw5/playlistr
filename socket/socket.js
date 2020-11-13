@@ -65,12 +65,13 @@ function onGroupMessage(io, socket) {
   });
 }
 
-function listPopularPlaylists(io, socket) {
-  socket.on("get-popular-playlists", function () {
-    const popularPlaylists = getRooms(io).sort(
+function listActivePlaylists(io, socket) {
+  socket.on("get-active-playlists", function () {
+    console.log("getting active playlists on socket");
+    const activePlaylists = getRooms(io).sort(
       ({ length: a }, { length: b }) => b - a
     );
-    socket.send("popular-playlists", popularPlaylists);
+    socket.send("active-playlists", activePlaylists);
   });
 }
 
@@ -98,7 +99,7 @@ export function initializeSocketServer(io) {
       });
     }
     handleGroups(socket);
-    listPopularPlaylists(io, socket);
+    listActivePlaylists(io, socket);
     onGroupMessage(io, socket);
     onDisconnect(socket);
   });

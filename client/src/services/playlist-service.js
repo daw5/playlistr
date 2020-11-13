@@ -45,6 +45,16 @@ export const getPlaylists = () =>
       return error.response.data;
     });
 
+export const getActivePlaylists = (data) =>
+  axios
+    .post(`/api/playlists/active`, data.slice(0, 50))
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      return error.response.data;
+    });
+
 export const getUserPlaylists = () =>
   axios
     .get(`/api/users/current/playlists`)

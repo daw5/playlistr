@@ -14,7 +14,7 @@ export default function MyPlaylists(props) {
   const history = useHistory();
 
   useEffect(() => {
-    getPlaylists();
+    props.socket ? getActivePlaylists() : getPlaylists();
   }, []);
 
   const play = (playlist) => {
@@ -48,6 +48,19 @@ export default function MyPlaylists(props) {
     playlistService.getUserPlaylists().then((playlists) => {
       setPlaylists(playlists);
     });
+  };
+
+  const getActivePlaylists = () => {
+    console.log("am i getting active playlists");
+    props.socket.on("active-playlists", function (data) {
+      console.log("recieved soket response");
+      playlistService.getActivePlaylists(data).then((playlists) => {
+        setPlaylists(playlists);
+      });
+    });
+    setTimeout(() => {
+      props.socket.emit("get-active-playlists");
+    }, 10000);
   };
 
   return (
