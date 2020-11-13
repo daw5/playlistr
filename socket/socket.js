@@ -1,7 +1,6 @@
 import { MessagingService } from "../services/index";
 import jwt from "jsonwebtoken";
 
-const socketCookieParser = require("socket.io-cookie-parser");
 const messagingService = new MessagingService();
 const clients = {};
 const cookie = require("cookie");
@@ -14,7 +13,6 @@ function onDisconnect(socket) {
 
 function getToken(socket) {
   const parsedCookie = cookie.parse(socket.handshake.headers.cookie);
-
   return parsedCookie.token || null;
 }
 
@@ -65,7 +63,6 @@ function handleGroups(socket) {
 }
 
 export function initializeSocketServer(io) {
-  io.use(socketCookieParser());
   io.on("connect", function (socket) {
     const token = getToken(socket);
     if (token) {
