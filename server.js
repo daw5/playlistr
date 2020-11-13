@@ -1,5 +1,6 @@
 require("dotenv").config();
 import { applyPassportStrategy } from "./store/passport";
+import { initializeSocketServer } from "./socket/socket";
 import {
   authController,
   mailingController,
@@ -12,19 +13,17 @@ import passport from "passport";
 const PORT = process.env.PORT;
 const SOCKET_PORT = process.env.SOCKET_PORT;
 
-const socketCookieParser = require("socket.io-cookie-parser");
-const socketioJwt = require("socketio-jwt");
 const express = require("express");
 const http = require("http");
-const socket = require("socket.io");
 const app = express();
 const server = http.createServer();
+const cookieParser = require("cookie-parser");
+const socket = require("socket.io");
 const io = socket(server);
 const connectDb = require("./database/connection");
-const cookieParser = require("cookie-parser");
-const clients = {};
 
 applyPassportStrategy(passport);
+initializeSocketServer(io);
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -33,42 +32,6 @@ app.use("/api/auth", authController);
 app.use("/api/users", userController);
 app.use("/api/playlists", playlistController);
 app.use("/mailing", mailingController);
-io.use(socketCookieParser());
-io.on("connect", function (socket) {
-  socket.on("join-group", async function (group, previousGroup) {
-    previousGroup && socket.leave(previousGroup);
-    socket.join(group);
-  });
-
-  socket.on("leave-group", function (group) {
-    socket.leave(group);
-  });
-
-  socket.on("group-message", async function (data) {
-    io.in(data.group).emit("group-message", {
-      correspondent: data.correspondent,
-      message: data.messageToSend,
-    });
-  });
-});
-io.sockets
-  .on(
-    "connection",
-    socketioJwt.authorize({
-      secret: process.env.PASSPORT_SECRET,
-      timeout: 15000,
-      cookie: "token",
-    })
-  )
-  .on("authenticated", function (socket) {
-    clients[socket.decoded_token._id] = socket;
-    console.log("authenticated: ", socket.decoded_token);
-    require("./socket/listeners").default(socket, clients);
-    socket.on("disconnect", (reason) => {
-      console.log("client disconnected: ", reason);
-      delete clients[socket.decoded_token._id];
-    });
-  });
 
 app.listen(PORT, function () {
   console.log(`Listening on ${PORT}`);
