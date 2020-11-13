@@ -5,15 +5,17 @@ const messagingService = new MessagingService();
 const clients = {};
 const cookie = require("cookie");
 
+function getToken(socket) {
+  const parsedCookie =
+    typeof socket.handshake.headers.cookie === "string" &&
+    cookie.parse(socket.handshake.headers.cookie);
+  return parsedCookie.token || null;
+}
+
 function onDisconnect(socket) {
   socket.on("disconnect", (reason) => {
     console.log("client disconnected: ", reason);
   });
-}
-
-function getToken(socket) {
-  const parsedCookie = cookie.parse(socket.handshake.headers.cookie);
-  return parsedCookie.token || null;
 }
 
 function onMessage(socket, clients) {
@@ -42,13 +44,33 @@ function onMessage(socket, clients) {
   });
 }
 
+function getRooms(io) {
+  const realRooms = Object.keys(io.sockets.adapter.rooms).reduce(
+    (filtered, key) => {
+      if (!io.sockets.adapter.rooms[key].sockets.hasOwnProperty(key))
+        filtered.push(io.sockets.adapter.rooms[key]);
+      return filtered;
+    },
+    []
+  );
+  return realRooms;
+}
+
 function onGroupMessage(io, socket) {
   socket.on("group-message", async function (data) {
+    listPopularGroups(io);
     io.in(data.group).emit("group-message", {
       correspondent: data.correspondent,
       message: data.messageToSend,
     });
   });
+}
+
+function listPopularGroups(io) {
+  const popularGroups = getRooms(io).sort(
+    ({ length: a }, { length: b }) => b - a
+  );
+  console.log("popular groups: ", popularGroups);
 }
 
 function handleGroups(socket) {
@@ -75,6 +97,7 @@ export function initializeSocketServer(io) {
       });
     }
     handleGroups(socket);
+    // listPopularGroups(io, socket);
     onGroupMessage(io, socket);
     onDisconnect(socket);
   });
