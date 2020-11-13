@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
-import { AuthService } from "../../services";
+import { AuthService, MessagingService } from "../../services";
 import { AuthInputs, PlaylistSearchBar, SideMenu } from "..";
 import { Button, Typography } from "@material-ui/core";
 import "./header.scss";
@@ -25,6 +25,8 @@ function Header(props) {
     const { email, password } = input;
     authService.login(email, password).then((response) => {
       if (response.status === 200) {
+        const messagingService = new MessagingService();
+        messagingService.disconnectSocket();
         resetHeader();
         displayTemporaryMessage("WELCOME");
         props.loadUserData();

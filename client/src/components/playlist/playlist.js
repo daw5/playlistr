@@ -11,26 +11,36 @@ export default function Playlist(props) {
   const [playlist, setPlaylist] = useState(null);
   const [latestMessage, setLatestMessage] = useState(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+  const [recentGroup, setRecentGroup] = useState(null);
   const group = `group${props.match.params.id}`;
 
   useEffect(() => {
-    playlist && props.socket.emit("leave-group", group);
-    playlistService.getPlaylist(props.match.params.id).then((playlist) => {
-      setPlaylist(playlist);
-      props.socket.emit("join-group", group);
-      props.socket.on("group-message", function (data) {
-        setLatestMessage(data);
-      });
-    });
+    setNewPlaylist();
   }, [props.match.params.id]);
 
   useEffect(() => {
-    playlist && props.socket.emit("leave-group", group);
+    initializeChat();
+  }, [props.socket]);
+
+  const setNewPlaylist = () => {
+    leaveGroup();
+    playlistService.getPlaylist(props.match.params.id).then((playlist) => {
+      setPlaylist(playlist);
+      initializeChat();
+    });
+  };
+
+  const initializeChat = () => {
     props.socket.emit("join-group", group);
+    setRecentGroup(group);
     props.socket.on("group-message", function (data) {
       setLatestMessage(data);
     });
-  }, [props.socket]);
+  };
+
+  const leaveGroup = () => {
+    recentGroup && props.socket.emit("leave-group", recentGroup);
+  };
 
   const trackBack = () => {
     currentTrackIndex - 1 >= 0 && setCurrentTrackIndex(currentTrackIndex - 1);

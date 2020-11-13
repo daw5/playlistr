@@ -5,6 +5,12 @@ const messagingService = new MessagingService();
 const socketioJwt = require("socketio-jwt");
 const clients = {};
 
+function onDisconnect(socket) {
+  socket.on("disconnect", (reason) => {
+    console.log("client disconnected: ", reason);
+  });
+}
+
 function onMessage(socket, clients) {
   socket.on("message", async function (data) {
     const { message, newConversation } = await messagingService.saveInteraction(
@@ -29,10 +35,7 @@ function onMessage(socket, clients) {
 export function initializeSocketServer(io) {
   io.use(socketCookieParser());
   io.on("connect", function (socket) {
-    socket.on("disconnect", (reason) => {
-      console.log("client disconnected: ", reason);
-    });
-    console.log("we got a connection event", socket.id);
+    onDisconnect(socket);
     socket.on("join-group", async function (group, previousGroup) {
       previousGroup && socket.leave(previousGroup);
       socket.join(group);
@@ -43,12 +46,14 @@ export function initializeSocketServer(io) {
     });
 
     socket.on("group-message", async function (data) {
+      console.log("is this message actually being sent twice ", data);
       io.in(data.group).emit("group-message", {
         correspondent: data.correspondent,
         message: data.messageToSend,
       });
     });
   });
+
   io.sockets
     .on(
       "connection",
@@ -62,9 +67,6 @@ export function initializeSocketServer(io) {
       clients[socket.decoded_token._id] = socket;
       console.log("authenticated: ", socket.decoded_token);
       onMessage(socket, clients);
-      socket.on("disconnect", (reason) => {
-        console.log("client disconnected: ", reason);
-        delete clients[socket.decoded_token._id];
-      });
+      onDisconnect(socket);
     });
 }
