@@ -12,7 +12,7 @@ export default function Playlist(props) {
   const [latestMessage, setLatestMessage] = useState(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [recentGroup, setRecentGroup] = useState(null);
-  const group = `group${props.match.params.id}`;
+  const group = props.match.params.id;
 
   useEffect(() => {
     setNewPlaylist();

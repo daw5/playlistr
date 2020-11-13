@@ -58,7 +58,6 @@ function getRooms(io) {
 
 function onGroupMessage(io, socket) {
   socket.on("group-message", async function (data) {
-    listPopularGroups(io);
     io.in(data.group).emit("group-message", {
       correspondent: data.correspondent,
       message: data.messageToSend,
@@ -66,11 +65,13 @@ function onGroupMessage(io, socket) {
   });
 }
 
-function listPopularGroups(io) {
-  const popularGroups = getRooms(io).sort(
-    ({ length: a }, { length: b }) => b - a
-  );
-  console.log("popular groups: ", popularGroups);
+function listPopularPlaylists(io, socket) {
+  socket.on("get-popular-playlists", function () {
+    const popularPlaylists = getRooms(io).sort(
+      ({ length: a }, { length: b }) => b - a
+    );
+    socket.send("popular-playlists", popularPlaylists);
+  });
 }
 
 function handleGroups(socket) {
@@ -97,7 +98,7 @@ export function initializeSocketServer(io) {
       });
     }
     handleGroups(socket);
-    // listPopularGroups(io, socket);
+    listPopularPlaylists(io, socket);
     onGroupMessage(io, socket);
     onDisconnect(socket);
   });
