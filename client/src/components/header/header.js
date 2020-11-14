@@ -72,7 +72,7 @@ function Header(props) {
     <div id="headerContainer">
       <div
         id="header"
-        className={`${temporaryMessage && "animate-header"}
+        className={`${temporaryMessage && "color-animation"}
           ${!showAuthInputs && "signed-in-header"}`}
       >
         {temporaryMessage && (

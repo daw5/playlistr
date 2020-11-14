@@ -29,10 +29,16 @@
   align-items: center;
 }
 
-.animate-header {
+.color-animation {
   -webkit-animation: AnimationName 5s ease infinite;
   -moz-animation: AnimationName 5s ease infinite;
   animation: AnimationName 5s ease infinite;
+}
+
+.hover-animation {
+  &:hover {
+    @extend .color-animation;
+  }
 }
 
 #messaging-icon-column {
