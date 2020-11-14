@@ -5,7 +5,7 @@ import { GeneralModal } from "..";
 import Button from "@material-ui/core/Button";
 import ClearIcon from "@material-ui/icons/Clear";
 import DefaultThumbnail from "../../assets/cassette.gif";
-import "./my-playlists.scss";
+import "./playlists.scss";
 
 export default function Playlists(props) {
   const [playlists, setPlaylists] = useState([]);
@@ -15,7 +15,7 @@ export default function Playlists(props) {
 
   useEffect(() => {
     props.socket ? getActivePlaylists() : getPlaylists();
-  }, []);
+  }, [props.socket]);
 
   const play = (playlist) => {
     history.push(`/playlist/${playlist._id}`);
@@ -70,17 +70,20 @@ export default function Playlists(props) {
                 <Button
                   className="playlist-play-button standard-submit-button"
                   variant="contained"
+                  style={{ gridColumn: props.socket && "1 / span 2" }}
                   onClick={() => play(playlist)}
                 >
                   Play
                 </Button>
-                <Button
-                  className="playlist-edit-button standard-submit-button"
-                  variant="contained"
-                  onClick={() => edit(playlist)}
-                >
-                  Edit
-                </Button>
+                {!props.socket && (
+                  <Button
+                    className="playlist-edit-button standard-submit-button"
+                    variant="contained"
+                    onClick={() => edit(playlist)}
+                  >
+                    Edit
+                  </Button>
+                )}
               </div>
             </div>
             <div className="playlist-body">
@@ -95,15 +98,17 @@ export default function Playlists(props) {
                 </div>
               ))}
             </div>
-            <Button
-              className="delete-playlist-button"
-              variant="contained"
-              color="secondary"
-              size="small"
-              onClick={() => openDeleteModal(playlist)}
-            >
-              <ClearIcon fontSize="small" />
-            </Button>
+            {!props.socket && (
+              <Button
+                className="delete-playlist-button"
+                variant="contained"
+                color="secondary"
+                size="small"
+                onClick={() => openDeleteModal(playlist)}
+              >
+                <ClearIcon fontSize="small" />
+              </Button>
+            )}
           </div>
         ))}
       <GeneralModal
