@@ -56,7 +56,7 @@ export default function SideMenu(props) {
         <ListItem
           onClick={() => history.push(`/my-playlists`)}
           button
-          key={"myPlaylists"}
+          key={"playlists"}
         >
           <ListItemIcon>
             <LibraryMusicIcon />

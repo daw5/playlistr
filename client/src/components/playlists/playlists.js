@@ -7,7 +7,7 @@ import ClearIcon from "@material-ui/icons/Clear";
 import DefaultThumbnail from "../../assets/cassette.gif";
 import "./my-playlists.scss";
 
-export default function MyPlaylists(props) {
+export default function Playlists(props) {
   const [playlists, setPlaylists] = useState([]);
   const [playlistToDelete, setPlaylistToDelete] = useState(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);

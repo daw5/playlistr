@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useToggle } from "./hooks";
 import {
   Playlist,
-  MyPlaylists,
+  Playlists,
   PlaylistCreate,
   Messaging,
   Header,
@@ -76,7 +76,7 @@ export default function App() {
               <Switch>
                 <Route
                   path="/my-playlists"
-                  render={() => <MyPlaylists />}
+                  render={() => <Playlists />}
                 ></Route>
                 <Route
                   path="/playlist/:id"
@@ -102,7 +102,7 @@ export default function App() {
                 ></Route>
                 <Route
                   path="/"
-                  render={() => socket && <MyPlaylists socket={socket} />}
+                  render={() => socket && <Playlists socket={socket} />}
                 ></Route>
               </Switch>
               {socket && currentUser && (
