@@ -51,16 +51,10 @@ export default function MyPlaylists(props) {
   };
 
   const getActivePlaylists = () => {
-    console.log("am i getting active playlists");
-    props.socket.on("active-playlists", function (data) {
-      console.log("recieved soket response");
-      playlistService.getActivePlaylists(data).then((playlists) => {
-        setPlaylists(playlists);
-      });
+    props.socket.on("get-active-playlists", function (data) {
+      setPlaylists([...data]);
     });
-    setTimeout(() => {
-      props.socket.emit("get-active-playlists");
-    }, 10000);
+    props.socket.emit("get-active-playlists", true);
   };
 
   return (

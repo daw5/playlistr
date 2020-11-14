@@ -75,10 +75,6 @@ export default function App() {
             <div id="main-section-container">
               <Switch>
                 <Route
-                  path="/"
-                  render={() => socket && <MyPlaylists socket={socket} />}
-                ></Route>
-                <Route
                   path="/my-playlists"
                   render={() => <MyPlaylists />}
                 ></Route>
@@ -103,6 +99,10 @@ export default function App() {
                 <Route
                   path="/playlist-create"
                   render={() => <PlaylistCreate edit={false} />}
+                ></Route>
+                <Route
+                  path="/"
+                  render={() => socket && <MyPlaylists socket={socket} />}
                 ></Route>
               </Switch>
               {socket && currentUser && (

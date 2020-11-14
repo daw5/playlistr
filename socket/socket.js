@@ -1,7 +1,8 @@
-import { MessagingService } from "../services/index";
+import { MessagingService, PlaylistService } from "../services/index";
 import jwt from "jsonwebtoken";
 
 const messagingService = new MessagingService();
+const playlistService = new PlaylistService();
 const clients = {};
 const cookie = require("cookie");
 
@@ -44,15 +45,15 @@ function onMessage(socket, clients) {
   });
 }
 
-function getRooms(io) {
-  const realRooms = Object.keys(io.sockets.adapter.rooms).reduce(
-    (filtered, key) => {
-      if (!io.sockets.adapter.rooms[key].sockets.hasOwnProperty(key))
-        filtered.push(io.sockets.adapter.rooms[key]);
-      return filtered;
-    },
-    []
-  );
+function getRooms(rooms) {
+  const realRooms = Object.keys(rooms).reduce((filtered, key) => {
+    if (!rooms[key].sockets.hasOwnProperty(key)) {
+      const room = rooms[key];
+      room.playlistId = key;
+      filtered.push(room);
+    }
+    return filtered;
+  }, []);
   return realRooms;
 }
 
@@ -66,12 +67,17 @@ function onGroupMessage(io, socket) {
 }
 
 function listActivePlaylists(io, socket) {
-  socket.on("get-active-playlists", function () {
-    console.log("getting active playlists on socket");
-    const activePlaylists = getRooms(io).sort(
+  socket.on("get-active-playlists", async function (data) {
+    const activePlaylists = getRooms(io.sockets.adapter.rooms).sort(
       ({ length: a }, { length: b }) => b - a
     );
-    socket.send("active-playlists", activePlaylists);
+    const activePlaylistIds = activePlaylists.map((playlist) => {
+      return playlist.playlistId;
+    });
+    const playlists = await playlistService.findPlaylistsById(
+      activePlaylistIds
+    );
+    socket.emit("get-active-playlists", playlists);
   });
 }
 

@@ -1,6 +1,7 @@
 require("dotenv").config();
 
 import { Playlist } from "../database/models/index";
+const ObjectId = require("mongodb").ObjectID;
 
 export default class PlaylistService {
   async listPlaylists() {
@@ -14,7 +15,9 @@ export default class PlaylistService {
   }
 
   async findPlaylistsById(_ids) {
-    const playlists = await Playlist.find({ _id: _ids });
+    const list = _ids.map((e) => ObjectId(e));
+    let playlists = await Playlist.find({ _id: { $in: list } });
+    playlists = list.map((e) => playlists.find((s) => s._id.equals(e)));
     return playlists;
   }
 

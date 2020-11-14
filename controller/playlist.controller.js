@@ -23,15 +23,6 @@ playlistController.get("/recent", async (req, res, next) => {
   }
 });
 
-playlistController.get("/active", async (req, res, next) => {
-  try {
-    const playlists = await playlistService.findPlaylistsById(req.body);
-    res.status(200).send(playlists);
-  } catch (error) {
-    next(error);
-  }
-});
-
 playlistController.get("/:id", async (req, res, next) => {
   try {
     const playlist = await playlistService.findPlaylistById(req.params.id);
