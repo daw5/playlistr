@@ -44,6 +44,7 @@ export default function SideMenu(props) {
     authService.logout().then(() => {
       messagingService.disconnectSocket();
       props.loadUserData();
+      history.push("/");
     });
   };
 
