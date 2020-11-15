@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
-import { AuthService, messagingService, userService } from "../../services";
+import { authService, messagingService, userService } from "../../services";
 import { AuthInputs, PlaylistSearchBar, SideMenu } from "..";
 import { Button, Typography } from "@material-ui/core";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
@@ -11,14 +11,9 @@ import "./header.scss";
 function Header(props) {
   const [showAuthInputs, setShowAuthInputs] = useState(false);
   const [showRegisterInputs, setShowRegisterInputs] = useState(false);
-  const [authService, setAuthService] = useState(null);
   const [temporaryMessage, setTemporaryMessage] = useState("");
   const [enterUsername, setEnterUsername] = useState(false);
   const history = useHistory();
-
-  useEffect(() => {
-    setAuthService(new AuthService());
-  }, []);
 
   const resetHeader = () => {
     setShowRegisterInputs(false);
