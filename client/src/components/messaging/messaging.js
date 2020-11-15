@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./messaging.scss";
 import { Conversations, Chat } from "../";
-import { UserService, MessagingService } from "../../services";
+import { userService, MessagingService } from "../../services";
 
 require("dotenv").config();
 
@@ -16,7 +16,6 @@ export default function Messaging(props) {
   useEffect(() => {
     if (props.currentUser) {
       setMessagingService(new MessagingService());
-      const userService = new UserService();
       userService
         .getConversations(props.currentUser._id)
         .then((conversations) => {

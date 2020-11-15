@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
-import { AuthService, MessagingService, UserService } from "../../services";
+import { AuthService, MessagingService, userService } from "../../services";
 import { AuthInputs, PlaylistSearchBar, SideMenu } from "..";
 import { Button, Typography } from "@material-ui/core";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
@@ -21,7 +21,6 @@ function Header(props) {
 
   useEffect(() => {
     setAuthService(new AuthService());
-    setUserService(new UserService());
   }, []);
 
   const resetHeader = () => {

@@ -8,7 +8,7 @@ import {
   Header,
 } from "./components";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { MessagingService, UserService, playlistService } from "./services";
+import { MessagingService, userService, playlistService } from "./services";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { ThemeProvider } from "@material-ui/core";
 import { theme } from "./material-overrides/header";
@@ -30,7 +30,6 @@ export default function App() {
   }, []);
 
   const loadUserData = () => {
-    const userService = new UserService();
     const messagingService = new MessagingService();
 
     userService.getCurrentUser().then((user) => {
