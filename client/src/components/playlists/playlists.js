@@ -65,16 +65,14 @@ export default function Playlists(props) {
             <div className="playlist-head">
               <div
                 className={`playlist-title-container ${
-                  props.socket && "color-animation"
+                  props.socket && "hot color-animation"
                 }`}
               >
                 <h2>{playlist.title}</h2>
               </div>
               <div className="playlist-functions-container">
                 <Button
-                  className={`playlist-play-button standard-submit-button ${
-                    props.socket && "hover-animation"
-                  }`}
+                  className={`playlist-play-button standard-submit-button`}
                   variant="contained"
                   style={{ gridColumn: props.socket && "1 / span 2" }}
                   onClick={() => play(playlist)}

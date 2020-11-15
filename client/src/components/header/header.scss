@@ -10,6 +10,13 @@
   grid-template-columns: auto auto 100px;
 }
 
+.hot {
+  background-size: contain !important;
+  background-image: url("../../assets/pixelFire.gif") !important;
+  background-color: black !important;
+  color: #fff !important;
+}
+
 #header.signed-in-header {
   grid-template-columns: 100px auto 100px;
 }
@@ -137,6 +144,10 @@
 
 #submitLoginButton {
   @extend .authInput;
+}
+
+.pixel-fire {
+  background-image: url("../../assets/pixelFire.gif");
 }
 
 @media only screen and (max-width: 600px) {

@@ -4,6 +4,9 @@ import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import { AuthService, MessagingService } from "../../services";
 import { AuthInputs, PlaylistSearchBar, SideMenu } from "..";
 import { Button, Typography } from "@material-ui/core";
+import WhatshotIcon from "@material-ui/icons/Whatshot";
+import { useHistory } from "react-router-dom";
+import "../../assets/pixelFire.gif";
 import "./header.scss";
 
 function Header(props) {
@@ -11,6 +14,8 @@ function Header(props) {
   const [showRegisterInputs, setShowRegisterInputs] = useState(false);
   const [authService, setAuthService] = useState(null);
   const [temporaryMessage, setTemporaryMessage] = useState("");
+  const [fireBackground, setFireBackground] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     setAuthService(new AuthService());
@@ -72,8 +77,11 @@ function Header(props) {
     <div id="headerContainer">
       <div
         id="header"
-        className={`${temporaryMessage && "color-animation"}
-          ${!showAuthInputs && "signed-in-header"}`}
+        className={`
+          ${temporaryMessage && "color-animation"}
+          ${!showAuthInputs && "signed-in-header"} 
+          ${fireBackground && "hot"}
+        `}
       >
         {temporaryMessage && (
           <Typography className={"temporaryMessage"} variant="h5">
@@ -124,28 +132,39 @@ function Header(props) {
                 displayTemporaryMessage={displayTemporaryMessage}
               />
             )}
-            {props.currentUser && (
-              <div id="messaging-icon-column">
-                <div
-                  id="messaging-icon-container"
-                  onClick={props.toggleMessagingSidebar}
-                >
-                  {!props.messagingSidebarOpen ? (
-                    <ChatBubbleOutlineIcon
-                      id="messaging-icon-outline"
-                      style={{
-                        fontSize: 40,
-                      }}
-                    ></ChatBubbleOutlineIcon>
-                  ) : (
-                    <ChatBubbleIcon
-                      id="messaging-icon-filled"
+            <div id="messaging-icon-column" className="pixel-fire">
+              <div
+                id="messaging-icon-container"
+                onClick={props.toggleMessagingSidebar}
+              >
+                {props.currentUser ? (
+                  <React.Fragment>
+                    {!props.messagingSidebarOpen ? (
+                      <ChatBubbleOutlineIcon
+                        id="messaging-icon-outline"
+                        style={{
+                          fontSize: 40,
+                        }}
+                      ></ChatBubbleOutlineIcon>
+                    ) : (
+                      <ChatBubbleIcon
+                        id="messaging-icon-filled"
+                        style={{ fontSize: 40 }}
+                      ></ChatBubbleIcon>
+                    )}
+                  </React.Fragment>
+                ) : (
+                  <React.Fragment>
+                    <WhatshotIcon
+                      onClick={() => history.push("/")}
+                      onMouseOver={() => setFireBackground(true)}
+                      onMouseLeave={() => setFireBackground(false)}
                       style={{ fontSize: 40 }}
-                    ></ChatBubbleIcon>
-                  )}
-                </div>
+                    />
+                  </React.Fragment>
+                )}
               </div>
-            )}
+            </div>
           </React.Fragment>
         )}
       </div>
