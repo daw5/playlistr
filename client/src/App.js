@@ -34,21 +34,21 @@ export default function App() {
     const messagingService = new MessagingService();
 
     userService.getCurrentUser().then((user) => {
-      if (user && user.username) {
-        userWithUsername(messagingService, userService, user);
+      if (user) {
+        setUser(messagingService, userService, user);
       } else {
-        anonymousUser(messagingService);
+        setAnonymousUser(messagingService);
       }
       setLoaded(true);
     });
   };
 
-  const anonymousUser = (messagingService) => {
+  const setAnonymousUser = (messagingService) => {
     setCurrentUser(null);
     setSocket(messagingService.connectSocket());
   };
 
-  const userWithUsername = (messagingService, userService, user) => {
+  const setUser = (messagingService, userService, user) => {
     setCurrentUser(user);
     setSocket(messagingService.authenticateSocket());
     userService.getUsers().then((users) => {

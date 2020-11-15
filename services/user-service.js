@@ -13,6 +13,13 @@ export default class UserService {
     return user;
   }
 
+  async setUsername(data) {
+    const { _id, username } = data;
+    await User.findByIdAndUpdate(_id, { username });
+    const user = await User.findById(_id);
+    return user;
+  }
+
   async findSlimUserById(_id) {
     const user = await User.findById(_id).select("-password -status -__v");
     return user;

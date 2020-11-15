@@ -36,6 +36,17 @@ export default class UserService {
         console.log(error);
       });
 
+  setUsername = (userId, username) =>
+    axios
+      .put(`/api/users/current/set-username`, { _id: userId, username })
+      .then((response) => {
+        console.log("response: ", response);
+        return response;
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
   indexConversationsByCorrespondent = (conversations, currentUser) => {
     const indexedConversations = {};
     conversations.forEach((conversation) => {

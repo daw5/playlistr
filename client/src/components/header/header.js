@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
-import { AuthService, MessagingService } from "../../services";
+import { AuthService, MessagingService, UserService } from "../../services";
 import { AuthInputs, PlaylistSearchBar, SideMenu } from "..";
 import { Button, Typography } from "@material-ui/core";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
@@ -13,6 +13,7 @@ function Header(props) {
   const [showAuthInputs, setShowAuthInputs] = useState(false);
   const [showRegisterInputs, setShowRegisterInputs] = useState(false);
   const [authService, setAuthService] = useState(null);
+  const [userService, setUserService] = useState(null);
   const [temporaryMessage, setTemporaryMessage] = useState("");
   const [fireBackground, setFireBackground] = useState(false);
   const [enterUsername, setEnterUsername] = useState(false);
@@ -20,6 +21,7 @@ function Header(props) {
 
   useEffect(() => {
     setAuthService(new AuthService());
+    setUserService(new UserService());
   }, []);
 
   const resetHeader = () => {
@@ -35,7 +37,7 @@ function Header(props) {
         messagingService.disconnectSocket();
         if (response.data.username) {
           resetHeader();
-          displayTemporaryMessage("WELCOME");
+          welcome(response.data.username);
         } else {
           setEnterUsername(true);
           displayTemporaryMessage("WHAT SHOULD WE CALL YOU?");
@@ -47,7 +49,24 @@ function Header(props) {
     });
   };
 
-  const handleSetUsername = (username) => {};
+  const handleSetUsername = (username) => {
+    userService
+      .setUsername(props.currentUser._id, username)
+      .then((response) => {
+        if (response.status === 200) {
+          welcome(response.data.username);
+          setEnterUsername(false);
+          props.loadUserData();
+        } else {
+          displayAuthResponse(response);
+        }
+      });
+  };
+
+  const welcome = (username) => {
+    resetHeader();
+    displayTemporaryMessage(`WELCOME, ${username}`);
+  };
 
   const handleRegister = (input) => {
     const { email, password, passwordConfirm } = input;
@@ -99,7 +118,7 @@ function Header(props) {
         {!temporaryMessage && props.loaded && (
           <React.Fragment>
             <div id="navButtonsContainer">
-              {props.currentUser ? (
+              {props.currentUser && props.currentUser.username ? (
                 <SideMenu
                   id="sideMenuIconContainer"
                   loadUserData={props.loadUserData}
@@ -148,7 +167,7 @@ function Header(props) {
                 id="messaging-icon-container"
                 onClick={props.toggleMessagingSidebar}
               >
-                {props.currentUser ? (
+                {props.currentUser && props.currentUser.username ? (
                   <React.Fragment>
                     {!props.messagingSidebarOpen ? (
                       <ChatBubbleOutlineIcon

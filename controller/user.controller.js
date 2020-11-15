@@ -33,6 +33,15 @@ userController.get(
   }
 );
 
+userController.put("/current/set-username", async (req, res, next) => {
+  try {
+    const user = await userService.setUsername(req.body);
+    res.status(200).send(user);
+  } catch (error) {
+    next(error);
+  }
+});
+
 userController.get(
   "/current/playlists",
   passport.authenticate("jwt", { session: false }),

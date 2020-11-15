@@ -9,8 +9,9 @@ function AuthInputs(props) {
   const emailInput = useRef(null);
 
   const handleEnterPressed = (evt) => {
+    console.log("auth input : ", authInput);
     if (evt.key === "Enter") {
-      !props.enterUserName
+      !props.enterUsername
         ? props.loginOrRegister(authInput)
         : props.handleSetUsername(authInput.username);
     }
@@ -30,13 +31,13 @@ function AuthInputs(props) {
       <TextField
         autoFocus
         inputRef={emailInput}
-        value={props.enterUserName || authInput.email || ""}
+        value={authInput.username || authInput.email || ""}
         className={`authInput emailInput ${
           props.enterUsername && "username-input"
         }`}
         size="small"
         onChange={(evt) =>
-          !props.enterUserName
+          !props.enterUsername
             ? setAuthInput({ ...authInput, email: evt.target.value })
             : setAuthInput({ ...authInput, username: evt.target.value })
         }
