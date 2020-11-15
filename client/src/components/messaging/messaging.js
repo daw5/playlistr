@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./messaging.scss";
 import { Conversations, Chat } from "../";
-import { userService, MessagingService } from "../../services";
+import { userService, messagingService } from "../../services";
 
 require("dotenv").config();
 
 export default function Messaging(props) {
-  const [messagingService, setMessagingService] = useState(null);
   const [correspondent, setCorrespondent] = useState(null);
   const [conversations, setConversations] = useState({});
   const [latestMessage, setLatestMessage] = useState();
@@ -15,7 +14,6 @@ export default function Messaging(props) {
 
   useEffect(() => {
     if (props.currentUser) {
-      setMessagingService(new MessagingService());
       userService
         .getConversations(props.currentUser._id)
         .then((conversations) => {

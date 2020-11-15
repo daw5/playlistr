@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button, TextField } from "@material-ui/core";
-import { MessagingService } from "../../services";
+import { messagingService } from "../../services";
 import "./group-chat.scss";
 import "../chat/chat.scss";
 
@@ -10,12 +10,7 @@ export default function GroupChat(props) {
   const [messages, setMessages] = useState([]);
   const [messagesSent, setMessagesSent] = useState(0);
   const [messageToSend, setMessageToSend] = useState("");
-  const [messagingService, setMessagingService] = useState(null);
   const endOfChat = useRef(null);
-
-  useEffect(() => {
-    setMessagingService(new MessagingService());
-  }, []);
 
   useEffect(() => {
     setMessages([]);

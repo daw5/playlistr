@@ -3,89 +3,87 @@ import io from "socket.io-client";
 const axios = require("axios");
 let socket;
 
-export default class MessagingService {
-  connectSocket() {
-    socket = io.connect("http://localhost:4001");
-    return socket;
-  }
+export const connectSocket = () => {
+  socket = io.connect("http://localhost:4001");
+  return socket;
+};
 
-  authenticateSocket() {
-    socket = this.connectSocket();
-    socket.on("connect", function () {
-      socket
-        .emit("authenticate")
-        .on("authenticated", () => {
-          console.log("socket authentication complete");
-        })
-        .on("unauthorized", (msg) => {
-          console.log(`unauthorized: ${JSON.stringify(msg.data)}`);
-        });
-    });
-    return socket;
-  }
-
-  fetchMoreMessages = (conversations, correspondent_id) =>
-    axios
-      .get(
-        `/api/users/current/conversations/${conversations[correspondent_id]._id}/load-messages/${conversations[correspondent_id].messages.length}`
-      )
-      .then((response) => {
-        return this.addMessages(conversations, correspondent_id, response.data);
+export const authenticateSocket = () => {
+  socket = connectSocket();
+  socket.on("connect", function () {
+    socket
+      .emit("authenticate")
+      .on("authenticated", () => {
+        console.log("socket authentication complete");
       })
-      .catch(function (error) {
-        console.log(error);
+      .on("unauthorized", (msg) => {
+        console.log(`unauthorized: ${JSON.stringify(msg.data)}`);
       });
+  });
+  return socket;
+};
 
-  addMessages = (conversations, correspondent_id, messages) => {
-    const updatedMessages = conversations[correspondent_id].messages.concat(
-      messages
-    );
-    let updatedConversations = conversations;
-    updatedConversations[correspondent_id].messages = updatedMessages;
-    return updatedConversations;
-  };
-
-  sendPrivateMessage = (evt, messageToSend, correspondent_id) => {
-    evt.preventDefault();
-    socket.emit("message", {
-      reciever_id: correspondent_id,
-      contents: messageToSend,
+export const fetchMoreMessages = (conversations, correspondent_id) =>
+  axios
+    .get(
+      `/api/users/current/conversations/${conversations[correspondent_id]._id}/load-messages/${conversations[correspondent_id].messages.length}`
+    )
+    .then((response) => {
+      return addMessages(conversations, correspondent_id, response.data);
+    })
+    .catch(function (error) {
+      console.log(error);
     });
-    return true;
-  };
 
-  sendGroupMessage = (evt, messageToSend, correspondent, group) => {
-    evt.preventDefault();
-    console.log("gettins sent");
-    socket.emit("group-message", { correspondent, messageToSend, group });
-    return true;
-  };
+const addMessages = (conversations, correspondent_id, messages) => {
+  const updatedMessages = conversations[correspondent_id].messages.concat(
+    messages
+  );
+  let updatedConversations = conversations;
+  updatedConversations[correspondent_id].messages = updatedMessages;
+  return updatedConversations;
+};
 
-  disconnectSocket() {
-    socket.close();
-    socket = null;
-  }
+export const sendPrivateMessage = (evt, messageToSend, correspondent_id) => {
+  evt.preventDefault();
+  socket.emit("message", {
+    reciever_id: correspondent_id,
+    contents: messageToSend,
+  });
+  return true;
+};
 
-  getUsersRelevantToConversation(users, conversation) {
-    const relevantUsers = {};
-    conversation.users.forEach((user) => {
-      relevantUsers[user] = users[user];
-    });
-    return relevantUsers;
-  }
+export const sendGroupMessage = (evt, messageToSend, correspondent, group) => {
+  evt.preventDefault();
+  console.log("gettins sent");
+  socket.emit("group-message", { correspondent, messageToSend, group });
+  return true;
+};
 
-  updateConversations = (latestMessage, conversations) => {
-    let updatedConversations = conversations;
-    if (latestMessage) {
-      if (latestMessage.newConversation) {
-        updatedConversations[latestMessage.correspondent] =
-          latestMessage.newConversation;
-      } else {
-        updatedConversations[latestMessage.correspondent].messages.unshift(
-          latestMessage.message
-        );
-      }
+export const disconnectSocket = () => {
+  socket.close();
+  socket = null;
+};
+
+// export const getUsersRelevantToConversation = (users, conversation) => {
+//   const relevantUsers = {};
+//   conversation.users.forEach((user) => {
+//     relevantUsers[user] = users[user];
+//   });
+//   return relevantUsers;
+// };
+
+export const updateConversations = (latestMessage, conversations) => {
+  let updatedConversations = conversations;
+  if (latestMessage) {
+    if (latestMessage.newConversation) {
+      updatedConversations[latestMessage.correspondent] =
+        latestMessage.newConversation;
+    } else {
+      updatedConversations[latestMessage.correspondent].messages.unshift(
+        latestMessage.message
+      );
     }
-    return updatedConversations;
-  };
-}
+  }
+  return updatedConversations;
+};

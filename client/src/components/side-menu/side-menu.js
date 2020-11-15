@@ -11,18 +11,16 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
-import { AuthService, MessagingService } from "../../services";
+import { AuthService, messagingService } from "../../services";
 import { useHistory } from "react-router-dom";
 import "./side-menu.scss";
 
 export default function SideMenu(props) {
   const [authService, setAuthService] = useState(null);
-  const [messagingService, setMessagingService] = useState(null);
   const history = useHistory();
 
   useEffect(() => {
     setAuthService(new AuthService());
-    setMessagingService(new MessagingService());
   }, []);
 
   const [state, setState] = React.useState({

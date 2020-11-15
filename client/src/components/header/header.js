@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
-import { AuthService, MessagingService, userService } from "../../services";
+import { AuthService, messagingService, userService } from "../../services";
 import { AuthInputs, PlaylistSearchBar, SideMenu } from "..";
 import { Button, Typography } from "@material-ui/core";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
@@ -13,7 +13,6 @@ function Header(props) {
   const [showAuthInputs, setShowAuthInputs] = useState(false);
   const [showRegisterInputs, setShowRegisterInputs] = useState(false);
   const [authService, setAuthService] = useState(null);
-  const [userService, setUserService] = useState(null);
   const [temporaryMessage, setTemporaryMessage] = useState("");
   const [fireBackground, setFireBackground] = useState(false);
   const [enterUsername, setEnterUsername] = useState(false);
@@ -32,7 +31,6 @@ function Header(props) {
     const { email, password } = input;
     authService.login(email, password).then((response) => {
       if (response.status === 200) {
-        const messagingService = new MessagingService();
         messagingService.disconnectSocket();
         if (response.data.username) {
           resetHeader();

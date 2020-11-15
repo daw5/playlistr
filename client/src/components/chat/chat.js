@@ -2,14 +2,13 @@ import React, { useState, useRef, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import KeyboardBackspaceIcon from "@material-ui/icons/KeyboardBackspace";
-import { MessagingService } from "../../services";
+import { messagingService } from "../../services";
 import "./chat.scss";
 
 require("dotenv").config();
 
 export default function Chat(props) {
   const [messageToSend, setMessageToSend] = useState("");
-  const [messagingService, setMessagingService] = useState(null);
   const endOfChat = useRef(null);
   const scrollPosition = useRef(null);
 
@@ -42,10 +41,6 @@ export default function Chat(props) {
     }
     return messages;
   };
-
-  useEffect(() => {
-    setMessagingService(new MessagingService());
-  }, []);
 
   useEffect(() => {
     props.fetchCount > 0 && scrollPosition.current.scrollIntoView();
