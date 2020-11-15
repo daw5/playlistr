@@ -9,12 +9,17 @@ export default class UserService {
   }
 
   async findUserById(_id) {
-    const user = await User.findById(_id).select("-password -__v");
+    const user = await User.findById(_id);
+    return user;
+  }
+
+  async findSlimUserById(_id) {
+    const user = await User.findById(_id).select("-password -status -__v");
     return user;
   }
 
   async findUserByEmail(email) {
-    const user = await User.findOne({ email }).select("-password -__v");
+    const user = await User.findOne({ email });
     return user;
   }
 

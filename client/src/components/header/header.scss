@@ -114,6 +114,10 @@
     }
   }
 
+  .username-input {
+    grid-column: 1 / span 2;
+  }
+
   .loginSubmitContainer {
     display: flex;
     grid-column: 3 / span 4;

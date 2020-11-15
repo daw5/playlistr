@@ -9,7 +9,11 @@ function AuthInputs(props) {
   const emailInput = useRef(null);
 
   const handleEnterPressed = (evt) => {
-    evt.key === "Enter" && props.loginOrRegister(authInput);
+    if (evt.key === "Enter") {
+      !props.enterUserName
+        ? props.loginOrRegister(authInput)
+        : props.handleSetUsername(authInput.username);
+    }
   };
 
   useEffect(() => {
@@ -26,30 +30,36 @@ function AuthInputs(props) {
       <TextField
         autoFocus
         inputRef={emailInput}
-        value={authInput.email || ""}
-        className={"authInput emailInput"}
+        value={props.enterUserName || authInput.email || ""}
+        className={`authInput emailInput ${
+          props.enterUsername && "username-input"
+        }`}
         size="small"
         onChange={(evt) =>
-          setAuthInput({ ...authInput, email: evt.target.value })
+          !props.enterUserName
+            ? setAuthInput({ ...authInput, email: evt.target.value })
+            : setAuthInput({ ...authInput, username: evt.target.value })
         }
         onKeyDown={(evt) => handleEnterPressed(evt)}
         variant="outlined"
-        placeholder="Email"
+        placeholder={!props.enterUsername ? "Email" : "Username"}
         InputProps={{ style: authInputStyles }}
       />
-      <TextField
-        type="password"
-        value={authInput.password || ""}
-        className={"authInput passwordInput"}
-        size="small"
-        onChange={(evt) =>
-          setAuthInput({ ...authInput, password: evt.target.value })
-        }
-        onKeyDown={(evt) => handleEnterPressed(evt)}
-        variant="outlined"
-        placeholder="Password"
-        InputProps={{ style: authInputStyles }}
-      />
+      {!props.enterUsername && (
+        <TextField
+          type="password"
+          value={authInput.password || ""}
+          className={"authInput passwordInput"}
+          size="small"
+          onChange={(evt) =>
+            setAuthInput({ ...authInput, password: evt.target.value })
+          }
+          onKeyDown={(evt) => handleEnterPressed(evt)}
+          variant="outlined"
+          placeholder="Password"
+          InputProps={{ style: authInputStyles }}
+        />
+      )}
       {props.showRegisterInputs && (
         <TextField
           type="password"
@@ -68,6 +78,7 @@ function AuthInputs(props) {
           InputProps={{ style: authInputStyles }}
         />
       )}
+
       <div
         className={
           props.showRegisterInputs

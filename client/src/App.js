@@ -30,20 +30,29 @@ export default function App() {
   }, []);
 
   const loadUserData = () => {
-    const messagingService = new MessagingService();
     const userService = new UserService();
+    const messagingService = new MessagingService();
+
     userService.getCurrentUser().then((user) => {
-      if (user) {
-        setCurrentUser(user);
-        setSocket(messagingService.authenticateSocket());
-        userService.getUsers().then((users) => {
-          setUsers(users);
-        });
+      if (user && user.username) {
+        userWithUsername(messagingService, userService, user);
       } else {
-        setCurrentUser(null);
-        setSocket(messagingService.connectSocket());
+        anonymousUser(messagingService);
       }
       setLoaded(true);
+    });
+  };
+
+  const anonymousUser = (messagingService) => {
+    setCurrentUser(null);
+    setSocket(messagingService.connectSocket());
+  };
+
+  const userWithUsername = (messagingService, userService, user) => {
+    setCurrentUser(user);
+    setSocket(messagingService.authenticateSocket());
+    userService.getUsers().then((users) => {
+      setUsers(users);
     });
   };
 
@@ -69,8 +78,8 @@ export default function App() {
               toggleMessagingSidebar={setMessagingSidebarStatus}
               playlists={recentPlaylists}
               loaded={loaded}
-              currentUser={currentUser}
               loadUserData={loadUserData}
+              currentUser={currentUser}
             ></Header>
             <div id="main-section-container">
               <div

@@ -15,6 +15,7 @@ function Header(props) {
   const [authService, setAuthService] = useState(null);
   const [temporaryMessage, setTemporaryMessage] = useState("");
   const [fireBackground, setFireBackground] = useState(false);
+  const [enterUsername, setEnterUsername] = useState(false);
   const history = useHistory();
 
   useEffect(() => {
@@ -32,14 +33,21 @@ function Header(props) {
       if (response.status === 200) {
         const messagingService = new MessagingService();
         messagingService.disconnectSocket();
-        resetHeader();
-        displayTemporaryMessage("WELCOME");
+        if (response.data.username) {
+          resetHeader();
+          displayTemporaryMessage("WELCOME");
+        } else {
+          setEnterUsername(true);
+          displayTemporaryMessage("WHAT SHOULD WE CALL YOU?");
+        }
         props.loadUserData();
       } else {
         displayAuthResponse(response);
       }
     });
   };
+
+  const handleSetUsername = (username) => {};
 
   const handleRegister = (input) => {
     const { email, password, passwordConfirm } = input;
@@ -123,6 +131,9 @@ function Header(props) {
               <AuthInputs
                 resetHeader={resetHeader}
                 loginOrRegister={loginOrRegister}
+                handleSetUsername={handleSetUsername}
+                enterUsername={enterUsername}
+                setEnterUsername={setEnterUsername}
                 showRegisterInputs={showRegisterInputs}
               />
             )}
