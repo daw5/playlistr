@@ -25,7 +25,8 @@ userController.get(
   passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
     try {
-      res.status(200).send(req.user);
+      const user = await userService.findUserById(req.user._id);
+      res.status(200).send(user);
     } catch (error) {
       next(error);
     }

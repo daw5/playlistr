@@ -14,7 +14,7 @@ export default class AuthService {
 
   getToken(user) {
     const token = jwt.sign(
-      { _id: user._id, email: user.email },
+      { _id: user._id, email: user.email, username: user.username },
       config.passport.secret,
       {
         expiresIn: 10000000,

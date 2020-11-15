@@ -2,8 +2,9 @@ import mongoose from "mongoose";
 import { Schema } from "mongoose";
 
 const userSchema = new Schema({
-  password: { type: String, required: true },
+  username: { type: String, default: null, unique: true },
   email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
   status: {
     type: String,
     default: "pending",
