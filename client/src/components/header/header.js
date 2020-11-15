@@ -6,7 +6,6 @@ import { AuthInputs, PlaylistSearchBar, SideMenu } from "..";
 import { Button, Typography } from "@material-ui/core";
 import WhatshotIcon from "@material-ui/icons/Whatshot";
 import { useHistory } from "react-router-dom";
-import "../../assets/pixelFire.gif";
 import "./header.scss";
 
 function Header(props) {
@@ -14,7 +13,6 @@ function Header(props) {
   const [showRegisterInputs, setShowRegisterInputs] = useState(false);
   const [authService, setAuthService] = useState(null);
   const [temporaryMessage, setTemporaryMessage] = useState("");
-  const [fireBackground, setFireBackground] = useState(false);
   const [enterUsername, setEnterUsername] = useState(false);
   const history = useHistory();
 
@@ -103,8 +101,7 @@ function Header(props) {
         id="header"
         className={`
           ${temporaryMessage && "color-animation"}
-          ${!showAuthInputs && "signed-in-header"} 
-          ${fireBackground && "hot"}
+          ${!showAuthInputs && "signed-in-header"}
         `}
       >
         {temporaryMessage && (
@@ -159,7 +156,7 @@ function Header(props) {
                 displayTemporaryMessage={displayTemporaryMessage}
               />
             )}
-            <div id="messaging-icon-column" className="pixel-fire">
+            <div id="messaging-icon-column">
               <div
                 id="messaging-icon-container"
                 onClick={props.toggleMessagingSidebar}
@@ -185,8 +182,6 @@ function Header(props) {
                     {!showAuthInputs && (
                       <WhatshotIcon
                         onClick={() => history.push("/")}
-                        onMouseOver={() => setFireBackground(true)}
-                        onMouseLeave={() => setFireBackground(false)}
                         style={{ fontSize: 40 }}
                       />
                     )}
