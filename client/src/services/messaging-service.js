@@ -55,7 +55,6 @@ export const sendPrivateMessage = (evt, messageToSend, correspondent_id) => {
 
 export const sendGroupMessage = (evt, messageToSend, correspondent, group) => {
   evt.preventDefault();
-  console.log("gettins sent");
   socket.emit("group-message", { correspondent, messageToSend, group });
   return true;
 };
@@ -64,14 +63,6 @@ export const disconnectSocket = () => {
   socket.close();
   socket = null;
 };
-
-// export const getUsersRelevantToConversation = (users, conversation) => {
-//   const relevantUsers = {};
-//   conversation.users.forEach((user) => {
-//     relevantUsers[user] = users[user];
-//   });
-//   return relevantUsers;
-// };
 
 export const updateConversations = (latestMessage, conversations) => {
   let updatedConversations = conversations;

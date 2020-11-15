@@ -32,20 +32,20 @@ export default function App() {
   const loadUserData = () => {
     userService.getCurrentUser().then((user) => {
       if (user) {
-        setUser(messagingService, userService, user);
+        setUser(user);
       } else {
-        setAnonymousUser(messagingService);
+        setAnonymousUser();
       }
       setLoaded(true);
     });
   };
 
-  const setAnonymousUser = (messagingService) => {
+  const setAnonymousUser = () => {
     setCurrentUser(null);
     setSocket(messagingService.connectSocket());
   };
 
-  const setUser = (messagingService, userService, user) => {
+  const setUser = (user) => {
     setCurrentUser(user);
     setSocket(messagingService.authenticateSocket());
     userService.getUsers().then((users) => {
