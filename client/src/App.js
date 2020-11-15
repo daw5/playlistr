@@ -73,38 +73,43 @@ export default function App() {
               loadUserData={loadUserData}
             ></Header>
             <div id="main-section-container">
-              <Switch>
-                <Route
-                  path="/my-playlists"
-                  render={() => <Playlists />}
-                ></Route>
-                <Route
-                  path="/playlist/:id"
-                  render={(props) =>
-                    socket && (
-                      <Playlist
-                        {...props}
-                        currentUser={currentUser}
-                        socket={socket}
-                      />
-                    )
-                  }
-                ></Route>
-                <Route
-                  path="/playlist-edit/:id"
-                  render={(props) =>
-                    currentUser && <PlaylistCreate {...props} edit={true} />
-                  }
-                ></Route>
-                <Route
-                  path="/playlist-create"
-                  render={() => <PlaylistCreate edit={false} />}
-                ></Route>
-                <Route
-                  path="/"
-                  render={() => socket && <Playlists socket={socket} />}
-                ></Route>
-              </Switch>
+              <div
+                id="main-section"
+                className={messagingSidebarStatus && "mobile-main-section"}
+              >
+                <Switch>
+                  <Route
+                    path="/my-playlists"
+                    render={() => <Playlists />}
+                  ></Route>
+                  <Route
+                    path="/playlist/:id"
+                    render={(props) =>
+                      socket && (
+                        <Playlist
+                          {...props}
+                          currentUser={currentUser}
+                          socket={socket}
+                        />
+                      )
+                    }
+                  ></Route>
+                  <Route
+                    path="/playlist-edit/:id"
+                    render={(props) =>
+                      currentUser && <PlaylistCreate {...props} edit={true} />
+                    }
+                  ></Route>
+                  <Route
+                    path="/playlist-create"
+                    render={() => <PlaylistCreate edit={false} />}
+                  ></Route>
+                  <Route
+                    path="/"
+                    render={() => socket && <Playlists socket={socket} />}
+                  ></Route>
+                </Switch>
+              </div>
               {socket && currentUser && (
                 <Messaging
                   users={users}

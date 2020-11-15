@@ -14,9 +14,15 @@ body,
 }
 
 #main-section-container {
-  display: flex;
-  justify-content: space-between;
   height: calc(100% - 60px);
+  display: flex;
+}
+
+#main-section {
+  height: 100%;
+  display: flex;
+  flex-grow: 2;
+  justify-content: space-between;
 }
 
 .hidden {
@@ -38,5 +44,9 @@ div.makeStyles-paper-1 {
 @media only screen and (max-width: 600px) {
   #main-section-container {
     height: calc(100% - 105px);
+  }
+
+  #main-section.mobile-main-section {
+    display: none;
   }
 }
