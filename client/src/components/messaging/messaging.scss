@@ -6,11 +6,5 @@
   background-color: darkgrey;
   border-left: 1px solid black;
   color: white;
-}
-
-@media only screen and (max-width: 600px) {
-  .messaging-container {
-    // this solution for full width messaging in mobile does not seem like the most performant...
-    min-width: 100%;
-  }
+  flex-grow: 1;
 }
