@@ -155,12 +155,14 @@ function Header(props) {
                   </React.Fragment>
                 ) : (
                   <React.Fragment>
-                    <WhatshotIcon
-                      onClick={() => history.push("/")}
-                      onMouseOver={() => setFireBackground(true)}
-                      onMouseLeave={() => setFireBackground(false)}
-                      style={{ fontSize: 40 }}
-                    />
+                    {!showAuthInputs && (
+                      <WhatshotIcon
+                        onClick={() => history.push("/")}
+                        onMouseOver={() => setFireBackground(true)}
+                        onMouseLeave={() => setFireBackground(false)}
+                        style={{ fontSize: 40 }}
+                      />
+                    )}
                   </React.Fragment>
                 )}
               </div>
