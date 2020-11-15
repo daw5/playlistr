@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
-import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import React, { useState, useEffect } from "react";
 import { playlistService } from "../../services";
 import { Player, GroupChat } from "..";
+import { useHistory } from "react-router-dom";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import "./playlist.scss";
 
 require("dotenv").config();
@@ -12,6 +13,7 @@ export default function Playlist(props) {
   const [latestMessage, setLatestMessage] = useState(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [recentGroup, setRecentGroup] = useState(null);
+  const history = useHistory();
   const group = props.match.params.id;
 
   useEffect(() => {
@@ -24,11 +26,12 @@ export default function Playlist(props) {
 
   const setNewPlaylist = () => {
     const urlParam = new URLSearchParams(window.location.search).get("track");
-    const track = urlParam - 1 || 0;
+    const track = urlParam ? urlParam - 1 : 0;
     setCurrentTrackIndex(track);
     playlistService.getPlaylist(props.match.params.id).then((playlist) => {
       setPlaylist(playlist);
       initializeChat();
+      history.push(`/playlist/${playlist._id}`);
     });
   };
 

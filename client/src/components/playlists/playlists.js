@@ -17,8 +17,12 @@ export default function Playlists(props) {
     props.socket ? getActivePlaylists() : getPlaylists();
   }, [props.socket]);
 
-  const play = (playlist) => {
-    history.push(`/playlist/${playlist._id}`);
+  const play = (playlist, track) => {
+    if (track) {
+      history.push(`/playlist/${playlist._id}?track=${track}`);
+    } else {
+      history.push(`/playlist/${playlist._id}`);
+    }
   };
 
   const edit = (playlist) => {
@@ -92,7 +96,11 @@ export default function Playlists(props) {
             </div>
             <div className="playlist-body">
               {playlist.tracks.map((track, index) => (
-                <div key={`track${index}`} className="my-playlists-thumbnail">
+                <div
+                  onClick={() => play(playlist, index + 1)}
+                  key={`track${index}`}
+                  className="my-playlists-thumbnail"
+                >
                   <img
                     src={
                       track.thumbnailUrl ? track.thumbnailUrl : DefaultThumbnail

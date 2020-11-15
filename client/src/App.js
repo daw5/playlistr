@@ -75,7 +75,9 @@ export default function App() {
             <div id="main-section-container">
               <div
                 id="main-section"
-                className={messagingSidebarStatus && "mobile-main-section"}
+                className={
+                  messagingSidebarStatus ? "mobile-main-section" : undefined
+                }
               >
                 <Switch>
                   <Route
