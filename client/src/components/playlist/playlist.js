@@ -23,7 +23,9 @@ export default function Playlist(props) {
   }, [props.socket]);
 
   const setNewPlaylist = () => {
-    setCurrentTrackIndex(0);
+    const urlParam = new URLSearchParams(window.location.search).get("track");
+    const track = urlParam - 1 || 0;
+    setCurrentTrackIndex(track);
     playlistService.getPlaylist(props.match.params.id).then((playlist) => {
       setPlaylist(playlist);
       initializeChat();
@@ -55,7 +57,10 @@ export default function Playlist(props) {
         </button>
         {playlist && (
           <Player
-            currentTrack={playlist.tracks[currentTrackIndex].url}
+            currentTrack={
+              playlist.tracks[currentTrackIndex] &&
+              playlist.tracks[currentTrackIndex].url
+            }
             trackForward={trackForward}
           />
         )}
