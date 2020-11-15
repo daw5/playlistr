@@ -6,5 +6,10 @@
   background-color: darkgrey;
   border-left: 1px solid black;
   color: white;
-  flex-grow: 1;
+}
+
+@media only screen and (max-width: 600px) {
+  .messaging-container {
+    width: 100%;
+  }
 }

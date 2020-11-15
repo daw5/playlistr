@@ -42,7 +42,9 @@ export default function GroupChat(props) {
         messageToSend,
         {
           _id: props.currentUser ? props.currentUser._id : "",
-          email: props.currentUser ? props.currentUser.email : "Anonymous",
+          username: props.currentUser
+            ? props.currentUser.username
+            : "Anonymous",
         },
         props.group
       ) && setMessageToSend("");
@@ -54,7 +56,7 @@ export default function GroupChat(props) {
       <div id="groupMessagesContainer" className="messages-container">
         {messages.map((message, index) => (
           <div className="message" key={`message${index}`}>
-            <p className="message-sender">{message.correspondent.email}</p>
+            <p className="message-sender">{message.correspondent.username}</p>
             <p className="group-message-content">{message.message}</p>
           </div>
         ))}

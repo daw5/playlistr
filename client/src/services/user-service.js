@@ -17,7 +17,10 @@ export default class UserService {
     axios
       .get(`/api/users`)
       .then((response) => {
-        return this.indexUsers(response.data);
+        const usersWithUsernames = response.data.filter(
+          (user) => user.username
+        );
+        return this.indexUsers(usersWithUsernames);
       })
       .catch(function (error) {
         console.log(error);

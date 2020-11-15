@@ -21,7 +21,7 @@ export default function Conversations(props) {
           onChange={(evt, correspondent) => {
             props.setCorrespondent(correspondent);
           }}
-          getOptionLabel={(option) => option.email}
+          getOptionLabel={(option) => option.username}
           renderInput={(params) => (
             <TextField
               {...params}

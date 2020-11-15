@@ -63,7 +63,7 @@ export default function Chat(props) {
           onClick={() => props.setCorrespondent(null)}
           style={{ fontSize: 40 }}
         />
-        <h2 id="chatHeader">{props.correspondent.email}</h2>
+        <h2 id="chatHeader">{props.correspondent.username}</h2>
       </div>
       <div
         className="messagesContainer"
