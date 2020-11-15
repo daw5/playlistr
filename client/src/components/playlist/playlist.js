@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { playlistService } from "../../services";
+import { playlistService, messagingService } from "../../services";
 import { Player, GroupChat } from "..";
 import { useHistory } from "react-router-dom";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
@@ -15,6 +15,10 @@ export default function Playlist(props) {
   const [recentGroup, setRecentGroup] = useState(null);
   const history = useHistory();
   const group = props.match.params.id;
+
+  useEffect(() => {
+    return () => props.socket && messagingService.leaveGroup(group);
+  }, []);
 
   useEffect(() => {
     setNewPlaylist();
