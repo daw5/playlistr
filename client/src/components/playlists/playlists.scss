@@ -36,6 +36,14 @@
   }
 }
 
+.no-playlists {
+  color: #fff;
+  margin: auto;
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+}
+
 .playlist-head {
   grid-column: 1;
   display: grid;

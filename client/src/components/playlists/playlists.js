@@ -123,6 +123,11 @@ export default function Playlists(props) {
             )}
           </div>
         ))}
+      {!playlists[0] && (
+        <div className="no-playlists">
+          <h2>No playlists here!</h2>
+        </div>
+      )}
       <GeneralModal
         action={deletePlaylist}
         open={deleteModalOpen}
