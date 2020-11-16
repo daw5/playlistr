@@ -1,4 +1,5 @@
 require("dotenv").config();
+import path from "path";
 import { applyPassportStrategy } from "./store/passport";
 import { initializeSocketServer } from "./socket/socket";
 import {
@@ -25,6 +26,7 @@ const connectDb = require("./database/connection");
 applyPassportStrategy(passport);
 initializeSocketServer(io);
 
+app.use(express.static(path.join(__dirname, "client", "build")));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
