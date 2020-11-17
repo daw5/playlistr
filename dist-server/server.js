@@ -48,6 +48,7 @@ app.use("/api/auth", _controller.authController);
 app.use("/api/users", _controller.userController);
 app.use("/api/playlists", _controller.playlistController);
 app.use("/mailing", _controller.mailingController);
+app.use("/", _controller.reactRouterController);
 app.listen(PORT, function () {
   console.log("Listening on ".concat(PORT));
   connectDb().then(function () {

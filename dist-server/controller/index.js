@@ -27,6 +27,12 @@ Object.defineProperty(exports, "playlistController", {
     return _playlist["default"];
   }
 });
+Object.defineProperty(exports, "reactRouterController", {
+  enumerable: true,
+  get: function get() {
+    return _reactRouter["default"];
+  }
+});
 
 var _auth = _interopRequireDefault(require("./auth.controller"));
 
@@ -35,5 +41,7 @@ var _mailing = _interopRequireDefault(require("./mailing.controller"));
 var _user = _interopRequireDefault(require("./user.controller"));
 
 var _playlist = _interopRequireDefault(require("./playlist.controller"));
+
+var _reactRouter = _interopRequireDefault(require("./react-router.controller"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }

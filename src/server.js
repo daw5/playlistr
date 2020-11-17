@@ -8,6 +8,7 @@ import {
   mailingController,
   userController,
   playlistController,
+  reactRouterController,
 } from "./controller";
 import bodyParser from "body-parser";
 import passport from "passport";
@@ -35,6 +36,7 @@ app.use("/api/auth", authController);
 app.use("/api/users", userController);
 app.use("/api/playlists", playlistController);
 app.use("/mailing", mailingController);
+app.use("/", reactRouterController);
 
 app.listen(PORT, function () {
   console.log(`Listening on ${PORT}`);
