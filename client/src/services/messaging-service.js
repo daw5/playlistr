@@ -4,7 +4,7 @@ const axios = require("axios");
 let socket;
 
 export const connectSocket = () => {
-  socket = io.connect("http://localhost:8080");
+  socket = io.connect(window.location.hostname);
   return socket;
 };
 
