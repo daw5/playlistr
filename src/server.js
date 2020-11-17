@@ -39,9 +39,9 @@ app.use("/mailing", mailingController);
 app.listen(PORT, function () {
   console.log(`Listening on ${PORT}`);
 
-  // connectDb().then(() => {
-  //   console.log("Mongo connected");
-  // });
+  connectDb().then(() => {
+    console.log("Mongo connected");
+  });
 });
 
 server.listen(SOCKET_PORT, () =>

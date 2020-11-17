@@ -49,9 +49,10 @@ app.use("/api/users", _controller.userController);
 app.use("/api/playlists", _controller.playlistController);
 app.use("/mailing", _controller.mailingController);
 app.listen(PORT, function () {
-  console.log("Listening on ".concat(PORT)); // connectDb().then(() => {
-  //   console.log("Mongo connected");
-  // });
+  console.log("Listening on ".concat(PORT));
+  connectDb().then(function () {
+    console.log("Mongo connected");
+  });
 });
 server.listen(SOCKET_PORT, function () {
   return console.log("Socket server listening on ".concat(SOCKET_PORT));

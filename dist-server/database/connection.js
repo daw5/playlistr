@@ -2,7 +2,7 @@
 
 var mongoose = require("mongoose");
 
-var connection = "mongodb://localhost:27017/".concat(process.env.DB_NAME);
+var connection = process.env.DB_CONNECTION_STRING || "mongodb://localhost:27017/".concat(process.env.DB_NAME);
 
 var connectDb = function connectDb() {
   return mongoose.connect(connection, {

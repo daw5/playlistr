@@ -11,10 +11,14 @@ function AuthInputs(props) {
   const handleEnterPressed = (evt) => {
     console.log("auth input : ", authInput);
     if (evt.key === "Enter") {
-      !props.enterUsername
-        ? props.loginOrRegister(authInput)
-        : props.handleSetUsername(authInput.username);
+      loginRegisterOrSetUsername();
     }
+  };
+
+  const loginRegisterOrSetUsername = () => {
+    !props.enterUsername
+      ? props.loginOrRegister(authInput)
+      : props.handleSetUsername(authInput.username);
   };
 
   useEffect(() => {
@@ -88,7 +92,7 @@ function AuthInputs(props) {
         }
       >
         <Button
-          onClick={() => props.loginOrRegister(authInput)}
+          onClick={() => loginRegisterOrSetUsername(authInput)}
           variant="outlined"
           className={"submit"}
         >
