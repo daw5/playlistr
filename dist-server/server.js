@@ -1,5 +1,7 @@
 "use strict";
 
+require("regenerator-runtime/runtime.js");
+
 var _path = _interopRequireDefault(require("path"));
 
 var _passport = require("./store/passport");

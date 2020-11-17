@@ -9,15 +9,18 @@
     ]
   },
   "scripts": {
-    "start": "nodemon --exec babel-node server.js --ignore client",
-    "dev": "nodemon -r esm server.js",
+    "start": "nodemon --exec babel-node src/server.js --ignore client",
+    "dev": "nodemon -r esm src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "babel server.js --out-file server.compiled.js"
+    "build": "babel ./src --out-dir dist-server"
   },
   "keywords": [],
   "author": "Daw5",
   "license": "ISC",
   "dependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/node": "^7.12.6",
     "@babel/preset-env": "^7.12.1",
     "@material-ui/core": "^4.11.0",
     "argon2": "^0.27.0",
@@ -32,13 +35,13 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "random-key": "^0.3.2",
-    "socket.io": "^2.3.0",
-    "@babel/cli": "^7.12.1",
-    "@babel/core": "^7.12.3",
-    "@babel/node": "^7.12.6"
+    "regenerator-runtime": "^0.13.7",
+    "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.4"
   },
-  "engines": { "node" : "12.18.3" }
+  "engines": {
+    "node": "12.18.3"
+  }
 }

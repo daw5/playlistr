@@ -1,4 +1,5 @@
 require("dotenv").config();
+import "regenerator-runtime/runtime.js";
 import path from "path";
 import { applyPassportStrategy } from "./store/passport";
 import { initializeSocketServer } from "./socket/socket";

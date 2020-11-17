@@ -1,1 +1,1 @@
-web: node server.compiled.js
+web: node dist-server/server.js
