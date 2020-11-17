@@ -21,8 +21,12 @@ const http = require("http");
 const app = express();
 const server = http.createServer();
 const cookieParser = require("cookie-parser");
-const socket = require("socket.io");
-const io = socket(server);
+const io = require("socket.io")(server, {
+  cors: {
+    origin: process.env.ORIGIN,
+    methods: ["GET", "POST"],
+  },
+});
 const connectDb = require("./database/connection");
 
 applyPassportStrategy(passport);
