@@ -9,7 +9,7 @@
     ]
   },
   "scripts": {
-    "start": "nodemon --exec babel-node server.js",
+    "start": "nodemon --exec babel-node server.js --ignore client",
     "dev": "nodemon -r esm server.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel server.js --out-file server.compiled.js"
