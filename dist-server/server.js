@@ -30,9 +30,12 @@ var server = http.createServer();
 
 var cookieParser = require("cookie-parser");
 
-var socket = require("socket.io");
-
-var io = socket(server);
+var io = require("socket.io")(server, {
+  cors: {
+    origin: process.env.ORIGIN,
+    methods: ["GET", "POST"]
+  }
+});
 
 var connectDb = require("./database/connection");
 
