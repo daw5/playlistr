@@ -11,8 +11,8 @@ import {
 import bodyParser from "body-parser";
 import passport from "passport";
 
-const PORT = process.env.PORT;
-const SOCKET_PORT = process.env.SOCKET_PORT;
+const PORT = process.env.PORT || 8080;
+const SOCKET_PORT = process.env.SOCKET_PORT || 4001;
 
 const express = require("express");
 const http = require("http");
