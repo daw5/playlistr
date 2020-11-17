@@ -19,14 +19,9 @@ const SOCKET_PORT = process.env.SOCKET_PORT || 4001;
 const express = require("express");
 const http = require("http");
 const app = express();
-const server = http.createServer();
+const server = http.createServer(app);
 const cookieParser = require("cookie-parser");
-const io = require("socket.io")(server, {
-  cors: {
-    origin: process.env.ORIGIN,
-    methods: ["GET", "POST"],
-  },
-});
+const io = require("socket.io")(server);
 const connectDb = require("./database/connection");
 
 applyPassportStrategy(passport);
@@ -42,14 +37,17 @@ app.use("/api/playlists", playlistController);
 app.use("/mailing", mailingController);
 app.use("/", reactRouterController);
 
-app.listen(PORT, function () {
-  console.log(`Listening on ${PORT}`);
+// app.listen(PORT, function () {
+//   console.log(`Listening on ${PORT}`);
 
+// connectDb().then(() => {
+//   console.log("Mongo connected");
+// });
+// });
+
+server.listen(PORT, () => {
   connectDb().then(() => {
     console.log("Mongo connected");
   });
+  console.log(`Socket server listening on ${PORT}`);
 });
-
-server.listen(SOCKET_PORT, () =>
-  console.log(`Socket server listening on ${SOCKET_PORT}`)
-);

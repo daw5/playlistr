@@ -26,16 +26,11 @@ var express = require("express");
 var http = require("http");
 
 var app = express();
-var server = http.createServer();
+var server = http.createServer(app);
 
 var cookieParser = require("cookie-parser");
 
-var io = require("socket.io")(server, {
-  cors: {
-    origin: process.env.ORIGIN,
-    methods: ["GET", "POST"]
-  }
-});
+var io = require("socket.io")(server);
 
 var connectDb = require("./database/connection");
 
@@ -51,13 +46,16 @@ app.use("/api/auth", _controller.authController);
 app.use("/api/users", _controller.userController);
 app.use("/api/playlists", _controller.playlistController);
 app.use("/mailing", _controller.mailingController);
-app.use("/", _controller.reactRouterController);
-app.listen(PORT, function () {
-  console.log("Listening on ".concat(PORT));
+app.use("/", _controller.reactRouterController); // app.listen(PORT, function () {
+//   console.log(`Listening on ${PORT}`);
+// connectDb().then(() => {
+//   console.log("Mongo connected");
+// });
+// });
+
+server.listen(PORT, function () {
   connectDb().then(function () {
     console.log("Mongo connected");
   });
-});
-server.listen(SOCKET_PORT, function () {
-  return console.log("Socket server listening on ".concat(SOCKET_PORT));
+  console.log("Socket server listening on ".concat(PORT));
 });

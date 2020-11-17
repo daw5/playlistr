@@ -4,7 +4,7 @@ const axios = require("axios");
 let socket;
 
 export const connectSocket = () => {
-  socket = io.connect("http://playlistr.ca-central-1.elasticbeanstalk.com/");
+  socket = io.connect("http://localhost:8080");
   return socket;
 };
 
