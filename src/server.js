@@ -27,7 +27,7 @@ const connectDb = require("./database/connection");
 applyPassportStrategy(passport);
 initializeSocketServer(io);
 
-app.use(express.static(path.join(__dirname, "client", "build")));
+app.use(express.static(path.join(__dirname, "../client", "build")));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -39,9 +39,9 @@ app.use("/mailing", mailingController);
 app.listen(PORT, function () {
   console.log(`Listening on ${PORT}`);
 
-  connectDb().then(() => {
-    console.log("Mongo connected");
-  });
+  // connectDb().then(() => {
+  //   console.log("Mongo connected");
+  // });
 });
 
 server.listen(SOCKET_PORT, () =>
