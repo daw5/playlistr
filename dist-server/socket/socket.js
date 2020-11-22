@@ -27,10 +27,8 @@ function getToken(socket) {
 }
 
 function onDisconnect(socket) {
-  socket.on("disconnect", function () {
-    _jsonwebtoken["default"].verify(getToken(socket), process.env.PASSPORT_SECRET, function (err, decoded) {
-      clients[decoded._id] && delete clients[decoded._id];
-    });
+  socket.on("disconnect", function (reason) {
+    console.log("client disconnected: ", reason);
   });
 }
 
