@@ -5,6 +5,7 @@ let socket;
 
 export const connectSocket = () => {
   socket = io.connect(window.location.hostname);
+  console.log("node env: ", process.env.NODE_ENV);
   return socket;
 };
 

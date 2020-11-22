@@ -21,27 +21,28 @@ function onDisconnect(socket) {
 
 function onMessage(socket, clients) {
   socket.on("message", async function (data) {
-    jwt.verify(getToken(socket), process.env.PASSPORT_SECRET, function (
-      err,
-      decoded
-    ) {
-      messagingService
-        .saveInteraction(decoded, data)
-        .then(({ message, newConversation }) => {
-          if (clients[data.reciever_id]) {
-            clients[data.reciever_id].send({
-              correspondent: decoded._id,
+    jwt.verify(
+      getToken(socket),
+      process.env.PASSPORT_SECRET,
+      function (err, decoded) {
+        messagingService
+          .saveInteraction(decoded, data)
+          .then(({ message, newConversation }) => {
+            if (clients[data.reciever_id]) {
+              clients[data.reciever_id].send({
+                correspondent: decoded._id,
+                message,
+                newConversation,
+              });
+            }
+            socket.send({
+              correspondent: data.reciever_id,
               message,
               newConversation,
             });
-          }
-          socket.send({
-            correspondent: data.reciever_id,
-            message,
-            newConversation,
           });
-        });
-    });
+      }
+    );
   });
 }
 
@@ -68,15 +69,18 @@ function onGroupMessage(io, socket) {
 
 function listActivePlaylists(io, socket) {
   socket.on("get-active-playlists", async function (data) {
-    const activePlaylists = getRooms(io.sockets.adapter.rooms).sort(
+    const activeRooms = getRooms(io.sockets.adapter.rooms).sort(
       ({ length: a }, { length: b }) => b - a
     );
-    const activePlaylistIds = activePlaylists.map((playlist) => {
+    const activePlaylistIds = activeRooms.map((playlist) => {
       return playlist.playlistId;
     });
-    const playlists = await playlistService.findPlaylistsById(
+    const activePlaylists = await playlistService.findPlaylistsById(
       activePlaylistIds
     );
+    const recentPlaylists = await playlistService.listRecentPlaylists(10, true);
+    const playlists = activePlaylists.concat(recentPlaylists);
+
     socket.emit("get-active-playlists", playlists);
   });
 }
@@ -96,13 +100,14 @@ export function initializeSocketServer(io) {
   io.on("connect", function (socket) {
     const token = getToken(socket);
     if (token) {
-      jwt.verify(getToken(socket), process.env.PASSPORT_SECRET, function (
-        err,
-        decoded
-      ) {
-        clients[decoded._id] = socket;
-        onMessage(socket, clients);
-      });
+      jwt.verify(
+        getToken(socket),
+        process.env.PASSPORT_SECRET,
+        function (err, decoded) {
+          clients[decoded._id] = socket;
+          onMessage(socket, clients);
+        }
+      );
     }
     handleGroups(socket);
     listActivePlaylists(io, socket);

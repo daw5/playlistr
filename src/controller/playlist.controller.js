@@ -16,7 +16,7 @@ playlistController.get("/", async (req, res, next) => {
 
 playlistController.get("/recent", async (req, res, next) => {
   try {
-    const playlists = await playlistService.listRecentPlaylists();
+    const playlists = await playlistService.listRecentPlaylists(1000);
     res.status(200).send(playlists);
   } catch (error) {
     next(error);

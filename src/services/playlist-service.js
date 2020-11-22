@@ -21,11 +21,12 @@ export default class PlaylistService {
     return playlists;
   }
 
-  async listRecentPlaylists() {
+  async listRecentPlaylists(limit, withTracks) {
+    const keysToOmit = withTracks ? "-__v" : "-tracks -__v";
     const playlists = await Playlist.find()
       .sort({ _id: -1 })
-      .limit(1000)
-      .select("-tracks -__v");
+      .limit(limit)
+      .select(keysToOmit);
     return playlists;
   }
 
