@@ -60,11 +60,11 @@ export const sendGroupMessage = (evt, messageToSend, correspondent, group) => {
 };
 
 export const leaveGroup = (group) => {
-  socket.emit("leave-group", group);
+  socket && socket.emit("leave-group", group);
 };
 
 export const disconnectSocket = () => {
-  socket.close();
+  socket && socket.close();
   socket = null;
 };
 
