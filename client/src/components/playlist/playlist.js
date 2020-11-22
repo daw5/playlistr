@@ -9,6 +9,7 @@ import "./playlist.scss";
 require("dotenv").config();
 
 export default function Playlist(props) {
+  const [playerReady, setPlayerReady] = useState(false);
   const [playlist, setPlaylist] = useState(null);
   const [latestMessage, setLatestMessage] = useState(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
@@ -59,9 +60,11 @@ export default function Playlist(props) {
   return (
     <div className="playlist-container">
       <div className="playlist">
-        <button className="back-button">
-          <ChevronLeftIcon onClick={trackBack} style={{ fontSize: 45 }} />
-        </button>
+        {playerReady && (
+          <button className="back-button">
+            <ChevronLeftIcon onClick={trackBack} style={{ fontSize: 45 }} />
+          </button>
+        )}
         {playlist && (
           <Player
             currentTrack={
@@ -69,18 +72,23 @@ export default function Playlist(props) {
               playlist.tracks[currentTrackIndex].url
             }
             trackForward={trackForward}
+            setPlayerReady={setPlayerReady}
           />
         )}
-        <button className="forward-button">
-          {" "}
-          <ChevronRightIcon onClick={trackForward} style={{ fontSize: 45 }} />
-        </button>
+        {playerReady && (
+          <button className="forward-button">
+            {" "}
+            <ChevronRightIcon onClick={trackForward} style={{ fontSize: 45 }} />
+          </button>
+        )}
       </div>
-      <GroupChat
-        currentUser={props.currentUser}
-        latestMessage={latestMessage}
-        group={group}
-      />
+      {playerReady && (
+        <GroupChat
+          currentUser={props.currentUser}
+          latestMessage={latestMessage}
+          group={group}
+        />
+      )}
     </div>
   );
 }

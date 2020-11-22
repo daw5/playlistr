@@ -4,12 +4,11 @@ import "./player.scss";
 
 require("dotenv").config();
 
-const RE_FACEBOOK = /^\/[\w-]+\/videos\/(\d+)(\/)?$/;
-
 export default function Player(props) {
   const isFacebookUrl = /^(?:(?:https?:)?\/\/)?(?:www\.)?facebook\.com\/[a-zA-Z0-9\.]+\/videos\/(?:[a-zA-Z0-9\.]+\/)?([0-9]+)/.test(
     props.currentTrack
   );
+
   return (
     <div className="player-wrapper">
       {props.currentTrack ? (
@@ -21,6 +20,7 @@ export default function Player(props) {
           controls={true}
           onEnded={props.trackForward}
           playing={true}
+          onReady={() => props.setPlayerReady(true)}
         />
       ) : (
         <h2 style={{ color: "white", margin: "auto", textAlign: "center" }}>
