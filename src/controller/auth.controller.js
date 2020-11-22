@@ -30,7 +30,7 @@ authController.get("/verify-account/:userId/:code", async (req, res, next) => {
       code
     );
     return accountVerified
-      ? res.status(200).json("Account has been verified")
+      ? res.redirect("/?verified=true")
       : res.status(403).send("Account Verification Failed");
   } catch (error) {
     next(error);

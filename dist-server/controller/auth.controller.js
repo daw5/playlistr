@@ -51,7 +51,7 @@ authController.get("/verify-account/:userId/:code", /*#__PURE__*/function () {
 
           case 4:
             accountVerified = _context.sent;
-            return _context.abrupt("return", accountVerified ? res.status(200).json("Account has been verified") : res.status(403).send("Account Verification Failed"));
+            return _context.abrupt("return", accountVerified ? res.redirect("/?verified=true") : res.status(403).send("Account Verification Failed"));
 
           case 8:
             _context.prev = 8;

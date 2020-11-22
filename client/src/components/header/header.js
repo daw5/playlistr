@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import { authService, messagingService, userService } from "../../services";
@@ -15,9 +15,21 @@ function Header(props) {
   const [enterUsername, setEnterUsername] = useState(false);
   const history = useHistory();
 
+  useEffect(() => {
+    accomodateVerificationRedirect();
+  }, []);
+
   const resetHeader = () => {
     setShowRegisterInputs(false);
     setShowAuthInputs(false);
+  };
+
+  const loginOrRegister = (input) => {
+    if (!showRegisterInputs) {
+      handleLogin(input);
+    } else {
+      handleRegister(input);
+    }
   };
 
   const handleLogin = (input) => {
@@ -30,13 +42,23 @@ function Header(props) {
           welcome(response.data.username);
         } else {
           setEnterUsername(true);
-          displayTemporaryMessage("WHAT SHOULD WE CALL YOU?");
+          displayTemporaryMessage("What should we call you?");
         }
         props.loadUserData();
       } else {
         displayAuthResponse(response);
       }
     });
+  };
+
+  const handleRegister = (input) => {
+    const { email, password, passwordConfirm } = input;
+    passwordConfirm === password
+      ? authService.register(email, password).then((response) => {
+          displayAuthResponse(response);
+          response.status === 200 && resetHeader();
+        })
+      : displayTemporaryMessage("Passwords do not match!");
   };
 
   const handleSetUsername = (username) => {
@@ -53,21 +75,6 @@ function Header(props) {
       });
   };
 
-  const welcome = (username) => {
-    resetHeader();
-    displayTemporaryMessage(`WELCOME, ${username}`);
-  };
-
-  const handleRegister = (input) => {
-    const { email, password, passwordConfirm } = input;
-    passwordConfirm === password
-      ? authService.register(email, password).then((response) => {
-          displayAuthResponse(response);
-          response.status === 200 && resetHeader();
-        })
-      : displayTemporaryMessage("PASSWORDS DO NOT MATCH");
-  };
-
   const displayAuthResponse = (response) => {
     const message = Object.values(response.data)[0].msg
       ? Object.values(response.data)[0].msg
@@ -75,12 +82,17 @@ function Header(props) {
     displayTemporaryMessage(message.toUpperCase());
   };
 
-  const loginOrRegister = (input) => {
-    if (!showRegisterInputs) {
-      handleLogin(input);
-    } else {
-      handleRegister(input);
-    }
+  const accomodateVerificationRedirect = () => {
+    const verified = new URLSearchParams(window.location.search).get(
+      "verified"
+    );
+    verified && displayTemporaryMessage("Account verified!");
+    history.push(`/`);
+  };
+
+  const welcome = (username) => {
+    resetHeader();
+    displayTemporaryMessage(`Welcome, ${username}!`);
   };
 
   const displayTemporaryMessage = (message) => {
