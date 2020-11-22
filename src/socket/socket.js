@@ -14,34 +14,41 @@ function getToken(socket) {
 }
 
 function onDisconnect(socket) {
-  socket.on("disconnect", (reason) => {
-    console.log("client disconnected: ", reason);
+  socket.on("disconnect", () => {
+    jwt.verify(
+      getToken(socket),
+      process.env.PASSPORT_SECRET,
+      function (err, decoded) {
+        clients[decoded._id] && delete clients[decoded._id];
+      }
+    );
   });
 }
 
 function onMessage(socket, clients) {
   socket.on("message", async function (data) {
-    jwt.verify(getToken(socket), process.env.PASSPORT_SECRET, function (
-      err,
-      decoded
-    ) {
-      messagingService
-        .saveInteraction(decoded, data)
-        .then(({ message, newConversation }) => {
-          if (clients[data.reciever_id]) {
-            clients[data.reciever_id].send({
-              correspondent: decoded._id,
+    jwt.verify(
+      getToken(socket),
+      process.env.PASSPORT_SECRET,
+      function (err, decoded) {
+        messagingService
+          .saveInteraction(decoded, data)
+          .then(({ message, newConversation }) => {
+            if (clients[data.reciever_id]) {
+              clients[data.reciever_id].send({
+                correspondent: decoded._id,
+                message,
+                newConversation,
+              });
+            }
+            socket.send({
+              correspondent: data.reciever_id,
               message,
               newConversation,
             });
-          }
-          socket.send({
-            correspondent: data.reciever_id,
-            message,
-            newConversation,
           });
-        });
-    });
+      }
+    );
   });
 }
 
@@ -96,13 +103,14 @@ export function initializeSocketServer(io) {
   io.on("connect", function (socket) {
     const token = getToken(socket);
     if (token) {
-      jwt.verify(getToken(socket), process.env.PASSPORT_SECRET, function (
-        err,
-        decoded
-      ) {
-        clients[decoded._id] = socket;
-        onMessage(socket, clients);
-      });
+      jwt.verify(
+        getToken(socket),
+        process.env.PASSPORT_SECRET,
+        function (err, decoded) {
+          clients[decoded._id] = socket;
+          onMessage(socket, clients);
+        }
+      );
     }
     handleGroups(socket);
     listActivePlaylists(io, socket);
