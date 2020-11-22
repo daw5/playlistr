@@ -63,7 +63,7 @@ playlistController.get("/recent", /*#__PURE__*/function () {
           case 0:
             _context2.prev = 0;
             _context2.next = 3;
-            return playlistService.listRecentPlaylists();
+            return playlistService.listRecentPlaylists(1000);
 
           case 3:
             playlists = _context2.sent;

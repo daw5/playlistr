@@ -133,22 +133,23 @@ var PlaylistService = /*#__PURE__*/function () {
   }, {
     key: "listRecentPlaylists",
     value: function () {
-      var _listRecentPlaylists = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        var playlists;
+      var _listRecentPlaylists = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(limit, withTracks) {
+        var keysToOmit, playlists;
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _context4.next = 2;
+                keysToOmit = withTracks ? "-__v" : "-tracks -__v";
+                _context4.next = 3;
                 return _index.Playlist.find().sort({
                   _id: -1
-                }).limit(1000).select("-tracks -__v");
+                }).limit(limit).select(keysToOmit);
 
-              case 2:
+              case 3:
                 playlists = _context4.sent;
                 return _context4.abrupt("return", playlists);
 
-              case 4:
+              case 5:
               case "end":
                 return _context4.stop();
             }
@@ -156,7 +157,7 @@ var PlaylistService = /*#__PURE__*/function () {
         }, _callee4);
       }));
 
-      function listRecentPlaylists() {
+      function listRecentPlaylists(_x3, _x4) {
         return _listRecentPlaylists.apply(this, arguments);
       }
 
@@ -186,7 +187,7 @@ var PlaylistService = /*#__PURE__*/function () {
         }, _callee5);
       }));
 
-      function findPlaylistById(_x3) {
+      function findPlaylistById(_x5) {
         return _findPlaylistById.apply(this, arguments);
       }
 
@@ -216,7 +217,7 @@ var PlaylistService = /*#__PURE__*/function () {
         }, _callee6);
       }));
 
-      function updatePlaylist(_x4, _x5) {
+      function updatePlaylist(_x6, _x7) {
         return _updatePlaylist.apply(this, arguments);
       }
 
@@ -246,7 +247,7 @@ var PlaylistService = /*#__PURE__*/function () {
         }, _callee7);
       }));
 
-      function deletePlaylist(_x6) {
+      function deletePlaylist(_x8) {
         return _deletePlaylist.apply(this, arguments);
       }
 
@@ -293,7 +294,7 @@ var PlaylistService = /*#__PURE__*/function () {
         }, _callee8, null, [[1, 8]]);
       }));
 
-      function createPlaylist(_x7, _x8, _x9) {
+      function createPlaylist(_x9, _x10, _x11) {
         return _createPlaylist.apply(this, arguments);
       }
 

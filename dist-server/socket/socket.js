@@ -116,27 +116,33 @@ function onGroupMessage(io, socket) {
 function listActivePlaylists(io, socket) {
   socket.on("get-active-playlists", /*#__PURE__*/function () {
     var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(data) {
-      var activePlaylists, activePlaylistIds, playlists;
+      var activeRooms, activePlaylistIds, activePlaylists, recentPlaylists, playlists;
       return regeneratorRuntime.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              activePlaylists = getRooms(io.sockets.adapter.rooms).sort(function (_ref5, _ref6) {
+              activeRooms = getRooms(io.sockets.adapter.rooms).sort(function (_ref5, _ref6) {
                 var a = _ref5.length;
                 var b = _ref6.length;
                 return b - a;
               });
-              activePlaylistIds = activePlaylists.map(function (playlist) {
+              activePlaylistIds = activeRooms.map(function (playlist) {
                 return playlist.playlistId;
               });
               _context3.next = 4;
               return playlistService.findPlaylistsById(activePlaylistIds);
 
             case 4:
-              playlists = _context3.sent;
+              activePlaylists = _context3.sent;
+              _context3.next = 7;
+              return playlistService.listRecentPlaylists(10, true);
+
+            case 7:
+              recentPlaylists = _context3.sent;
+              playlists = activePlaylists.concat(recentPlaylists);
               socket.emit("get-active-playlists", playlists);
 
-            case 6:
+            case 10:
             case "end":
               return _context3.stop();
           }
