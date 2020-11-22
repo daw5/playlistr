@@ -19,9 +19,11 @@
   color: white;
   background-color: black;
   border: none;
+  cursor: pointer;
 }
 
 .forward-button {
+  grid-column: 3;
   @extend .button;
 }
 
