@@ -56,7 +56,10 @@ export default function Playlists(props) {
 
   const getActivePlaylists = () => {
     props.socket.on("get-active-playlists", function (data) {
-      setPlaylists([...data]);
+      const uniquePlaylists = [
+        ...new Map(data.map((playlist) => [playlist._id, playlist])).values(),
+      ];
+      setPlaylists([...uniquePlaylists]);
     });
     props.socket.emit("get-active-playlists", true);
   };
