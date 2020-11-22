@@ -4,8 +4,11 @@ const axios = require("axios");
 let socket;
 
 export const connectSocket = () => {
-  socket = io.connect(window.location.hostname);
-  console.log("node env: ", process.env.NODE_ENV);
+  const socketUrl =
+    process.env.NODE_ENV === "production"
+      ? window.location.hostname
+      : "http://localhost:8080";
+  socket = io.connect(socketUrl);
   return socket;
 };
 
