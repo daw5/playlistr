@@ -150,7 +150,7 @@
   @extend .authInput;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 785px) {
   #header {
     height: auto;
     grid-template-rows: auto 1fr;

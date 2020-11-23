@@ -143,7 +143,7 @@ function Header(props) {
                       id="registerButton"
                       onClick={() => setShowRegisterInputs(true)}
                     >
-                      No Account?
+                      Click here to register
                     </Button>
                   )}
                 </div>
