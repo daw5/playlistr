@@ -137,26 +137,28 @@ var MessagingService = /*#__PURE__*/function () {
 
               case 12:
                 message = _context3.sent;
-                this.addMessageToConversation(conversation._id, message._id);
+                _context3.next = 15;
+                return this.addMessageToConversation(conversation._id, message._id);
 
+              case 15:
                 if (!newConversation) {
-                  _context3.next = 18;
+                  _context3.next = 19;
                   break;
                 }
 
-                _context3.next = 17;
+                _context3.next = 18;
                 return _index.Conversation.findById(conversation._id).populate("messages");
 
-              case 17:
+              case 18:
                 conversation = _context3.sent;
 
-              case 18:
+              case 19:
                 return _context3.abrupt("return", {
                   message: message,
                   newConversation: newConversation ? conversation : null
                 });
 
-              case 19:
+              case 20:
               case "end":
                 return _context3.stop();
             }
