@@ -16,7 +16,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 var userSchema = new _mongoose.Schema({
   username: {
     type: String,
-    "default": null,
+    required: false,
     unique: true
   },
   email: {
