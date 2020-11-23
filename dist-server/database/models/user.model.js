@@ -17,7 +17,14 @@ var userSchema = new _mongoose.Schema({
   username: {
     type: String,
     required: false,
-    unique: true
+    index: {
+      unique: true,
+      partialFilterExpression: {
+        username: {
+          $type: "string"
+        }
+      }
+    }
   },
   email: {
     type: String,
