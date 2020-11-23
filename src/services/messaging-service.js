@@ -42,7 +42,7 @@ export default class MessagingService {
       contents,
       conversation._id
     );
-    this.addMessageToConversation(conversation._id, message._id);
+    await this.addMessageToConversation(conversation._id, message._id);
     if (newConversation) {
       conversation = await Conversation.findById(conversation._id).populate(
         "messages"
