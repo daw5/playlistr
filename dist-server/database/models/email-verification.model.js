@@ -24,8 +24,7 @@ var emailVerificationCodeSchema = new _mongoose.Schema({
   },
   dateCreated: {
     type: Date,
-    "default": Date.now(),
-    expires: 600
+    "default": Date.now()
   }
 });
 

@@ -13,7 +13,6 @@ const emailVerificationCodeSchema = new Schema({
   dateCreated: {
     type: Date,
     default: Date.now(),
-    expires: 600,
   },
 });
 
