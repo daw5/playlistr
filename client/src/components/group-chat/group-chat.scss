@@ -11,7 +11,7 @@
 
 #groupMessagesContainer .message {
   display: grid;
-  grid-template-columns: minmax(auto, 100px) auto;
+  grid-template-columns: minmax(auto, 150px) auto;
   grid-column-gap: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -26,7 +26,7 @@
   .message-sender {
     grid-column: 1;
     text-overflow: ellipsis;
-    width: 100px;
+    width: 100%;
     white-space: nowrap;
     overflow: hidden;
     padding: 10px;

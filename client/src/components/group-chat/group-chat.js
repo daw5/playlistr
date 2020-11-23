@@ -37,9 +37,7 @@ export default function GroupChat(props) {
         messageToSend,
         {
           _id: props.currentUser ? props.currentUser._id : "",
-          username: props.currentUser
-            ? props.currentUser.username
-            : "Anonymous",
+          username: props.username,
         },
         props.group
       ) && setMessageToSend("");

@@ -10,6 +10,7 @@ require("dotenv").config();
 
 export default function Playlist(props) {
   const [playerReady, setPlayerReady] = useState(false);
+  const [username, setUsername] = useState(null);
   const [playlist, setPlaylist] = useState(null);
   const [latestMessage, setLatestMessage] = useState(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
@@ -41,6 +42,7 @@ export default function Playlist(props) {
   };
 
   const initializeChat = () => {
+    setUsername(messagingService.getUsername(props.currentUser));
     props.socket.emit("join-group", group, recentGroup);
     setRecentGroup(group);
     props.socket.on("group-message", function (data) {
@@ -85,6 +87,7 @@ export default function Playlist(props) {
       {playerReady && (
         <GroupChat
           currentUser={props.currentUser}
+          username={username}
           latestMessage={latestMessage}
           group={group}
         />

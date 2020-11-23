@@ -1,5 +1,6 @@
 import io from "socket.io-client";
 
+const { uniqueNamesGenerator, starWars } = require("unique-names-generator");
 const axios = require("axios");
 let socket;
 
@@ -85,4 +86,14 @@ export const updateConversations = (latestMessage, conversations) => {
     }
   }
   return updatedConversations;
+};
+
+export const getUsername = (currentUser) => {
+  if (currentUser) {
+    return currentUser.username;
+  } else {
+    return uniqueNamesGenerator({
+      dictionaries: [starWars],
+    });
+  }
 };
