@@ -28,7 +28,7 @@ export const getThumbnailURL = (url) => {
     }
 
     if (video_id) {
-      return `http://img.youtube.com/vi/${video_id}/hqdefault.jpg`;
+      return `https://img.youtube.com/vi/${video_id}/hqdefault.jpg`;
     }
   }
 
