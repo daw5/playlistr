@@ -86,8 +86,10 @@ function Header(props) {
     const verified = new URLSearchParams(window.location.search).get(
       "verified"
     );
-    verified && displayTemporaryMessage("Account verified!");
-    history.push(`/`);
+    if (verified) {
+      displayTemporaryMessage("Account verified!");
+      history.push(`/`);
+    }
   };
 
   const welcome = (username) => {
