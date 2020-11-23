@@ -166,10 +166,7 @@ function Header(props) {
               />
             )}
             <div id="messaging-icon-column">
-              <div
-                id="messaging-icon-container"
-                onClick={props.toggleMessagingSidebar}
-              >
+              <div id="messaging-icon-container">
                 {props.currentUser && props.currentUser.username ? (
                   <React.Fragment>
                     {!props.messagingSidebarOpen ? (
@@ -178,11 +175,13 @@ function Header(props) {
                         style={{
                           fontSize: 40,
                         }}
+                        onClick={props.toggleMessagingSidebar}
                       ></ChatBubbleOutlineIcon>
                     ) : (
                       <ChatBubbleIcon
                         id="messaging-icon-filled"
                         style={{ fontSize: 40 }}
+                        onClick={props.toggleMessagingSidebar}
                       ></ChatBubbleIcon>
                     )}
                   </React.Fragment>
