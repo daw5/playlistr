@@ -135,7 +135,7 @@ button.hot {
   }
 }
 
-.hot.fade-out:before {
+.hot.playlists-container:before {
   @extend .flames;
   content: " ";
   background-repeat: repeat-x;

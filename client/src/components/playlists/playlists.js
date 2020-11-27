@@ -71,8 +71,8 @@ export default function Playlists(props) {
   return (
     <div
       className={`playlists-container ${
-        loading && props.socket ? "hot fade-out" : undefined
-      }`}
+        loading && props.socket ? "hot" : undefined
+      } ${!loading && props.socket ? "fade-out" : undefined}`}
     >
       {playlists &&
         playlists.map((playlist, index) => (
