@@ -9,6 +9,7 @@ import "./playlists.scss";
 
 export default function Playlists(props) {
   const [playlists, setPlaylists] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [playlistToDelete, setPlaylistToDelete] = useState(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const history = useHistory();
@@ -60,12 +61,19 @@ export default function Playlists(props) {
         ...new Map(data.map((playlist) => [playlist._id, playlist])).values(),
       ];
       setPlaylists([...uniquePlaylists]);
+      setTimeout(() => {
+        setLoading(false);
+      }, 3000);
     });
     props.socket.emit("get-active-playlists", true);
   };
 
   return (
-    <div className={`playlists-container hot fade-out`}>
+    <div
+      className={`playlists-container ${
+        loading && props.socket ? "hot fade-out" : undefined
+      }`}
+    >
       {playlists &&
         playlists.map((playlist, index) => (
           <div key={`playlist${index}`} className={`playlist`}>
