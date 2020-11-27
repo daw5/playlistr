@@ -10,13 +10,6 @@
   grid-template-columns: auto auto 100px;
 }
 
-.hot {
-  background-size: contain !important;
-  background-image: url("../../assets/pixelFire.gif") !important;
-  background-color: black !important;
-  color: #fff !important;
-}
-
 #header.signed-in-header {
   grid-template-columns: 100px auto 100px;
 }
