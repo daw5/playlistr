@@ -65,16 +65,12 @@ export default function Playlists(props) {
   };
 
   return (
-    <div className="my-playlists-container">
+    <div className={`my-playlists-container`}>
       {playlists &&
         playlists.map((playlist, index) => (
-          <div key={`playlist${index}`} className="playlist">
+          <div key={`playlist${index}`} className={`playlist`}>
             <div className="playlist-head">
-              <div
-                className={`playlist-title-container ${
-                  props.socket && "hot color-animation"
-                }`}
-              >
+              <div className={`playlist-title-container`}>
                 <h2>{playlist.title}</h2>
               </div>
               <div className="playlist-functions-container">
@@ -97,7 +93,7 @@ export default function Playlists(props) {
                 )}
               </div>
             </div>
-            <div className="playlist-body">
+            <div className={`playlist-body`}>
               {playlist.tracks.map((track, index) => (
                 <div
                   onClick={() => play(playlist, index + 1)}
