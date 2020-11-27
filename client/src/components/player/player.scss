@@ -1,6 +1,6 @@
 .player-wrapper {
   position: relative;
-  padding-top: 45%; /* Player ratio: 100 / (1280 / 720) */
+  padding-top: 47%;
   width: 100%;
   margin: auto;
   margin-top: 0;
@@ -19,4 +19,16 @@
   right: 0;
   margin-left: auto;
   margin-right: auto;
+}
+
+@media only screen and (max-width: 1200px) {
+  .player-wrapper {
+    padding-top: 56.25%; /* Player ratio: 100 / (1280 / 720) */
+  }
+}
+
+@media only screen and (max-width: 785px) {
+  .player-wrapper {
+    padding-top: 70%;
+  }
 }

@@ -28,3 +28,17 @@
 .back-button {
   @extend .button;
 }
+
+// mobile
+
+@media only screen and (max-width: 785px) {
+  .playlist {
+    grid-template-columns: 45px auto 45px;
+  }
+
+  .button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
