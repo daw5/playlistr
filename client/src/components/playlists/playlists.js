@@ -14,10 +14,6 @@ export default function Playlists(props) {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const history = useHistory();
 
-   useEffect(() => {
-     setLoading(true);
-   });
-
   useEffect(() => {
     props.socket ? getActivePlaylists() : getPlaylists();
   }, [props.socket]);
