@@ -135,6 +135,10 @@ button.hot {
   }
 }
 
+.hot.playlists-container {
+  height: 100%;
+}
+
 .hot.playlists-container:before {
   @extend .flames;
   content: " ";
@@ -145,7 +149,7 @@ button.hot {
   height: 100%;
   color: #fff;
   z-index: 1;
-  background-position: 50% 0;
+  background-position: bottom;
   position: absolute;
 }
 
