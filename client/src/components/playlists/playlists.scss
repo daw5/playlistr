@@ -147,6 +147,9 @@ button.hot {
   z-index: 1;
   background-position: 50% 0;
   position: absolute;
+}
+
+.hot.playlists-container.fade-out:before {
   animation: fadeOut ease 5s;
   -webkit-animation: fadeOut ease 5s;
   -moz-animation: fadeOut ease 5s;
