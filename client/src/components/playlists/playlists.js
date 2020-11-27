@@ -65,7 +65,7 @@ export default function Playlists(props) {
   };
 
   return (
-    <div className={`my-playlists-container`}>
+    <div className={`playlists-container hot fade-out`}>
       {playlists &&
         playlists.map((playlist, index) => (
           <div key={`playlist${index}`} className={`playlist`}>
@@ -124,7 +124,7 @@ export default function Playlists(props) {
             )}
           </div>
         ))}
-      {!playlists[0] && (
+      {!playlists[0] && !props.socket && (
         <div className="no-playlists">
           <h2>No playlists here!</h2>
         </div>
