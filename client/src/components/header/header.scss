@@ -19,6 +19,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
 }
 
 .playlist-search-bar {
@@ -147,21 +148,26 @@
 @media only screen and (max-width: 785px) {
   #header {
     height: auto;
-    grid-template-rows: auto 1fr;
-    grid-template-columns: 1fr 1fr;
-    min-height: 105px;
+    grid-template-columns: 1fr 5fr auto;
+  }
+
+  #header.signed-in-header {
+    grid-template-columns: 1fr 5fr auto;
   }
 
   .playlist-search-bar-container {
     width: 98%;
     margin: auto;
-    grid-column: 1 / span 4;
-    padding-bottom: 5px;
+    grid-column: 2;
+  }
+
+  #navButtonsContainer.mobile-register-button {
+    grid-column: 1 / span 3;
   }
 
   #navButtonsContainer {
     margin: auto;
-    grid-column: 1 / span 4;
+    grid-column: 1;
     grid-row: 1;
     width: 100%;
 
@@ -180,7 +186,7 @@
 
   #messaging-icon-column {
     grid-row: 1;
-    grid-column: 4;
+    grid-column: 3;
     justify-content: flex-end;
 
     #messaging-icon-container {

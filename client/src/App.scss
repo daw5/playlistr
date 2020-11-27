@@ -41,12 +41,6 @@ div.makeStyles-paper-1 {
   outline: none !important;
 }
 
-@media only screen and (max-width: 600px) {
-  #main-section-container {
-    height: calc(100% - 110px);
-  }
-}
-
 // this class is applied when messaging container opens to allow it to span full width
 @media only screen and (max-width: 750px) {
   #main-section.mobile-main-section {

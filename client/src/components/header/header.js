@@ -120,7 +120,10 @@ function Header(props) {
         )}
         {!temporaryMessage && props.loaded && (
           <React.Fragment>
-            <div id="navButtonsContainer">
+            <div
+              id="navButtonsContainer"
+              className={showAuthInputs ? "mobile-register-button" : undefined}
+            >
               {props.currentUser && props.currentUser.username ? (
                 <SideMenu
                   id="sideMenuIconContainer"
