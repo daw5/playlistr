@@ -129,7 +129,6 @@ button.hot {
 
 .hot {
   position: relative;
-  z-index: 2;
   span {
     font-size: 16px;
   }
@@ -151,6 +150,7 @@ button.hot {
   z-index: 1;
   background-position: bottom;
   position: absolute;
+  pointer-events: none;
 }
 
 .hot.playlists-container.fade-out:before {
