@@ -10,13 +10,19 @@ export default class PlaylistService {
   }
 
   async findPlaylistsByUser(user_id) {
-    const playlists = await Playlist.find({ creator: user_id });
+    const playlists = await Playlist.find({ creator: user_id }).populate(
+      "creator",
+      "username"
+    );
     return playlists;
   }
 
   async findPlaylistsById(_ids) {
     const list = _ids.map((e) => ObjectId(e));
-    let playlists = await Playlist.find({ _id: { $in: list } });
+    let playlists = await Playlist.find({ _id: { $in: list } }).populate(
+      "creator",
+      "username"
+    );
     playlists = list.map((e) => playlists.find((s) => s._id.equals(e)));
     return playlists;
   }
@@ -26,6 +32,7 @@ export default class PlaylistService {
     const playlists = await Playlist.find()
       .sort({ _id: -1 })
       .limit(limit)
+      .populate("creator", "username")
       .select(keysToOmit);
     return playlists;
   }
