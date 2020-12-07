@@ -15,6 +15,7 @@ export default function Playlist(props) {
   const [latestMessage, setLatestMessage] = useState(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [recentGroup, setRecentGroup] = useState(null);
+  const [scrollableChat, setScrollableChat] = useState(false);
   const history = useHistory();
   const group = props.match.params.id;
 
@@ -29,6 +30,17 @@ export default function Playlist(props) {
   useEffect(() => {
     initializeChat();
   }, [props.socket]);
+
+  const determineIfChatShouldScroll = (evt) => {
+    if (
+      evt.target.scrollHeight - evt.target.scrollTop ===
+      evt.target.clientHeight
+    ) {
+      setScrollableChat(true);
+    } else if (evt.target.scrollTop === 0) {
+      setScrollableChat(false);
+    }
+  };
 
   const setNewPlaylist = () => {
     const urlParam = new URLSearchParams(window.location.search).get("track");
@@ -60,7 +72,10 @@ export default function Playlist(props) {
   };
 
   return (
-    <div className="playlist-container">
+    <div
+      onScroll={(evt) => determineIfChatShouldScroll(evt)}
+      className="playlist-container"
+    >
       <div className="playlist">
         {playerReady && (
           <button className="back-button">
@@ -89,6 +104,7 @@ export default function Playlist(props) {
           currentUser={props.currentUser}
           username={username}
           latestMessage={latestMessage}
+          scrollableChat={scrollableChat}
           group={group}
         />
       )}

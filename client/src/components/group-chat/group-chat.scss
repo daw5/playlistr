@@ -5,10 +5,6 @@
   background-color: black;
 }
 
-.messages-container {
-  overflow: auto;
-}
-
 #groupMessagesContainer .message {
   display: grid;
   grid-template-columns: minmax(auto, 150px) auto;
