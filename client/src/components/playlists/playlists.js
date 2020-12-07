@@ -6,6 +6,7 @@ import Button from "@material-ui/core/Button";
 import ClearIcon from "@material-ui/icons/Clear";
 import DefaultThumbnail from "../../assets/cassette.gif";
 import "./playlists.scss";
+const Marquee = require("react-marquee");
 
 export default function Playlists(props) {
   const [playlists, setPlaylists] = useState([]);
@@ -83,7 +84,12 @@ export default function Playlists(props) {
           <div key={`playlist${index}`} className={`playlist`}>
             <div className="playlist-head">
               <div className={`playlist-title-container`}>
-                <h2>{playlist.title}</h2>
+                <Marquee
+                  className="playlist-title"
+                  text={playlist.title + "wekfjnwekfjnwkjdnskjfw kjwnefkjwnef"}
+                  hoverToStop={true}
+                  loop={true}
+                />
               </div>
               <div className="playlist-functions-container">
                 <Button
