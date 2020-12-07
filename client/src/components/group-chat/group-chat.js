@@ -30,6 +30,7 @@ export default function GroupChat(props) {
   }, [props.latestMessage]);
 
   const sendMessage = (evt, messageToSend) => {
+    evt.preventDefault();
     if (messageToSend.length > 0 && messagesSent < 3) {
       throttleMessages();
       messagingService.sendGroupMessage(
@@ -71,7 +72,7 @@ export default function GroupChat(props) {
           />
           <Button
             className="standard-submit-button"
-            onClick={(evt) => sendMessage(evt, messageToSend)}
+            onMouseDown={(evt) => sendMessage(evt, messageToSend)}
             variant="contained"
           >
             Send
