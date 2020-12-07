@@ -86,9 +86,7 @@ export default function Playlists(props) {
               <div className={`playlist-title-container`}>
                 <Marquee
                   className="playlist-title"
-                  text={playlist.title + "wekfjnwekfjnwkjdnskjfw kjwnefkjwnef"}
-                  hoverToStop={true}
-                  loop={true}
+                  text={playlist.title + " - " + playlist.creator.username}
                 />
               </div>
               <div className="playlist-functions-container">
