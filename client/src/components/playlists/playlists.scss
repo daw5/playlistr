@@ -82,11 +82,13 @@
     filter: blur(10px);
     background: inherit;
     width: inherit;
+    height: 77.5px;
   }
 
   .playlist-functions-container {
     display: grid;
     grid-template-columns: 50% 50%;
+    background-color: black;
 
     Button {
       width: 80%;
