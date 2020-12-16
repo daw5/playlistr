@@ -3,16 +3,9 @@
   height: 60px;
   background: linear-gradient(298deg, #33c19c, #4184aa, #31a85b, #9b3597);
   background-size: 800% 800%;
-  opacity: 90%;
-
   filter: drop-shadow(0 0 0.1rem black);
-
   display: grid;
   grid-template-columns: auto auto 100px;
-}
-
-#header:hover {
-  opacity: 100%;
 }
 
 #header.signed-in-header {
