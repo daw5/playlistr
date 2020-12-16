@@ -5,7 +5,6 @@
   background-color: black;
 
   .playlist {
-    border: 1px solid white;
     border-radius: 5px;
     width: auto;
     margin-top: 20px;
@@ -52,6 +51,9 @@
   background-color: black;
   border-top-left-radius: inherit;
   border-bottom-left-radius: inherit;
+  background-attachment: fixed;
+  background: linear-gradient(298deg, #33c19c, #4184aa, #31a85b, #9b3597);
+  background-size: 800% 800%;
 
   .playlist-title-container {
     display: flex;
@@ -59,8 +61,6 @@
     justify-content: center;
     border-bottom-right-radius: 5px;
     border-top-left-radius: 5px;
-    background: linear-gradient(298deg, #33c19c, #4184aa, #31a85b, #9b3597);
-    background-size: 800% 800%;
     color: black;
     white-space: nowrap;
     width: 200px;
@@ -68,6 +68,20 @@
     padding: 5px;
     font-size: 20px;
     font-weight: bold;
+    background: inherit;
+  }
+
+  .playlist-title-container:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    box-shadow: inset 0 0 2000px rgba(255, 255, 255, 0.5);
+    filter: blur(10px);
+    background: inherit;
+    width: inherit;
   }
 
   .playlist-functions-container {
@@ -79,7 +93,7 @@
       margin: auto;
       background-color: black;
       color: white;
-      border: 1px solid white;
+      border: none;
       border-radius: 5px;
     }
   }
