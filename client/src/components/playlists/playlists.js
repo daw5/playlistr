@@ -5,8 +5,8 @@ import { GeneralModal } from "..";
 import Button from "@material-ui/core/Button";
 import ClearIcon from "@material-ui/icons/Clear";
 import DefaultThumbnail from "../../assets/cassette.gif";
+import Marquee from "react-double-marquee";
 import "./playlists.scss";
-const Marquee = require("react-marquee");
 
 export default function Playlists(props) {
   const [playlists, setPlaylists] = useState([]);
@@ -86,8 +86,12 @@ export default function Playlists(props) {
               <div className={`playlist-title-container`}>
                 <Marquee
                   className="playlist-title"
-                  text={playlist.title + " - " + playlist.creator.username}
-                />
+                  childMargin={20}
+                  delay={500}
+                  direction="left"
+                >
+                  {playlist.title + " - " + playlist.creator.username}
+                </Marquee>
               </div>
               <div className="playlist-functions-container">
                 <Button
