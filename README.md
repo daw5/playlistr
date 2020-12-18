@@ -1,5 +1,7 @@
 # playlistr
 
+A social app for creating, sharing, and listening to playlists
+
 ## Setup
 
 ### Make sure you have mongo installed locally and running, then open your terminal and run this command:
