@@ -95,7 +95,7 @@ export default function Playlists(props) {
               </div>
               <div className="playlist-functions-container">
                 <Button
-                  className={`standard-submit-button ${props.socket && "hot"}`}
+                  className={`standard-submit-button`}
                   variant="contained"
                   style={{ gridColumn: props.socket && "1 / span 2" }}
                   onClick={() => play(playlist)}
