@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { playlistService } from "../../services";
+import { PlaylistSnippet } from "..";
 import { GeneralModal } from "..";
-import Button from "@material-ui/core/Button";
-import ClearIcon from "@material-ui/icons/Clear";
-import DefaultThumbnail from "../../assets/cassette.gif";
-import Marquee from "react-double-marquee";
 import "./playlists.scss";
 
 export default function Playlists(props) {
@@ -20,18 +17,6 @@ export default function Playlists(props) {
     props.socket ? getActivePlaylists() : getPlaylists();
     setLoading(true);
   }, [props.socket]);
-
-  const play = (playlist, track) => {
-    if (track) {
-      history.push(`/playlist/${playlist._id}?track=${track}`);
-    } else {
-      history.push(`/playlist/${playlist._id}`);
-    }
-  };
-
-  const edit = (playlist) => {
-    history.push(`/playlist-edit/${playlist._id}`);
-  };
 
   const openDeleteModal = (playlist) => {
     setPlaylistToDelete(playlist);
@@ -81,66 +66,12 @@ export default function Playlists(props) {
     >
       {playlists &&
         playlists.map((playlist, index) => (
-          <div key={`playlist${index}`} className={`playlist`}>
-            <div className="playlist-head">
-              <div className={`playlist-title-container`}>
-                <Marquee
-                  className="playlist-title"
-                  childMargin={20}
-                  delay={500}
-                  direction="left"
-                >
-                  {playlist.title + " - " + playlist.creator.username}
-                </Marquee>
-              </div>
-              <div className="playlist-functions-container">
-                <Button
-                  className={`standard-submit-button`}
-                  variant="contained"
-                  style={{ gridColumn: props.socket && "1 / span 2" }}
-                  onClick={() => play(playlist)}
-                >
-                  Play
-                </Button>
-                {!props.socket && (
-                  <Button
-                    className="standard-submit-button"
-                    variant="contained"
-                    onClick={() => edit(playlist)}
-                  >
-                    Edit
-                  </Button>
-                )}
-              </div>
-            </div>
-            <div className={`playlist-body`}>
-              {playlist.tracks.map((track, index) => (
-                <div
-                  onClick={() => play(playlist, index + 1)}
-                  key={`track${index}`}
-                  className="my-playlists-thumbnail"
-                >
-                  <img
-                    src={
-                      track.thumbnailUrl ? track.thumbnailUrl : DefaultThumbnail
-                    }
-                    className="track-preview"
-                  />
-                </div>
-              ))}
-            </div>
-            {!props.socket && (
-              <Button
-                className="delete-playlist-button"
-                variant="contained"
-                color="secondary"
-                size="small"
-                onClick={() => openDeleteModal(playlist)}
-              >
-                <ClearIcon fontSize="small" />
-              </Button>
-            )}
-          </div>
+          <PlaylistSnippet
+            key={`playlist${index}`}
+            playlist={playlist}
+            userPlaylist={props.socket}
+            openDeleteModal={openDeleteModal}
+          />
         ))}
       {!playlists[0] && !props.socket && (
         <div className="no-playlists">

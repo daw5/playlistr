@@ -6,6 +6,7 @@ import Conversations from "./conversations/conversations";
 import ConversationSnippet from "./conversation-snippet/conversation-snippet";
 import SideMenu from "./side-menu/side-menu";
 import Playlist from "./playlist/playlist";
+import PlaylistSnippet from "./playlist-snippet/playlist-snippet";
 import Player from "./player/player";
 import PlaylistCreate from "./playlist-create/playlist-create";
 import Playlists from "./playlists/playlists";
@@ -24,6 +25,7 @@ export {
   Conversations,
   ConversationSnippet,
   Playlist,
+  PlaylistSnippet,
   Player,
   PlaylistCreate,
   Playlists,
