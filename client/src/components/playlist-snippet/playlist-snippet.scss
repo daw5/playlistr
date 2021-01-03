@@ -83,6 +83,10 @@
         border: none;
         border-radius: 5px;
         border: 1px dotted;
+
+        &:hover {
+          background: linear-gradient(298deg, #319177, #91314b);
+        }
       }
     }
   }
