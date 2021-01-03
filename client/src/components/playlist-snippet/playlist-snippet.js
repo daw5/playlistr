@@ -36,7 +36,7 @@ export default function PlaylistSnippet(props) {
         </div>
         <div className="playlist-functions-container">
           <Button
-            className={`standard-submit-button`}
+            className={`neon`}
             variant="contained"
             style={{ gridColumn: props.userPlaylist && "1 / span 2" }}
             onClick={() => play(props.playlist)}
@@ -44,14 +44,12 @@ export default function PlaylistSnippet(props) {
             Play
           </Button>
           {!props.userPlaylist && (
-            <Button
-              className="standard-submit-button"
-              variant="contained"
-              onClick={() => edit(props.playlist)}
-            >
+            <Button variant="contained" onClick={() => edit(props.playlist)}>
               Edit
             </Button>
           )}
+          <div class="gradient"></div>
+          <div class="spotlight"></div>
         </div>
       </div>
       <div className={`playlist-body`}>
