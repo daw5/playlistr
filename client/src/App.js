@@ -17,6 +17,7 @@ import "./App.scss";
 export default function App() {
   const [messagingSidebarStatus, setMessagingSidebarStatus] = useToggle();
   const [currentUser, setCurrentUser] = useState(null);
+  const [currentPlaylist, setCurrentPlaylist] = useState(null);
   const [users, setUsers] = useState({});
   const [socket, setSocket] = useState(null);
   const [recentPlaylists, setRecentPlaylists] = useState([]);
@@ -77,6 +78,7 @@ export default function App() {
               loaded={loaded}
               loadUserData={loadUserData}
               currentUser={currentUser}
+              currentPlaylist={currentPlaylist}
             ></Header>
             <div id="main-section-container">
               <div
@@ -97,6 +99,7 @@ export default function App() {
                         <Playlist
                           {...props}
                           currentUser={currentUser}
+                          setCurrentPlaylist={setCurrentPlaylist}
                           socket={socket}
                         />
                       )

@@ -19,6 +19,15 @@ function Header(props) {
     accomodateVerificationRedirect();
   }, []);
 
+  useEffect(() => {
+    flashCurrentPlaylist();
+  }, [props.currentPlaylist]);
+
+  const flashCurrentPlaylist = () => {
+    if (props.currentPlaylist)
+      displayTemporaryMessage(`♬ ${props.currentPlaylist.title} ♬`);
+  };
+
   const resetHeader = () => {
     setShowRegisterInputs(false);
     setShowAuthInputs(false);

@@ -16,7 +16,6 @@ export default function Playlist(props) {
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [recentGroup, setRecentGroup] = useState(null);
   const [scrollableChat, setScrollableChat] = useState(false);
-  const history = useHistory();
   const group = props.match.params.id;
 
   useEffect(() => {
@@ -47,9 +46,9 @@ export default function Playlist(props) {
     const track = urlParam ? urlParam - 1 : 0;
     setCurrentTrackIndex(track);
     playlistService.getPlaylist(props.match.params.id).then((playlist) => {
+      props.setCurrentPlaylist(playlist);
       setPlaylist(playlist);
       initializeChat();
-      history.push(`/playlist/${playlist._id}`);
     });
   };
 
