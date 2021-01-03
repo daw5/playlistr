@@ -31,7 +31,7 @@
   background-color: black;
 
   .messagesContainer {
-    overflow: scroll;
+    overflow-y: auto;
     word-break: break-all;
     .message-container {
       display: flex;
