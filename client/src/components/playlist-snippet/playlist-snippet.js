@@ -22,7 +22,7 @@ export default function PlaylistSnippet(props) {
   };
 
   return (
-    <div className={`playlist`}>
+    <div className={`playlist-snippet`}>
       <div className="playlist-head">
         <div className={`playlist-title-container`}>
           <Marquee
