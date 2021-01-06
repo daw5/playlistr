@@ -88,7 +88,6 @@ export default function Chat(props) {
           </div>
           <div className="send-button-container">
             <Button
-              className="standard-submit-button"
               onMouseDown={(evt) => sendMessage(evt, messageToSend)}
               variant="contained"
             >
