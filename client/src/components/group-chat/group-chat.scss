@@ -1,3 +1,5 @@
+@import "../playlist-snippet/playlist-snippet.scss";
+
 .group-chat {
   height: calc(100vh - 60px);
   display: grid;
@@ -48,8 +50,36 @@
   height: auto;
   background-color: black;
   width: 100%;
-  min-height: 35px;
-  padding-bottom: 4px;
+  min-height: 40px;
+
+  .input-container {
+    .text-input-container {
+      position: relative;
+      background-color: black;
+      overflow: hidden;
+      div.MuiFormControl-root.MuiTextField-root.message-input {
+        color: white;
+        height: 38px;
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+
+  .send-button-container {
+    filter: contrast(110%) brightness(190%);
+    position: relative;
+    overflow: hidden;
+    background-color: black;
+    display: flex;
+
+    Button {
+      @extend .special-button;
+      &:hover {
+        border: 2px solid;
+      }
+    }
+  }
 }
 
 @media only screen and (max-width: 600px) {

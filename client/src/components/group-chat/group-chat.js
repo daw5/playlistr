@@ -8,6 +8,7 @@ require("dotenv").config();
 
 export default function GroupChat(props) {
   const [messages, setMessages] = useState([]);
+  const [contributed, setContributed] = useState(false);
   const [messagesSent, setMessagesSent] = useState(0);
   const [messageToSend, setMessageToSend] = useState("");
   const messagesContainer = useRef(null);
@@ -42,6 +43,7 @@ export default function GroupChat(props) {
   }, [props.latestMessage]);
 
   const sendMessage = (evt, messageToSend) => {
+    setContributed(true);
     evt.preventDefault();
     if (messageToSend.length > 0 && messagesSent < 3) {
       throttleMessages();
@@ -73,25 +75,32 @@ export default function GroupChat(props) {
       </div>
       <div id="groupChatFooter">
         <div className="input-container">
-          <TextField
-            onKeyDown={(evt) =>
-              evt.key === "Enter" && sendMessage(evt, messageToSend)
-            }
-            placeholder="Send a message"
-            value={messageToSend}
-            className="message-input"
-            onChange={(evt) => setMessageToSend(evt.target.value)}
-            InputProps={{
-              style: { color: "#fff" },
-            }}
-          />
-          <Button
-            className="standard-submit-button"
-            onMouseDown={(evt) => sendMessage(evt, messageToSend)}
-            variant="contained"
-          >
-            Send
-          </Button>
+          <div className="text-input-container">
+            <TextField
+              onKeyDown={(evt) =>
+                evt.key === "Enter" && sendMessage(evt, messageToSend)
+              }
+              placeholder="Send a message"
+              value={messageToSend}
+              className="message-input"
+              onChange={(evt) => setMessageToSend(evt.target.value)}
+              InputProps={{
+                style: { color: "#fff" },
+              }}
+            />
+            <div class="gradient"></div>
+            {!contributed && <div class="spotlight"></div>}
+          </div>
+          <div className="send-button-container">
+            <Button
+              onMouseDown={(evt) => sendMessage(evt, messageToSend)}
+              variant="contained"
+            >
+              Send
+            </Button>
+            <div class="gradient"></div>
+            <div class="spotlight"></div>
+          </div>
         </div>
       </div>
     </div>
