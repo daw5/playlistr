@@ -82,12 +82,14 @@
         margin: auto;
         background-color: black;
         color: white;
-        border: none;
         border-radius: 5px;
         border: 1px dotted;
 
         &:hover {
-          background: linear-gradient(298deg, #319177, #91314b);
+          border: solid;
+          border-radius: 10px;
+          filter: contrast(150%) brightness(250%);
+          box-shadow: 0 0 5px #9ecaed;
         }
       }
     }
