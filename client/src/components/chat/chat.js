@@ -69,26 +69,34 @@ export default function Chat(props) {
       </div>
       <div className="chatFooter">
         <div className="input-container">
-          <TextField
-            onKeyDown={(evt) =>
-              evt.key === "Enter" && sendMessage(evt, messageToSend)
-            }
-            placeholder="Send a message"
-            value={messageToSend}
-            className="message-input"
-            onChange={(evt) => setMessageToSend(evt.target.value)}
-            InputProps={{
-              style: { color: "#fff" },
-            }}
-            multiline
-          />
-          <Button
-            className="standard-submit-button"
-            onMouseDown={(evt) => sendMessage(evt, messageToSend)}
-            variant="contained"
-          >
-            Send
-          </Button>
+          <div className="personal-message-input-container">
+            <TextField
+              onKeyDown={(evt) =>
+                evt.key === "Enter" && sendMessage(evt, messageToSend)
+              }
+              placeholder="Send a message"
+              value={messageToSend}
+              className="message-input"
+              onChange={(evt) => setMessageToSend(evt.target.value)}
+              InputProps={{
+                style: { color: "#fff" },
+              }}
+              multiline
+            />
+            <div class="gradient"></div>
+            <div class="spotlight"></div>
+          </div>
+          <div className="send-button-container">
+            <Button
+              className="standard-submit-button"
+              onMouseDown={(evt) => sendMessage(evt, messageToSend)}
+              variant="contained"
+            >
+              Send
+            </Button>
+            <div class="gradient"></div>
+            <div class="spotlight"></div>
+          </div>
         </div>
       </div>
     </div>
