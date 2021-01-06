@@ -78,19 +78,7 @@
       overflow: hidden;
 
       Button {
-        width: 80%;
-        margin: auto;
-        background-color: black;
-        color: white;
-        border-radius: 5px;
-        border: 1px dotted;
-
-        &:hover {
-          border: solid;
-          border-radius: 10px;
-          filter: contrast(150%) brightness(250%);
-          box-shadow: 0 0 5px #9ecaed;
-        }
+        @extend .special-button;
       }
     }
   }
@@ -114,6 +102,22 @@
     align-items: center;
     width: 280px;
     cursor: pointer;
+  }
+}
+
+.special-button {
+  width: 80%;
+  margin: auto;
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  border: 1px dotted;
+
+  &:hover {
+    border: solid;
+    border-radius: 10px;
+    filter: contrast(150%) brightness(250%);
+    box-shadow: 0 0 5px #9ecaed;
   }
 }
 
