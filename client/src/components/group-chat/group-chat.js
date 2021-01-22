@@ -70,6 +70,7 @@ export default function GroupChat(props) {
           <div className="message" key={`message${index}`}>
             <p className="message-sender">{message.correspondent.username}</p>
             <p className="group-message-content">{message.message}</p>
+            <p className="group-message-timestamp">4:35pm</p>
           </div>
         ))}
       </div>
@@ -88,8 +89,8 @@ export default function GroupChat(props) {
                 style: { color: "#fff" },
               }}
             />
-            <div class="gradient"></div>
-            {!contributed && <div class="spotlight"></div>}
+            <div className="gradient"></div>
+            {!contributed && <div className="spotlight"></div>}
           </div>
           <div className="send-button-container">
             <Button
@@ -98,8 +99,8 @@ export default function GroupChat(props) {
             >
               Send
             </Button>
-            <div class="gradient"></div>
-            <div class="spotlight"></div>
+            <div className="gradient"></div>
+            <div className="spotlight"></div>
           </div>
         </div>
       </div>

@@ -9,7 +9,7 @@
 
 #groupMessagesContainer .message {
   display: grid;
-  grid-template-columns: minmax(auto, 150px) auto;
+  grid-template-columns: minmax(auto, 150px) auto 100px;
   grid-column-gap: 10px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -39,6 +39,17 @@
     box-sizing: border-box;
     border-radius: 10px;
     width: fit-content;
+  }
+
+  .group-message-timestamp {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    opacity: 0.8;
   }
 }
 
