@@ -35,9 +35,9 @@ export const deletePlaylist = (playlistId) =>
       return error.response.data;
     });
 
-export const getPlaylists = () =>
+export const getPlaylists = (searchInput) =>
   axios
-    .get(`/api/playlists`)
+    .get(`/api/playlists${searchInput ? "?searchInput=" + searchInput : ""}`)
     .then(function (response) {
       return response.data;
     })

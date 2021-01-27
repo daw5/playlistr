@@ -6,6 +6,8 @@ const playlistController = express.Router();
 const playlistService = new PlaylistService();
 
 playlistController.get("/", async (req, res, next) => {
+  const searchInput = req.query.searchInput;
+  console.log(searchInput);
   try {
     const playlists = await playlistService.listPlaylists();
     res.status(200).send(playlists);

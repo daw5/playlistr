@@ -1,36 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { playlistService } from "../../services";
 import { TextField } from "@material-ui/core";
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import { useHistory } from "react-router-dom";
 import "../header/header.scss";
 
 export default function PlaylistSearchBar(props) {
-  const history = useHistory();
+  const [waitForInputToStop, setWaitForInputToStop] = useState(false);
+
+  const handleInput = (value) => {
+    clearTimeout(waitForInputToStop);
+    const timeout = setTimeout(() => {
+      value.length > 1 && playlistService.getPlaylists(value);
+    }, 1000);
+    setWaitForInputToStop(timeout);
+  };
 
   return (
     <div className="playlist-search-bar-container">
-      <Autocomplete
+      <TextField
+        fullWidth={true}
         size="small"
-        className="playlist-search-bar"
-        options={props.playlists || []}
-        onChange={(evt, playlist) => {
-          props.displayTemporaryMessage(`\u266b ${playlist.title} \u266b`);
-          history.push(`/playlist/${playlist._id}`);
+        InputProps={{
+          style: { color: "#fff" },
         }}
-        getOptionLabel={(option) => option.title}
-        renderInput={(params) => {
-          return (
-            <TextField
-              {...params}
-              InputProps={{
-                ...params.InputProps,
-                style: { color: "#fff" },
-              }}
-              label="Search for a playlist"
-              variant="outlined"
-            />
-          );
+        InputLabelProps={{
+          style: { color: "#fff" },
         }}
+        onChange={(evt) => handleInput(evt.target.value)}
+        label="Search for a playlist"
+        variant="outlined"
       />
     </div>
   );
