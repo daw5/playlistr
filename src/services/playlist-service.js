@@ -9,6 +9,13 @@ export default class PlaylistService {
     return playlists;
   }
 
+  async findPlaylists(searchInput) {
+    const playlists = await Playlist.find({
+      title: new RegExp(searchInput, "i"),
+    });
+    return playlists;
+  }
+
   async findPlaylistsByUser(user_id) {
     const playlists = await Playlist.find({ creator: user_id }).populate(
       "creator",
