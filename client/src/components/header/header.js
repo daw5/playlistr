@@ -173,7 +173,6 @@ function Header(props) {
             )}
             {!showAuthInputs && (
               <PlaylistSearchBar
-                playlists={props.playlists}
                 displayTemporaryMessage={displayTemporaryMessage}
               />
             )}
