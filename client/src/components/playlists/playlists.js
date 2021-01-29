@@ -11,7 +11,6 @@ export default function Playlists(props) {
   const [flaming, setFlaming] = useState(false);
   const [playlistToDelete, setPlaylistToDelete] = useState(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const history = useHistory();
 
   useEffect(() => {
     props.socket ? getActivePlaylists() : getPlaylists();

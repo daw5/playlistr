@@ -20,13 +20,9 @@ export default function App() {
   const [currentPlaylist, setCurrentPlaylist] = useState(null);
   const [users, setUsers] = useState({});
   const [socket, setSocket] = useState(null);
-  const [recentPlaylists, setRecentPlaylists] = useState([]);
   const [loaded, setLoaded] = useState(false);
-  // load 1000 most popular and 1000 most recent playlists. Search bar will use these.
-  // in addition, will display most recent and most popular on home page
 
   useEffect(() => {
-    loadRecentPlaylists();
     loadUserData();
   }, []);
 
@@ -54,12 +50,6 @@ export default function App() {
     });
   };
 
-  const loadRecentPlaylists = () => {
-    playlistService.getRecentPlaylists().then((playlists) => {
-      setRecentPlaylists(playlists);
-    });
-  };
-
   return (
     <HelmetProvider>
       <div id="app">
@@ -74,7 +64,6 @@ export default function App() {
             <Header
               messagingSidebarOpen={messagingSidebarStatus}
               toggleMessagingSidebar={setMessagingSidebarStatus}
-              playlists={recentPlaylists}
               loaded={loaded}
               loadUserData={loadUserData}
               currentUser={currentUser}
