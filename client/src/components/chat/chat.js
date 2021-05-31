@@ -83,8 +83,8 @@ export default function Chat(props) {
               }}
               multiline
             />
-            <div class="gradient"></div>
-            <div class="spotlight"></div>
+            <div className="gradient"></div>
+            <div className="spotlight"></div>
           </div>
           <div className="send-button-container">
             <Button
@@ -93,8 +93,8 @@ export default function Chat(props) {
             >
               Send
             </Button>
-            <div class="gradient"></div>
-            <div class="spotlight"></div>
+            <div className="gradient"></div>
+            <div className="spotlight"></div>
           </div>
         </div>
       </div>

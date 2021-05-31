@@ -48,8 +48,8 @@ export default function PlaylistSnippet(props) {
               Edit
             </Button>
           )}
-          <div class="gradient"></div>
-          <div class="spotlight"></div>
+          <div className="gradient"></div>
+          <div className="spotlight"></div>
         </div>
       </div>
       <div className={`playlist-body`}>
