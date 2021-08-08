@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { playlistService, messagingService } from "../../services";
-import { Player, GroupChat } from "..";
-import { useHistory } from "react-router-dom";
+import { Player, GroupChat, PlaylistSidebar } from "..";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import "./playlist.scss";
@@ -15,7 +14,6 @@ export default function Playlist(props) {
   const [latestMessage, setLatestMessage] = useState(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [recentGroup, setRecentGroup] = useState(null);
-  const [scrollableChat, setScrollableChat] = useState(false);
   const group = props.match.params.id;
 
   useEffect(() => {
@@ -29,17 +27,6 @@ export default function Playlist(props) {
   useEffect(() => {
     initializeChat();
   }, [props.socket]);
-
-  const determineIfChatShouldScroll = (evt) => {
-    if (
-      evt.target.scrollHeight - evt.target.scrollTop ===
-      evt.target.clientHeight
-    ) {
-      setScrollableChat(true);
-    } else if (evt.target.scrollTop === 0) {
-      setScrollableChat(false);
-    }
-  };
 
   const setNewPlaylist = () => {
     const urlParam = new URLSearchParams(window.location.search).get("track");
@@ -71,10 +58,7 @@ export default function Playlist(props) {
   };
 
   return (
-    <div
-      onScroll={(evt) => determineIfChatShouldScroll(evt)}
-      className="playlist-container"
-    >
+    <div className="playlist-container">
       <div className="playlist">
         {playerReady && (
           <button className="back-button">
@@ -82,14 +66,16 @@ export default function Playlist(props) {
           </button>
         )}
         {playlist && (
-          <Player
-            currentTrack={
-              playlist.tracks[currentTrackIndex] &&
-              playlist.tracks[currentTrackIndex].url
-            }
-            trackForward={trackForward}
-            setPlayerReady={setPlayerReady}
-          />
+          <React.Fragment>
+            <Player
+              currentTrack={
+                playlist.tracks[currentTrackIndex] &&
+                playlist.tracks[currentTrackIndex].url
+              }
+              trackForward={trackForward}
+              setPlayerReady={setPlayerReady}
+            />
+          </React.Fragment>
         )}
         {playerReady && (
           <button className="forward-button">
@@ -103,10 +89,10 @@ export default function Playlist(props) {
           currentUser={props.currentUser}
           username={username}
           latestMessage={latestMessage}
-          scrollableChat={scrollableChat}
           group={group}
         />
       )}
+      <PlaylistSidebar playlist={playlist}></PlaylistSidebar>
     </div>
   );
 }

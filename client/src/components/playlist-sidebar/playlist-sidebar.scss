@@ -1,0 +1,12 @@
+.playlist-sidebar {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+// mobile
+
+@media only screen and (max-width: 785px) {
+  .playlist-sidebar {
+    display: none;
+  }
+}

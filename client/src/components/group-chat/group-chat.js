@@ -17,18 +17,6 @@ export default function GroupChat(props) {
     setMessages([]);
   }, [props.group]);
 
-  useEffect(() => {
-    toggleScrollableChat();
-  }, [props.scrollableChat]);
-
-  const toggleScrollableChat = () => {
-    if (props.scrollableChat) {
-      messagesContainer.current.style.overflow = "auto";
-    } else {
-      messagesContainer.current.style.overflow = "hidden";
-    }
-  };
-
   const throttleMessages = () => {
     if (messagesSent === 0) {
       setTimeout(() => {
@@ -61,11 +49,7 @@ export default function GroupChat(props) {
 
   return (
     <div className="group-chat">
-      <div
-        id="groupMessagesContainer"
-        ref={messagesContainer}
-        className="messages-container"
-      >
+      <div id="groupMessagesContainer" ref={messagesContainer}>
         {messages.map((message, index) => (
           <div className="message" key={`message${index}`}>
             <p className="message-sender">{message.correspondent.username}</p>

@@ -1,11 +1,14 @@
 .playlist-container {
   height: 100%;
   width: 100%;
-  overflow: auto;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: max-content auto;
 }
 
 .playlist {
   width: 100%;
+  grid-column: 1;
   background-color: black;
   display: grid;
   grid-template-columns: 60px auto 60px;
@@ -32,6 +35,10 @@
 // mobile
 
 @media only screen and (max-width: 785px) {
+  .playlist-container {
+    grid-template-columns: 1fr;
+  }
+
   .playlist {
     grid-template-columns: 45px auto 45px;
   }
