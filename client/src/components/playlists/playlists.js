@@ -69,7 +69,7 @@ export default function Playlists(props) {
           <PlaylistSnippet
             key={`playlist${index}`}
             playlist={playlist}
-            userPlaylist={props.socket}
+            userPlaylist={!props.socket}
             openDeleteModal={openDeleteModal}
           />
         ))}

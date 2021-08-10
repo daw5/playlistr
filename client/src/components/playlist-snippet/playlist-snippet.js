@@ -27,23 +27,23 @@ export default function PlaylistSnippet(props) {
         <div className={`playlist-title-container`}>
           <Marquee
             className="playlist-title"
-            childMargin={20}
+            childMargin={45}
             delay={500}
             direction="left"
           >
-            {props.playlist.title + " - " + props.playlist.creator.username}
+            {props.playlist.title}
           </Marquee>
         </div>
         <div className="playlist-functions-container">
           <Button
             className={`neon`}
             variant="contained"
-            style={{ gridColumn: props.userPlaylist && "1 / span 2" }}
+            style={{ gridColumn: !props.userPlaylist && "1 / span 2" }}
             onClick={() => play(props.playlist)}
           >
             Play
           </Button>
-          {!props.userPlaylist && (
+          {props.userPlaylist && (
             <Button variant="contained" onClick={() => edit(props.playlist)}>
               Edit
             </Button>
@@ -66,7 +66,7 @@ export default function PlaylistSnippet(props) {
           </div>
         ))}
       </div>
-      {!props.userPlaylist && (
+      {props.userPlaylist && (
         <Button
           className="delete-playlist-button"
           variant="contained"
