@@ -1,5 +1,6 @@
 import { MessagingService, PlaylistService } from "../services/index";
 import jwt from "jsonwebtoken";
+import dayjs from "dayjs";
 
 const messagingService = new MessagingService();
 const playlistService = new PlaylistService();
@@ -61,6 +62,7 @@ function getRooms(rooms) {
 function onGroupMessage(io, socket) {
   socket.on("group-message", async function (data) {
     io.in(data.group).emit("group-message", {
+      timeStamp: dayjs().format("h:ma"),
       correspondent: data.correspondent,
       message: data.messageToSend,
     });

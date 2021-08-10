@@ -54,7 +54,7 @@ export default function GroupChat(props) {
           <div className="message" key={`message${index}`}>
             <p className="message-sender">{message.correspondent.username}</p>
             <p className="group-message-content">{message.message}</p>
-            <p className="group-message-timestamp">4:35pm</p>
+            <p className="group-message-timestamp">{message.timeStamp}</p>
           </div>
         ))}
       </div>
