@@ -7,20 +7,26 @@ require("dotenv").config();
 export default function PlaylistSidebarImage(props) {
   const [showHoverEffect, setShowHoverEffect] = useState(false);
 
-  const shouldShowHoverEffect = (shouldHover) => {
+  const toggleHoverEffect = (shouldHover) => {
     setShowHoverEffect(shouldHover);
+  };
+
+  const shouldShowHoverEffect = () => {
+    if (props.nowPlaying || showHoverEffect) {
+      return true;
+    }
   };
   return (
     <React.Fragment>
       <img
-        onMouseOver={() => shouldShowHoverEffect(true)}
-        onMouseLeave={() => shouldShowHoverEffect(false)}
+        onMouseOver={() => toggleHoverEffect(true)}
+        onMouseLeave={() => toggleHoverEffect(false)}
         className="playlist-sidebar-snippet-image"
         src={
           props.track.thumbnailUrl ? props.track.thumbnailUrl : DefaultThumbnail
         }
       />
-      {showHoverEffect && (
+      {shouldShowHoverEffect() && (
         <React.Fragment>
           <div className="spotlight"></div>
         </React.Fragment>

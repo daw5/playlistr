@@ -99,6 +99,7 @@ export default function Playlist(props) {
       </div>
       <PlaylistSidebar
         setCurrentTrackIndex={setCurrentTrackIndex}
+        currentTrackIndex={currentTrackIndex}
         playlist={playlist}
       ></PlaylistSidebar>
     </div>

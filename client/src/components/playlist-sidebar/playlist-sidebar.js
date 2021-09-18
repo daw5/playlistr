@@ -14,7 +14,10 @@ export default function PlaylistSidebar(props) {
             key={`track${index}`}
             className="playlist-sidebar-snippet"
           >
-            <PlaylistSidebarImage track={track}></PlaylistSidebarImage>
+            <PlaylistSidebarImage
+              track={track}
+              nowPlaying={props.currentTrackIndex === index}
+            ></PlaylistSidebarImage>
           </div>
         ))}
     </div>
