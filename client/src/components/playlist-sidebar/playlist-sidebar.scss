@@ -1,6 +1,12 @@
 .playlist-sidebar {
   grid-column: 2;
-  grid-row: 1 / span 2;
+  overflow: auto;
+  height: 100%;
+
+  .playlist-sidebar-snippet {
+    width: 90%;
+    padding: 5%;
+  }
 }
 
 // mobile

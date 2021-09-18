@@ -59,39 +59,44 @@ export default function Playlist(props) {
 
   return (
     <div className="playlist-container">
-      <div className="playlist">
+      <div className="playlist-and-chat-container">
+        <div className="playlist">
+          {playerReady && (
+            <button className="back-button">
+              <ChevronLeftIcon onClick={trackBack} style={{ fontSize: 45 }} />
+            </button>
+          )}
+          {playlist && (
+            <React.Fragment>
+              <Player
+                currentTrack={
+                  playlist.tracks[currentTrackIndex] &&
+                  playlist.tracks[currentTrackIndex].url
+                }
+                trackForward={trackForward}
+                setPlayerReady={setPlayerReady}
+              />
+            </React.Fragment>
+          )}
+          {playerReady && (
+            <button className="forward-button">
+              {" "}
+              <ChevronRightIcon
+                onClick={trackForward}
+                style={{ fontSize: 45 }}
+              />
+            </button>
+          )}
+        </div>
         {playerReady && (
-          <button className="back-button">
-            <ChevronLeftIcon onClick={trackBack} style={{ fontSize: 45 }} />
-          </button>
-        )}
-        {playlist && (
-          <React.Fragment>
-            <Player
-              currentTrack={
-                playlist.tracks[currentTrackIndex] &&
-                playlist.tracks[currentTrackIndex].url
-              }
-              trackForward={trackForward}
-              setPlayerReady={setPlayerReady}
-            />
-          </React.Fragment>
-        )}
-        {playerReady && (
-          <button className="forward-button">
-            {" "}
-            <ChevronRightIcon onClick={trackForward} style={{ fontSize: 45 }} />
-          </button>
+          <GroupChat
+            currentUser={props.currentUser}
+            username={username}
+            latestMessage={latestMessage}
+            group={group}
+          />
         )}
       </div>
-      {playerReady && (
-        <GroupChat
-          currentUser={props.currentUser}
-          username={username}
-          latestMessage={latestMessage}
-          group={group}
-        />
-      )}
       <PlaylistSidebar playlist={playlist}></PlaylistSidebar>
     </div>
   );
