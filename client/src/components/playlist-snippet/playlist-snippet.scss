@@ -1,3 +1,5 @@
+@import "../../App.scss";
+
 .playlist-snippet {
   border-radius: 5px;
   width: auto;
@@ -103,71 +105,6 @@
     width: 280px;
     cursor: pointer;
   }
-}
-
-.special-button {
-  width: 80%;
-  margin: auto;
-  background-color: black;
-  color: white;
-  border-radius: 5px;
-  border: 1px dotted;
-
-  &:hover {
-    border: solid;
-    border-radius: 10px;
-    filter: contrast(150%) brightness(250%);
-    box-shadow: 0 0 5px #9ecaed;
-  }
-}
-
-$color1: #319177;
-$color2: #91314b;
-
-.neon {
-  position: relative;
-  background: black;
-  color: transparent;
-
-  &::before,
-  &::after {
-    content: attr(data-text);
-    color: white;
-    filter: blur(0.02em);
-    position: absolute;
-    top: 0;
-    left: 0;
-    pointer-events: none;
-  }
-
-  &::after {
-    mix-blend-mode: difference;
-  }
-}
-
-.gradient,
-.spotlight {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  pointer-events: none;
-  z-index: 10;
-}
-
-.gradient {
-  background: linear-gradient(45deg, $color1, $color2);
-  mix-blend-mode: multiply;
-}
-
-.spotlight {
-  animation: light 5s infinite linear;
-  background: radial-gradient(circle, white, transparent 25%) 0 0 / 25% 25%,
-    radial-gradient(circle, white, black 25%) 50% 50% / 12.5% 12.5%;
-  top: -100%;
-  left: -100%;
-  mix-blend-mode: color-dodge;
 }
 
 @keyframes light {

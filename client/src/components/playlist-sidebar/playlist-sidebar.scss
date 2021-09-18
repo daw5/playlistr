@@ -4,8 +4,15 @@
   height: 100%;
 
   .playlist-sidebar-snippet {
-    width: 90%;
     padding: 5%;
+    margin: 5px;
+    position: relative;
+    overflow: hidden;
+    background-color: black;
+    display: flex;
+    &:hover {
+      filter: contrast(110%) brightness(190%);
+    }
   }
 }
 

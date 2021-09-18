@@ -97,7 +97,10 @@ export default function Playlist(props) {
           />
         )}
       </div>
-      <PlaylistSidebar playlist={playlist}></PlaylistSidebar>
+      <PlaylistSidebar
+        setCurrentTrackIndex={setCurrentTrackIndex}
+        playlist={playlist}
+      ></PlaylistSidebar>
     </div>
   );
 }
