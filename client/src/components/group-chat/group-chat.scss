@@ -15,6 +15,9 @@
   left: 0;
   right: 0;
   overflow: auto;
+  display: flex;
+  flex-direction: column-reverse;
+
   .message {
     display: grid;
     grid-template-columns: minmax(auto, 150px) auto 100px;
