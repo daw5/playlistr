@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Button, TextField } from "@material-ui/core";
+import AspectRatioIcon from "@material-ui/icons/AspectRatio";
 import { messagingService } from "../../services";
 import "./group-chat.scss";
 import "../chat/chat.scss";
@@ -49,6 +50,18 @@ export default function GroupChat(props) {
 
   return (
     <div className="group-chat">
+      <div className="group-chat-header">
+        <div className="expand-group-chat-button">
+          {/* <Button className="special-button"> */}
+          <AspectRatioIcon
+            className="expand-group-chat-icon"
+            style={{ fontSize: 20 }}
+          ></AspectRatioIcon>
+          {/* </Button> */}
+          <div className="gradient"></div>
+          <div className="spotlight"></div>
+        </div>
+      </div>
       <div id="groupMessagesContainer" ref={messagesContainer}>
         {messages.map((message, index) => (
           <div className="message" key={`message${index}`}>

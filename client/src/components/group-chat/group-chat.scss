@@ -8,9 +8,38 @@
   position: relative;
 }
 
+.group-chat-header {
+  height: 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  z-index: 10;
+
+  .expand-group-chat-button {
+    padding-right: 10px;
+    position: relative;
+    overflow: hidden;
+    background-color: black;
+    display: flex;
+    cursor: pointer;
+
+    .expand-group-chat-icon {
+      margin: auto;
+      background-color: black;
+      color: white;
+
+      &:hover {
+        filter: contrast(150%) brightness(250%);
+        box-shadow: 0 0 5px #9ecaed;
+      }
+    }
+  }
+}
+
 #groupMessagesContainer {
   position: absolute;
-  top: 10px;
+  top: 20px;
   bottom: 45px;
   left: 0;
   right: 0;
@@ -22,8 +51,8 @@
     display: grid;
     grid-template-columns: minmax(auto, 150px) auto 100px;
     grid-column-gap: 10px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     margin-left: 10px;
     margin-right: 10px;
     color: white;
