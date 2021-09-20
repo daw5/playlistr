@@ -49,11 +49,14 @@ export default function GroupChat(props) {
   };
 
   return (
-    <div className="group-chat">
+    <div
+      className={`${props.fullChat ? "full-height-group-chat" : "group-chat"}`}
+    >
       <div className="group-chat-header">
         <div className="expand-group-chat-button">
           {/* <Button className="special-button"> */}
           <AspectRatioIcon
+            onClick={props.toggleFullChat}
             className="expand-group-chat-icon"
             style={{ fontSize: 20 }}
           ></AspectRatioIcon>

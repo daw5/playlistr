@@ -8,6 +8,11 @@
   position: relative;
 }
 
+.full-height-group-chat {
+  @extend .group-chat;
+  height: calc(100vh - 60px);
+}
+
 .group-chat-header {
   height: 20px;
   width: 100%;

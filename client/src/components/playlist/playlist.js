@@ -14,6 +14,7 @@ export default function Playlist(props) {
   const [latestMessage, setLatestMessage] = useState(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [recentGroup, setRecentGroup] = useState(null);
+  const [fullChat, setFullChat] = useState(false);
   const group = props.match.params.id;
 
   useEffect(() => {
@@ -27,6 +28,15 @@ export default function Playlist(props) {
   useEffect(() => {
     initializeChat();
   }, [props.socket]);
+
+  const toggleFullChat = () => {
+    console.log("comon yo");
+    if (fullChat) {
+      setFullChat(false);
+    } else {
+      setFullChat(true);
+    }
+  };
 
   const setNewPlaylist = () => {
     const urlParam = new URLSearchParams(window.location.search).get("track");
@@ -60,7 +70,7 @@ export default function Playlist(props) {
   return (
     <div className="playlist-container">
       <div className="playlist-and-chat-container">
-        <div className="playlist">
+        <div className={`${fullChat ? "zero-height-playlist" : "playlist"}`}>
           {playerReady && (
             <button className="back-button">
               <ChevronLeftIcon onClick={trackBack} style={{ fontSize: 45 }} />
@@ -94,6 +104,8 @@ export default function Playlist(props) {
             username={username}
             latestMessage={latestMessage}
             group={group}
+            fullChat={fullChat}
+            toggleFullChat={toggleFullChat}
           />
         )}
       </div>
