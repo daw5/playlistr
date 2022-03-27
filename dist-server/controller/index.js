@@ -27,6 +27,12 @@ Object.defineProperty(exports, "playlistController", {
     return _playlist["default"];
   }
 });
+Object.defineProperty(exports, "trackDetailsController", {
+  enumerable: true,
+  get: function get() {
+    return _trackDetails["default"];
+  }
+});
 Object.defineProperty(exports, "reactRouterController", {
   enumerable: true,
   get: function get() {
@@ -41,6 +47,8 @@ var _mailing = _interopRequireDefault(require("./mailing.controller"));
 var _user = _interopRequireDefault(require("./user.controller"));
 
 var _playlist = _interopRequireDefault(require("./playlist.controller"));
+
+var _trackDetails = _interopRequireDefault(require("./track-details.controller"));
 
 var _reactRouter = _interopRequireDefault(require("./react-router.controller"));
 

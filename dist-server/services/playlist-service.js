@@ -68,7 +68,7 @@ var PlaylistService = /*#__PURE__*/function () {
                 _context2.next = 2;
                 return _index.Playlist.find({
                   creator: user_id
-                });
+                }).populate("creator", "username");
 
               case 2:
                 playlists = _context2.sent;
@@ -105,7 +105,7 @@ var PlaylistService = /*#__PURE__*/function () {
                   _id: {
                     $in: list
                   }
-                });
+                }).populate("creator", "username");
 
               case 3:
                 playlists = _context3.sent;
@@ -143,7 +143,7 @@ var PlaylistService = /*#__PURE__*/function () {
                 _context4.next = 3;
                 return _index.Playlist.find().sort({
                   _id: -1
-                }).limit(limit).select(keysToOmit);
+                }).limit(limit).populate("creator", "username").select(keysToOmit);
 
               case 3:
                 playlists = _context4.sent;

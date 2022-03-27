@@ -1,17 +1,31 @@
 import React from "react";
 import ReactPlayer from "react-player";
+import { detectHostEmbedUrl } from "../../helpers/urlPatterns";
 import "./player.scss";
 
 require("dotenv").config();
 
 export default function Player(props) {
-  const isFacebookUrl = /^(?:(?:https?:)?\/\/)?(?:www\.)?facebook\.com\/[a-zA-Z0-9\.]+\/videos\/(?:[a-zA-Z0-9\.]+\/)?([0-9]+)/.test(
-    props.currentTrack
-  );
+  const isFacebookUrl = detectHostEmbedUrl.facebook(props.currentTrack);
+  const isAltUrl =
+    detectHostEmbedUrl.bitchute(props.currentTrack) ||
+    detectHostEmbedUrl.rumble(props.currentTrack) ||
+    detectHostEmbedUrl.odysee(props.currentTrack) ||
+    detectHostEmbedUrl.brandNewTube(props.currentTrack);
 
-  return (
-    <div className="player-wrapper">
-      {props.currentTrack ? (
+  const player = () => {
+    if (isAltUrl) {
+      setTimeout(() => {
+        props.setPlayerReady(true);
+      }, 50);
+      return (
+        <iframe
+          className="react-player alt-player"
+          src={props.currentTrack}
+        ></iframe>
+      );
+    } else {
+      return (
         <ReactPlayer
           className={!isFacebookUrl ? "react-player" : "facebook-react-player"}
           url={props.currentTrack}
@@ -22,6 +36,14 @@ export default function Player(props) {
           playing={true}
           onReady={() => props.setPlayerReady(true)}
         />
+      );
+    }
+  };
+
+  return (
+    <div className="player-wrapper">
+      {props.currentTrack ? (
+        player()
       ) : (
         <h2 style={{ color: "white", margin: "auto", textAlign: "center" }}>
           No Playlist Selected

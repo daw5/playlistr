@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ReactPlayer from "react-player";
 import { useHistory } from "react-router-dom";
-import { playlistService, thumbnailService } from "../../services";
+import { playlistService, trackDetailsService } from "../../services";
+import { detectHostUrl } from "../../helpers/urlPatterns";
 import { Button, TextField } from "@material-ui/core";
 import { SortableGrid } from "..";
 
@@ -50,13 +51,37 @@ export default function Playlist(props) {
   const addTrack = async (evt) => {
     evt.preventDefault();
     if (ReactPlayer.canPlay(trackToAdd)) {
-      const thumbnailUrl = await thumbnailService.getThumbnailURL(trackToAdd);
-      setTracks([...tracks, { url: trackToAdd, thumbnailUrl }]);
-      setTrackToAdd("");
-      errors.tracks && setErrors({ tracks: null });
+      const thumbnailUrl = await trackDetailsService.getThumbnailURL(
+        trackToAdd
+      );
+      createTrack(trackToAdd, thumbnailUrl);
+    } else if (detectHostUrl.bitchute(trackToAdd)) {
+      const { embedUrl, thumbnailUrl } =
+        await trackDetailsService.getTrackDetails("bitchute", trackToAdd);
+      createTrack(embedUrl, thumbnailUrl);
+    } else if (detectHostUrl.rumble(trackToAdd)) {
+      const { embedUrl, thumbnailUrl } =
+        await trackDetailsService.getTrackDetails("rumble", trackToAdd);
+      createTrack(embedUrl, thumbnailUrl);
+    } else if (detectHostUrl.odysee(trackToAdd)) {
+      // odysee regex needs updating
+      setErrors({ tracks: "Cannot add track" });
+      // const { embedUrl, thumbnailUrl } =
+      //   await trackDetailsService.getTrackDetails("odysee", trackToAdd);
+      // createTrack(embedUrl, thumbnailUrl);
+    } else if (detectHostUrl.brandNewTube(trackToAdd)) {
+      const { embedUrl, thumbnailUrl } =
+        await trackDetailsService.getTrackDetails("brandnewtube", trackToAdd);
+      createTrack(embedUrl, thumbnailUrl);
     } else {
       setErrors({ tracks: "Cannot add track" });
     }
+  };
+
+  const createTrack = async (track, thumbnailUrl) => {
+    setTracks([...tracks, { url: track, thumbnailUrl }]);
+    setTrackToAdd("");
+    errors.tracks && setErrors({ tracks: null });
   };
 
   const deleteTrack = (index) => {
@@ -67,55 +92,68 @@ export default function Playlist(props) {
     <div className="playlist-create-container">
       <div className="playlist-create-inputs-container">
         <div
-          className={`input-container playlist-create-input-container ${
+          className={`playlist-create-input-container ${
             props.edit && "edit-inputs-container"
           }`}
         >
-          <TextField
-            onKeyDown={(evt) => evt.key === "Enter" && addTrack(evt)}
-            placeholder="Paste link to media here"
-            value={trackToAdd || ""}
-            error={errors.tracks}
-            className="message-input"
-            onChange={(evt) => setTrackToAdd(evt.target.value)}
-            autoFocus
-            InputProps={{
-              style: { color: "#fff" },
-            }}
-          />
-          <Button
-            className="standard-submit-button"
-            onClick={(evt) => addTrack(evt)}
-            variant="contained"
-          >
-            Add Track
-          </Button>
+          <div className="add-track-input-container">
+            <TextField
+              onKeyDown={(evt) => evt.key === "Enter" && addTrack(evt)}
+              placeholder="Paste link to media here"
+              value={trackToAdd || ""}
+              error={errors.tracks}
+              className="message-input"
+              onChange={(evt) => setTrackToAdd(evt.target.value)}
+              autoFocus
+              InputProps={{
+                style: { color: "#fff" },
+              }}
+            />
+            <div class="gradient"></div>
+            <div class="spotlight"></div>
+          </div>
+          <div className="playlist-create-button-container">
+            <Button onClick={(evt) => addTrack(evt)} variant="contained">
+              Add Track
+            </Button>
+            <div class="gradient"></div>
+            <div class="spotlight"></div>
+          </div>
         </div>
         <div
-          className={`input-container playlist-create-input-container ${
+          className={`playlist-create-input-container ${
             props.edit && "edit-inputs-container"
           }`}
         >
-          <TextField
-            onKeyDown={(evt) => evt.key === "Enter" && createPlaylist(evt)}
-            placeholder={!props.edit && "Enter your playlist title here"}
-            error={errors.title}
-            value={title || ""}
-            className="message-input"
-            onChange={(evt) => setTitle(evt.target.value)}
-            InputProps={{
-              style: { color: "#fff" },
-            }}
-          />
-          <Button
-            className="standard-submit-button"
-            onClick={(evt) => {
-              props.edit ? saveChanges() : createPlaylist(evt);
-            }}
-            variant="contained"
-          >
-            {!props.edit ? "Create" : "Save Changes"}
-          </Button>
+          <div className="add-track-input-container">
+            <TextField
+              onKeyDown={(evt) => evt.key === "Enter" && createPlaylist(evt)}
+              placeholder={
+                !props.edit ? "Enter your playlist title here" : undefined
+              }
+              error={errors.title}
+              value={title || ""}
+              className="message-input"
+              onChange={(evt) => setTitle(evt.target.value)}
+              InputProps={{
+                style: { color: "#fff" },
+              }}
+            />
+            <div class="gradient"></div>
+            <div class="spotlight"></div>
+          </div>
+          <div className="playlist-create-button-container">
+            <Button
+              onClick={(evt) => {
+                props.edit ? saveChanges() : createPlaylist(evt);
+              }}
+              variant="contained"
+            >
+              {!props.edit ? "Create" : "Save Changes"}
+            </Button>
+            <div class="gradient"></div>
+            <div class="spotlight"></div>
+          </div>
         </div>
       </div>
       {tracks && (

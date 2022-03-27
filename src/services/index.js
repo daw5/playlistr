@@ -3,6 +3,7 @@ import UserService from "./user-service";
 import MailingService from "./mailing-service";
 import MessagingService from "./messaging-service";
 import PlaylistService from "./playlist-service";
+import TrackService from "./track-service";
 
 export {
   AuthService,
@@ -10,4 +11,5 @@ export {
   MailingService,
   MessagingService,
   PlaylistService,
+  TrackService,
 };

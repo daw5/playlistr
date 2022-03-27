@@ -43,7 +43,8 @@ export default function Chat(props) {
   };
 
   useEffect(() => {
-    props.fetchCount > 0 && scrollPosition.current.scrollIntoView();
+    if (props.fetchCount > 0 && props.messages.length > 30)
+      scrollPosition.current.scrollIntoView();
   }, [props.fetchCount]);
 
   useEffect(() => {

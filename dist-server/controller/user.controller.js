@@ -173,7 +173,7 @@ userController.get("/current/conversations", _passport["default"].authenticate("
           case 0:
             _context5.prev = 0;
             _context5.next = 3;
-            return messagingService.findConversationsByUser(req.user._id);
+            return messagingService.findConversationsByUserWithMessages(req.user._id);
 
           case 3:
             conversations = _context5.sent;
@@ -209,7 +209,7 @@ userController.get("/current/conversations/:conversationId/load-messages/:messag
           case 0:
             _context6.prev = 0;
             _context6.next = 3;
-            return messagingService.loadMessages(req.user, req.params);
+            return messagingService.loadMessages(req.user._id, req.params.conversationId, req.params.messagesLoaded);
 
           case 3:
             messages = _context6.sent;

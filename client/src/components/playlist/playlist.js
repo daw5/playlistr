@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { playlistService, messagingService } from "../../services";
+import { playlistService } from "../../services";
 import { Player, GroupChat, PlaylistSidebar } from "..";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
@@ -9,28 +9,16 @@ require("dotenv").config();
 
 export default function Playlist(props) {
   const [playerReady, setPlayerReady] = useState(false);
-  const [username, setUsername] = useState(null);
   const [playlist, setPlaylist] = useState(null);
-  const [latestMessage, setLatestMessage] = useState(null);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
-  const [recentGroup, setRecentGroup] = useState(null);
   const [fullChat, setFullChat] = useState(false);
   const group = props.match.params.id;
 
   useEffect(() => {
-    return () => props.socket && messagingService.leaveGroup(group);
-  }, []);
-
-  useEffect(() => {
     setNewPlaylist();
-  }, [props.match.params.id]);
-
-  useEffect(() => {
-    initializeChat();
-  }, [props.socket]);
+  }, [group]);
 
   const toggleFullChat = () => {
-    console.log("comon yo");
     if (fullChat) {
       setFullChat(false);
     } else {
@@ -40,21 +28,11 @@ export default function Playlist(props) {
 
   const setNewPlaylist = () => {
     const urlParam = new URLSearchParams(window.location.search).get("track");
-    const track = urlParam ? urlParam - 1 : 0;
+    const track = urlParam ? urlParam : 0;
     setCurrentTrackIndex(track);
-    playlistService.getPlaylist(props.match.params.id).then((playlist) => {
+    playlistService.getPlaylist(group).then((playlist) => {
       props.setCurrentPlaylist(playlist);
       setPlaylist(playlist);
-      initializeChat();
-    });
-  };
-
-  const initializeChat = () => {
-    setUsername(messagingService.getUsername(props.currentUser));
-    props.socket.emit("join-group", group, recentGroup);
-    setRecentGroup(group);
-    props.socket.on("group-message", function (data) {
-      setLatestMessage(data);
     });
   };
 
@@ -98,11 +76,11 @@ export default function Playlist(props) {
             </button>
           )}
         </div>
-        {playerReady && (
+        {playlist && playerReady && (
           <GroupChat
             currentUser={props.currentUser}
-            username={username}
-            latestMessage={latestMessage}
+            playlistId={playlist._id}
+            socket={props.socket}
             group={group}
             fullChat={fullChat}
             toggleFullChat={toggleFullChat}

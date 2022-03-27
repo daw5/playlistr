@@ -69,31 +69,6 @@
   }
 }
 
-.input-container {
-  display: grid;
-  width: 100%;
-  padding-right: 10px;
-  padding-left: 10px;
-  grid-template-columns: auto 70px;
-  grid-column-gap: 10px;
-
-  .message-input {
-    width: auto !important;
-  }
-}
-
-Button.standard-submit-button {
-  border: 1px solid white;
-  background-color: black !important;
-  color: white;
-  &:hover {
-    background: linear-gradient(298deg, #33c19c, #4184aa, #31a85b, #9b3597);
-    background-size: 800% 800%;
-    color: black;
-    border-color: black;
-  }
-}
-
 .chatFooter {
   background-color: black;
   display: flex;
@@ -108,6 +83,17 @@ Button.standard-submit-button {
 
   .input-container {
     height: 40px;
+    display: grid;
+    width: 100%;
+    padding-right: 10px;
+    padding-left: 10px;
+    grid-template-columns: auto 70px;
+    grid-column-gap: 10px;
+
+    .message-input {
+      width: auto !important;
+    }
+
     .personal-message-input-container {
       background-color: black;
       overflow: hidden;

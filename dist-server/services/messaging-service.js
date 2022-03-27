@@ -29,9 +29,9 @@ var MessagingService = /*#__PURE__*/function () {
   }
 
   _createClass(MessagingService, [{
-    key: "findConversationsByUser",
+    key: "findConversationsByUserWithMessages",
     value: function () {
-      var _findConversationsByUser = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(user_id) {
+      var _findConversationsByUserWithMessages = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(user_id) {
         var conversations;
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
@@ -62,16 +62,16 @@ var MessagingService = /*#__PURE__*/function () {
         }, _callee);
       }));
 
-      function findConversationsByUser(_x) {
-        return _findConversationsByUser.apply(this, arguments);
+      function findConversationsByUserWithMessages(_x) {
+        return _findConversationsByUserWithMessages.apply(this, arguments);
       }
 
-      return findConversationsByUser;
+      return findConversationsByUserWithMessages;
     }()
   }, {
-    key: "findConversation",
+    key: "findConversationByPlaylistWithMessages",
     value: function () {
-      var _findConversation = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(sender_id, reciever_id) {
+      var _findConversationByPlaylistWithMessages = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(_id) {
         var conversation;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
@@ -79,8 +79,17 @@ var MessagingService = /*#__PURE__*/function () {
               case 0:
                 _context2.next = 2;
                 return _index.Conversation.findOne({
-                  users: {
-                    $all: [sender_id, reciever_id]
+                  users: _id
+                }).populate({
+                  path: "messages",
+                  options: {
+                    sort: {
+                      _id: -1
+                    },
+                    limit: 30
+                  },
+                  populate: {
+                    path: "sender"
                   }
                 });
 
@@ -96,7 +105,41 @@ var MessagingService = /*#__PURE__*/function () {
         }, _callee2);
       }));
 
-      function findConversation(_x2, _x3) {
+      function findConversationByPlaylistWithMessages(_x2) {
+        return _findConversationByPlaylistWithMessages.apply(this, arguments);
+      }
+
+      return findConversationByPlaylistWithMessages;
+    }()
+  }, {
+    key: "findConversation",
+    value: function () {
+      var _findConversation = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(sender_id, reciever_id, playlist_id) {
+        var conversation;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return _index.Conversation.findOne({
+                  users: {
+                    $all: playlist_id ? [playlist_id] : [sender_id, reciever_id]
+                  }
+                });
+
+              case 2:
+                conversation = _context3.sent;
+                return _context3.abrupt("return", conversation);
+
+              case 4:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }));
+
+      function findConversation(_x3, _x4, _x5) {
         return _findConversation.apply(this, arguments);
       }
 
@@ -105,68 +148,68 @@ var MessagingService = /*#__PURE__*/function () {
   }, {
     key: "saveInteraction",
     value: function () {
-      var _saveInteraction = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(token, data) {
-        var reciever_id, contents, newConversation, conversation, message;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      var _saveInteraction = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(token, data) {
+        var reciever_id, contents, playlist_id, newConversation, conversation, message;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                reciever_id = data.reciever_id, contents = data.contents;
+                reciever_id = data.reciever_id, contents = data.contents, playlist_id = data.playlist_id;
                 newConversation = false;
-                _context3.next = 4;
-                return this.findConversation(token._id, reciever_id);
+                _context4.next = 4;
+                return this.findConversation(token._id, reciever_id, playlist_id);
 
               case 4:
-                conversation = _context3.sent;
+                conversation = _context4.sent;
 
                 if (conversation) {
-                  _context3.next = 10;
+                  _context4.next = 10;
                   break;
                 }
 
                 newConversation = true;
-                _context3.next = 9;
-                return this.createConversation(token._id, reciever_id);
+                _context4.next = 9;
+                return this.createConversation(token._id, reciever_id, playlist_id);
 
               case 9:
-                conversation = _context3.sent;
+                conversation = _context4.sent;
 
               case 10:
-                _context3.next = 12;
-                return this.createMessage(token._id, reciever_id, contents, conversation._id);
+                _context4.next = 12;
+                return this.createMessage(token._id, playlist_id ? playlist_id : reciever_id, contents, conversation._id);
 
               case 12:
-                message = _context3.sent;
-                _context3.next = 15;
+                message = _context4.sent;
+                _context4.next = 15;
                 return this.addMessageToConversation(conversation._id, message._id);
 
               case 15:
                 if (!newConversation) {
-                  _context3.next = 19;
+                  _context4.next = 19;
                   break;
                 }
 
-                _context3.next = 18;
+                _context4.next = 18;
                 return _index.Conversation.findById(conversation._id).populate("messages");
 
               case 18:
-                conversation = _context3.sent;
+                conversation = _context4.sent;
 
               case 19:
-                return _context3.abrupt("return", {
+                return _context4.abrupt("return", {
                   message: message,
                   newConversation: newConversation ? conversation : null
                 });
 
               case 20:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
-      function saveInteraction(_x4, _x5) {
+      function saveInteraction(_x6, _x7) {
         return _saveInteraction.apply(this, arguments);
       }
 
@@ -175,11 +218,11 @@ var MessagingService = /*#__PURE__*/function () {
   }, {
     key: "createMessage",
     value: function () {
-      var _createMessage = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(sender_id, reciever_id, contents, conversation_id) {
+      var _createMessage = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(sender_id, reciever_id, contents, conversation_id) {
         var message, result;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 message = new _index.Message({
                   sender: sender_id,
@@ -187,22 +230,22 @@ var MessagingService = /*#__PURE__*/function () {
                   contents: contents,
                   conversation: conversation_id
                 });
-                _context4.next = 3;
+                _context5.next = 3;
                 return message.save();
 
               case 3:
-                result = _context4.sent;
-                return _context4.abrupt("return", result);
+                result = _context5.sent;
+                return _context5.abrupt("return", result);
 
               case 5:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4);
+        }, _callee5);
       }));
 
-      function createMessage(_x6, _x7, _x8, _x9) {
+      function createMessage(_x8, _x9, _x10, _x11) {
         return _createMessage.apply(this, arguments);
       }
 
@@ -211,13 +254,13 @@ var MessagingService = /*#__PURE__*/function () {
   }, {
     key: "addMessageToConversation",
     value: function () {
-      var _addMessageToConversation = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(conversation_id, message_id) {
+      var _addMessageToConversation = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(conversation_id, message_id) {
         var conversation;
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context5.next = 2;
+                _context6.next = 2;
                 return _index.Conversation.findByIdAndUpdate(conversation_id, {
                   $push: {
                     messages: message_id
@@ -225,18 +268,18 @@ var MessagingService = /*#__PURE__*/function () {
                 });
 
               case 2:
-                conversation = _context5.sent;
-                return _context5.abrupt("return", conversation);
+                conversation = _context6.sent;
+                return _context6.abrupt("return", conversation);
 
               case 4:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5);
+        }, _callee6);
       }));
 
-      function addMessageToConversation(_x10, _x11) {
+      function addMessageToConversation(_x12, _x13) {
         return _addMessageToConversation.apply(this, arguments);
       }
 
@@ -245,31 +288,31 @@ var MessagingService = /*#__PURE__*/function () {
   }, {
     key: "createConversation",
     value: function () {
-      var _createConversation = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(sender_id, reciever_id) {
+      var _createConversation = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(sender_id, reciever_id, playlist_id) {
         var conversation, result;
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 conversation = new _index.Conversation({
-                  users: [sender_id, reciever_id]
+                  users: playlist_id ? [playlist_id] : [sender_id, reciever_id]
                 });
-                _context6.next = 3;
+                _context7.next = 3;
                 return conversation.save();
 
               case 3:
-                result = _context6.sent;
-                return _context6.abrupt("return", result);
+                result = _context7.sent;
+                return _context7.abrupt("return", result);
 
               case 5:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6);
+        }, _callee7);
       }));
 
-      function createConversation(_x12, _x13) {
+      function createConversation(_x14, _x15, _x16) {
         return _createConversation.apply(this, arguments);
       }
 
@@ -278,54 +321,100 @@ var MessagingService = /*#__PURE__*/function () {
   }, {
     key: "loadMessages",
     value: function () {
-      var _loadMessages = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(user, _ref) {
-        var conversationId, messagesLoaded, conversation, messages;
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      var _loadMessages = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(user_id, conversationId, messagesLoaded, populateNames) {
+        var conversation, messages;
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
-                conversationId = _ref.conversationId, messagesLoaded = _ref.messagesLoaded;
-                _context7.next = 3;
+                _context8.next = 2;
                 return _index.Conversation.findOne({
                   _id: conversationId,
-                  users: user._id
+                  users: user_id
                 });
 
-              case 3:
-                conversation = _context7.sent;
+              case 2:
+                conversation = _context8.sent;
 
                 if (!conversation) {
-                  _context7.next = 9;
+                  _context8.next = 6;
                   break;
                 }
 
-                _context7.next = 7;
+                messages = this.messagesQuery(conversationId, messagesLoaded, populateNames);
+                return _context8.abrupt("return", messages);
+
+              case 6:
+                return _context8.abrupt("return", null);
+
+              case 7:
+              case "end":
+                return _context8.stop();
+            }
+          }
+        }, _callee8, this);
+      }));
+
+      function loadMessages(_x17, _x18, _x19, _x20) {
+        return _loadMessages.apply(this, arguments);
+      }
+
+      return loadMessages;
+    }()
+  }, {
+    key: "messagesQuery",
+    value: function () {
+      var _messagesQuery = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(conversationId, messagesLoaded, populateNames) {
+        var messages;
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+          while (1) {
+            switch (_context9.prev = _context9.next) {
+              case 0:
+                if (!populateNames) {
+                  _context9.next = 6;
+                  break;
+                }
+
+                _context9.next = 3;
+                return _index.Message.find({
+                  conversation: conversationId
+                }).populate("sender").sort({
+                  _id: -1
+                }).skip(Number(messagesLoaded)).limit(30);
+
+              case 3:
+                _context9.t0 = _context9.sent;
+                _context9.next = 9;
+                break;
+
+              case 6:
+                _context9.next = 8;
                 return _index.Message.find({
                   conversation: conversationId
                 }).sort({
                   _id: -1
                 }).skip(Number(messagesLoaded)).limit(30);
 
-              case 7:
-                messages = _context7.sent;
-                return _context7.abrupt("return", messages);
+              case 8:
+                _context9.t0 = _context9.sent;
 
               case 9:
-                return _context7.abrupt("return", null);
+                messages = _context9.t0;
+                return _context9.abrupt("return", messages);
 
-              case 10:
+              case 11:
               case "end":
-                return _context7.stop();
+                return _context9.stop();
             }
           }
-        }, _callee7);
+        }, _callee9);
       }));
 
-      function loadMessages(_x14, _x15) {
-        return _loadMessages.apply(this, arguments);
+      function messagesQuery(_x21, _x22, _x23) {
+        return _messagesQuery.apply(this, arguments);
       }
 
-      return loadMessages;
+      return messagesQuery;
     }()
   }]);
 

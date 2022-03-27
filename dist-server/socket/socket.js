@@ -9,6 +9,8 @@ var _index = require("../services/index");
 
 var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
+var _dayjs = _interopRequireDefault(require("dayjs"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -94,9 +96,14 @@ function onGroupMessage(io, socket) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              io["in"](data.group).emit("group-message", {
-                correspondent: data.correspondent,
-                message: data.messageToSend
+              _jsonwebtoken["default"].verify(getToken(socket), process.env.PASSPORT_SECRET, function (err, decoded) {
+                decoded && messagingService.saveInteraction(decoded, data).then(function () {
+                  return io["in"](data.group).emit("group-message", {
+                    timeStamp: (0, _dayjs["default"])().format("h:ma"),
+                    sender: data.sender,
+                    contents: data.contents
+                  });
+                });
               });
 
             case 1:

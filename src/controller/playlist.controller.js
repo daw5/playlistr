@@ -1,9 +1,10 @@
 import express from "express";
 import passport from "passport";
-import { PlaylistService } from "../services/index";
+import { PlaylistService, MessagingService } from "../services/index";
 
 const playlistController = express.Router();
 const playlistService = new PlaylistService();
+const messagingService = new MessagingService();
 
 playlistController.get("/", async (req, res, next) => {
   try {
@@ -90,6 +91,36 @@ playlistController.delete(
             "Trying to delete someone else's playlist eh? Lowest of the low."
           );
       }
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+playlistController.get("/:id/conversation", async (req, res, next) => {
+  try {
+    const conversation =
+      await messagingService.findConversationByPlaylistWithMessages(
+        req.params.id
+      );
+    res.status(200).send(conversation);
+  } catch (error) {
+    next(error);
+  }
+});
+
+playlistController.get(
+  "/:id/conversations/:conversationId/load-messages/:messagesLoaded",
+  passport.authenticate("jwt", { session: false }),
+  async (req, res, next) => {
+    try {
+      const messages = await messagingService.loadMessages(
+        req.params.id,
+        req.params.conversationId,
+        req.params.messagesLoaded,
+        true
+      );
+      res.status(200).send(messages);
     } catch (error) {
       next(error);
     }

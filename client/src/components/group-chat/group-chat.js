@@ -8,15 +8,55 @@ import "../chat/chat.scss";
 require("dotenv").config();
 
 export default function GroupChat(props) {
-  const [messages, setMessages] = useState([]);
   const [contributed, setContributed] = useState(false);
+  const [username, setUsername] = useState(null);
+  const [recentGroup, setRecentGroup] = useState(null);
+
+  const [conversation, setConversation] = useState([]);
+  const [messages, setMessages] = useState([]);
   const [messagesSent, setMessagesSent] = useState(0);
+  const [latestMessage, setLatestMessage] = useState(null);
   const [messageToSend, setMessageToSend] = useState("");
+  const [newMessageCount, incrementNewMessageCount] = useState(0);
+  const [fetchCount, incrementFetchCount] = useState(0);
+
   const messagesContainer = useRef(null);
+  const endOfChat = useRef(null);
+  const scrollPosition = useRef(null);
 
   useEffect(() => {
-    setMessages([]);
+    initializeChat();
+  }, [props.socket]);
+
+  useEffect(() => {
+    getConversation();
   }, [props.group]);
+
+  useEffect(() => {
+    if (latestMessage) {
+      setMessages([latestMessage, ...messages]);
+      incrementNewMessageCount(newMessageCount + 1);
+    }
+  }, [latestMessage]);
+
+  useEffect(() => {
+    if (fetchCount > 0 && messages.length > 30)
+      scrollPosition.current.scrollIntoView();
+  }, [fetchCount]);
+
+  useEffect(() => {
+    endOfChat.current.scrollIntoView();
+  }, [newMessageCount]);
+
+  const getConversation = () => {
+    messagingService
+      .findConversationByPlaylist(props.playlistId)
+      .then((conversation) => {
+        setConversation(conversation);
+        setMessages(conversation ? [...conversation.messages] : []);
+        incrementNewMessageCount(newMessageCount + 1);
+      });
+  };
 
   const throttleMessages = () => {
     if (messagesSent === 0) {
@@ -27,9 +67,29 @@ export default function GroupChat(props) {
     setMessagesSent(messagesSent + 1);
   };
 
-  useEffect(() => {
-    props.latestMessage && setMessages([props.latestMessage, ...messages]);
-  }, [props.latestMessage]);
+  const initializeChat = () => {
+    setUsername(messagingService.getUsername(props.currentUser));
+    props.socket.emit("join-group", props.group, recentGroup);
+    setRecentGroup(props.group);
+    props.socket.on("group-message", function (data) {
+      setLatestMessage(data);
+    });
+  };
+
+  const getMessages = () => {
+    messagingService
+      .fetchMoreGroupMessages(
+        props.playlistId,
+        conversation._id,
+        messages.length
+      )
+      .then((newMessages) => {
+        if (newMessages) {
+          setMessages(messages.concat(newMessages));
+          incrementFetchCount(fetchCount + 1);
+        }
+      });
+  };
 
   const sendMessage = (evt, messageToSend) => {
     setContributed(true);
@@ -41,11 +101,31 @@ export default function GroupChat(props) {
         messageToSend,
         {
           _id: props.currentUser ? props.currentUser._id : "",
-          username: props.username,
+          username: username,
         },
-        props.group
+        props.group,
+        props.playlistId
       ) && setMessageToSend("");
     }
+  };
+
+  const displayMessages = () => {
+    const messagesToRender = [];
+    for (let i = messages.length - 1; i >= 0; i--) {
+      messagesToRender.push(
+        <div className="message" key={`message${i}`}>
+          <p className="message-sender">{messages[i].sender.username}</p>
+          <p className="group-message-content">{messages[i].contents}</p>
+          <p className="group-message-timestamp">{messages[i].timeStamp}</p>
+        </div>
+      );
+
+      if (i === messages.length - 30)
+        messagesToRender.push(
+          <div key="scrollPosition" ref={scrollPosition}></div>
+        );
+    }
+    return messagesToRender;
   };
 
   return (
@@ -65,14 +145,13 @@ export default function GroupChat(props) {
           <div className="spotlight"></div>
         </div>
       </div>
-      <div id="groupMessagesContainer" ref={messagesContainer}>
-        {messages.map((message, index) => (
-          <div className="message" key={`message${index}`}>
-            <p className="message-sender">{message.correspondent.username}</p>
-            <p className="group-message-content">{message.message}</p>
-            <p className="group-message-timestamp">{message.timeStamp}</p>
-          </div>
-        ))}
+      <div
+        id="groupMessagesContainer"
+        ref={messagesContainer}
+        onScroll={(evt) => evt.target.scrollTop === 0 && getMessages()}
+      >
+        {displayMessages()}
+        <div ref={endOfChat}></div>
       </div>
       <div id="groupChatFooter">
         <div className="input-container">

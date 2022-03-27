@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-import { Playlist } from "../database/models/index";
+import { Playlist, Conversation } from "../database/models/index";
 const ObjectId = require("mongodb").ObjectID;
 
 export default class PlaylistService {
