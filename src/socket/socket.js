@@ -61,11 +61,20 @@ function getRooms(rooms) {
 
 function onGroupMessage(io, socket) {
   socket.on("group-message", async function (data) {
-    io.in(data.group).emit("group-message", {
-      timeStamp: dayjs().format("h:ma"),
-      correspondent: data.correspondent,
-      message: data.messageToSend,
-    });
+    jwt.verify(
+      getToken(socket),
+      process.env.PASSPORT_SECRET,
+      function (err, decoded) {
+        decoded &&
+          messagingService.saveInteraction(decoded, data).then(() =>
+            io.in(data.group).emit("group-message", {
+              timeStamp: dayjs().format("h:ma"),
+              sender: data.sender,
+              contents: data.contents,
+            })
+          );
+      }
+    );
   });
 }
 

@@ -60,9 +60,10 @@ userController.get(
   passport.authenticate("jwt", { session: false }),
   async (req, res, next) => {
     try {
-      const conversations = await messagingService.findConversationsByUser(
-        req.user._id
-      );
+      const conversations =
+        await messagingService.findConversationsByUserWithMessages(
+          req.user._id
+        );
       res.status(200).send(conversations);
     } catch (error) {
       next(error);
@@ -76,8 +77,9 @@ userController.get(
   async (req, res, next) => {
     try {
       const messages = await messagingService.loadMessages(
-        req.user,
-        req.params
+        req.user._id,
+        req.params.conversationId,
+        req.params.messagesLoaded
       );
       res.status(200).send(messages);
     } catch (error) {

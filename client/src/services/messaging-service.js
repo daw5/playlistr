@@ -34,16 +34,45 @@ export const fetchMoreMessages = (conversations, correspondent_id) =>
       `/api/users/current/conversations/${conversations[correspondent_id]._id}/load-messages/${conversations[correspondent_id].messages.length}`
     )
     .then((response) => {
-      return addMessages(conversations, correspondent_id, response.data);
+      const messages = response.data;
+      if (messages.length < 1) return null;
+      return addMessages(conversations, correspondent_id, messages);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+export const fetchMoreGroupMessages = (
+  playlistId,
+  conversationId,
+  messagesLoaded
+) =>
+  axios
+    .get(
+      `/api/playlists/${playlistId}/conversations/${conversationId}/load-messages/${messagesLoaded}`
+    )
+    .then((response) => {
+      const messages = response.data;
+      if (messages.length < 1) return null;
+      return messages;
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+export const findConversationByPlaylist = (playlistId) =>
+  axios
+    .get(`/api/playlists/${playlistId}/conversation`)
+    .then((response) => {
+      return response.data;
     })
     .catch(function (error) {
       console.log(error);
     });
 
 const addMessages = (conversations, correspondent_id, messages) => {
-  const updatedMessages = conversations[correspondent_id].messages.concat(
-    messages
-  );
+  const updatedMessages =
+    conversations[correspondent_id].messages.concat(messages);
   let updatedConversations = conversations;
   updatedConversations[correspondent_id].messages = updatedMessages;
   return updatedConversations;
@@ -58,9 +87,20 @@ export const sendPrivateMessage = (evt, messageToSend, correspondent_id) => {
   return true;
 };
 
-export const sendGroupMessage = (evt, messageToSend, correspondent, group) => {
+export const sendGroupMessage = (
+  evt,
+  messageToSend,
+  sender,
+  group,
+  playlistId
+) => {
   evt.preventDefault();
-  socket.emit("group-message", { correspondent, messageToSend, group });
+  socket.emit("group-message", {
+    sender,
+    contents: messageToSend,
+    group,
+    playlist_id: playlistId,
+  });
   return true;
 };
 

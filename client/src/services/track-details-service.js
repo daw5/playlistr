@@ -1,8 +1,9 @@
 import { parse } from "url";
 const axios = require("axios");
 
-const RE_VIMEO = /^(?:\/video|\/channels\/[\w-]+|\/groups\/[\w-]+\/videos)?\/(\d+)$/;
-const RE_YOUTUBE = /^(?:\/embed)?\/([\w-]{10,12})$/;
+const RE_VIMEO_EMBED =
+  /^(?:\/video|\/channels\/[\w-]+|\/groups\/[\w-]+\/videos)?\/(\d+)$/;
+const RE_YOUTUBE_EMBED = /^(?:\/embed)?\/([\w-]{10,12})$/;
 
 export const getThumbnailURL = (url) => {
   url = url || "";
@@ -21,7 +22,7 @@ export const getThumbnailURL = (url) => {
         video_id = urlobj.query.v;
       }
     } else {
-      const match = RE_YOUTUBE.exec(urlobj.pathname);
+      const match = RE_YOUTUBE_EMBED.exec(urlobj.pathname);
       if (match) {
         video_id = match[1];
       }
@@ -37,7 +38,7 @@ export const getThumbnailURL = (url) => {
     ["www.vimeo.com", "vimeo.com", "player.vimeo.com"].indexOf(urlobj.host) !==
     -1
   ) {
-    const match = RE_VIMEO.exec(urlobj.pathname);
+    const match = RE_VIMEO_EMBED.exec(urlobj.pathname);
     if (match) {
       const video_id = match[1];
       return axios
@@ -52,4 +53,20 @@ export const getThumbnailURL = (url) => {
   }
 
   return null;
+};
+
+export const getTrackDetails = async (host, shareUrl) => {
+  return axios
+    .get(`/api/track-details`, {
+      params: {
+        host: encodeURIComponent(host),
+        shareUrl: encodeURIComponent(shareUrl),
+      },
+    })
+    .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      return error.response.data;
+    });
 };

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
 import { playlistService } from "../../services";
 import { PlaylistSnippet } from "..";
 import { GeneralModal } from "..";
@@ -11,11 +10,13 @@ export default function Playlists(props) {
   const [flaming, setFlaming] = useState(false);
   const [playlistToDelete, setPlaylistToDelete] = useState(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const history = useHistory();
 
   useEffect(() => {
     props.socket ? getActivePlaylists() : getPlaylists();
     setLoading(true);
+    return () => {
+      setPlaylists([]);
+    };
   }, [props.socket]);
 
   const openDeleteModal = (playlist) => {

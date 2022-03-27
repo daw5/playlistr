@@ -50,7 +50,7 @@
   right: 0;
   overflow: auto;
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
 
   .message {
     display: grid;
@@ -111,6 +111,17 @@
   min-height: 40px;
 
   .input-container {
+    display: grid;
+    width: 100%;
+    padding-right: 10px;
+    padding-left: 10px;
+    grid-template-columns: auto 70px;
+    grid-column-gap: 10px;
+
+    .message-input {
+      width: auto !important;
+    }
+
     .text-input-container {
       position: relative;
       background-color: black;

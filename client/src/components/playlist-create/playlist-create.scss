@@ -1,26 +1,60 @@
+@import "../playlist-snippet/playlist-snippet.scss";
+
 .playlist-create-container {
   width: 100%;
   background-color: black;
-}
 
-div.playlist-create-input-container {
-  margin-top: 20px;
-  width: auto;
-  grid-template-columns: auto 120px;
-}
+  div.playlist-create-input-container {
+    margin-top: 10px;
+    width: auto;
+    height: 60px;
+    display: grid;
+    grid-template-columns: auto 120px;
+    align-items: center;
+  }
 
-div.edit-inputs-container {
-  grid-template-columns: auto 150px;
-}
+  div.edit-inputs-container {
+    grid-template-columns: auto 150px;
+  }
 
-.playlist-create-inputs-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin-bottom: 20px;
+  .add-track-input-container {
+    background-color: black;
+    overflow: hidden;
+    position: relative;
+
+    .message-input {
+      width: 100%;
+    }
+  }
+
+  .playlist-create-inputs-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-bottom: 20px;
+  }
+
+  .playlist-create-button-container {
+    filter: contrast(110%) brightness(190%);
+    position: relative;
+    overflow: hidden;
+    background-color: black;
+    display: flex;
+
+    Button {
+      @extend .special-button;
+      white-space: nowrap;
+      &:hover {
+        background-color: black !important;
+        border: 2px solid;
+      }
+    }
+  }
 }
 
 @media only screen and (max-width: 600px) {
-  .playlist-create-inputs-container {
-    grid-template-columns: 1fr;
+  .playlist-create-container {
+    .playlist-create-inputs-container {
+      grid-template-columns: 1fr;
+    }
   }
 }

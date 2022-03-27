@@ -33,6 +33,12 @@ Object.defineProperty(exports, "PlaylistService", {
     return _playlistService["default"];
   }
 });
+Object.defineProperty(exports, "TrackService", {
+  enumerable: true,
+  get: function get() {
+    return _trackService["default"];
+  }
+});
 
 var _authService = _interopRequireDefault(require("./auth-service"));
 
@@ -43,5 +49,7 @@ var _mailingService = _interopRequireDefault(require("./mailing-service"));
 var _messagingService = _interopRequireDefault(require("./messaging-service"));
 
 var _playlistService = _interopRequireDefault(require("./playlist-service"));
+
+var _trackService = _interopRequireDefault(require("./track-service"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }

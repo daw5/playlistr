@@ -21,6 +21,12 @@
   margin-right: auto;
 }
 
+.alt-player {
+  height: 100%;
+  width: 100%;
+  border: none;
+}
+
 @media only screen and (max-width: 1200px) {
   .player-wrapper {
     padding-top: 56.25%; /* Player ratio: 100 / (1280 / 720) */

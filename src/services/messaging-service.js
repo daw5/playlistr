@@ -8,7 +8,7 @@ export default class MessagingService {
     this.userService = new UserService();
   }
 
-  async findConversationsByUser(user_id) {
+  async findConversationsByUserWithMessages(user_id) {
     const conversations = await Conversation.find({ users: user_id }).populate({
       path: "messages",
       options: {
@@ -19,35 +19,65 @@ export default class MessagingService {
     return conversations;
   }
 
-  async findConversation(sender_id, reciever_id) {
+  async findConversationByPlaylistWithMessages(_id) {
+    const conversation = await Conversation.findOne({
+      users: _id,
+    }).populate({
+      path: "messages",
+      options: {
+        sort: { _id: -1 },
+        limit: 30,
+      },
+      populate: {
+        path: "sender",
+      },
+    });
+
+    return conversation;
+  }
+
+  async findConversation(sender_id, reciever_id, playlist_id) {
     const conversation = await Conversation.findOne({
       users: {
-        $all: [sender_id, reciever_id],
+        $all: playlist_id ? [playlist_id] : [sender_id, reciever_id],
       },
     });
     return conversation;
   }
 
   async saveInteraction(token, data) {
-    const { reciever_id, contents } = data;
+    const { reciever_id, contents, playlist_id } = data;
+
     let newConversation = false;
-    let conversation = await this.findConversation(token._id, reciever_id);
+    let conversation = await this.findConversation(
+      token._id,
+      reciever_id,
+      playlist_id
+    );
+
     if (!conversation) {
       newConversation = true;
-      conversation = await this.createConversation(token._id, reciever_id);
+      conversation = await this.createConversation(
+        token._id,
+        reciever_id,
+        playlist_id
+      );
     }
     const message = await this.createMessage(
       token._id,
-      reciever_id,
+      playlist_id ? playlist_id : reciever_id,
       contents,
       conversation._id
     );
+
     await this.addMessageToConversation(conversation._id, message._id);
+
     if (newConversation) {
       conversation = await Conversation.findById(conversation._id).populate(
         "messages"
       );
     }
+
     return { message, newConversation: newConversation ? conversation : null };
   }
 
@@ -70,26 +100,42 @@ export default class MessagingService {
     return conversation;
   }
 
-  async createConversation(sender_id, reciever_id) {
+  async createConversation(sender_id, reciever_id, playlist_id) {
     const conversation = new Conversation({
-      users: [sender_id, reciever_id],
+      users: playlist_id ? [playlist_id] : [sender_id, reciever_id],
     });
     const result = await conversation.save();
     return result;
   }
 
-  async loadMessages(user, { conversationId, messagesLoaded }) {
+  async loadMessages(user_id, conversationId, messagesLoaded, populateNames) {
     const conversation = await Conversation.findOne({
       _id: conversationId,
-      users: user._id,
+      users: user_id,
     });
     if (conversation) {
-      const messages = await Message.find({ conversation: conversationId })
-        .sort({ _id: -1 })
-        .skip(Number(messagesLoaded))
-        .limit(30);
+      const messages = this.messagesQuery(
+        conversationId,
+        messagesLoaded,
+        populateNames
+      );
+
       return messages;
     }
     return null;
+  }
+
+  async messagesQuery(conversationId, messagesLoaded, populateNames) {
+    const messages = populateNames
+      ? await Message.find({ conversation: conversationId })
+          .populate("sender")
+          .sort({ _id: -1 })
+          .skip(Number(messagesLoaded))
+          .limit(30)
+      : await Message.find({ conversation: conversationId })
+          .sort({ _id: -1 })
+          .skip(Number(messagesLoaded))
+          .limit(30);
+    return messages;
   }
 }

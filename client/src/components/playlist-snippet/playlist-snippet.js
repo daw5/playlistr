@@ -2,7 +2,7 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import ClearIcon from "@material-ui/icons/Clear";
 import DefaultThumbnail from "../../assets/cassette.gif";
-import Marquee from "react-double-marquee";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import { useHistory } from "react-router-dom";
 import "./playlist-snippet.scss";
 
@@ -23,39 +23,36 @@ export default function PlaylistSnippet(props) {
 
   return (
     <div className={`playlist-snippet`}>
-      <div className="playlist-head">
-        <div className={`playlist-title-container`}>
-          <Marquee
-            className="playlist-title"
-            childMargin={45}
-            delay={500}
-            direction="left"
-          >
-            {props.playlist.title}
-          </Marquee>
-        </div>
+      <div className={`playlist-head`}>
         <div className="playlist-functions-container">
-          <Button
-            className={`neon`}
-            variant="contained"
-            style={{ gridColumn: !props.userPlaylist && "1 / span 2" }}
-            onClick={() => play(props.playlist)}
-          >
-            Play
-          </Button>
-          {props.userPlaylist && (
-            <Button variant="contained" onClick={() => edit(props.playlist)}>
-              Edit
+          <div className="button-buffer">
+            <Button
+              className={`neon`}
+              variant="contained"
+              style={{ gridColumn: !props.userPlaylist && "1 / span 2" }}
+              onClick={() => play(props.playlist)}
+            >
+              {props.playlist.title}
+              <PlayArrowIcon></PlayArrowIcon>
             </Button>
-          )}
-          <div class="gradient"></div>
-          <div class="spotlight"></div>
+            {props.userPlaylist && (
+              <Button
+                className={`edit-button`}
+                variant="contained"
+                onClick={() => edit(props.playlist)}
+              >
+                Edit
+              </Button>
+            )}
+          </div>
+          <div className="gradient"></div>
+          <div className="spotlight"></div>
         </div>
       </div>
       <div className={`playlist-body`}>
         {props.playlist.tracks.map((track, index) => (
           <div
-            onClick={() => play(props.playlist, index + 1)}
+            onClick={() => play(props.playlist, index)}
             key={`track${index}`}
             className="my-playlists-thumbnail"
           >

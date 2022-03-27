@@ -38,8 +38,10 @@ export default function Messaging(props) {
     messagingService
       .fetchMoreMessages(conversations, correspondent._id)
       .then((updatedConversations) => {
-        setConversations(updatedConversations);
-        incrementFetchCount(fetchCount + 1);
+        if (updatedConversations) {
+          setConversations(updatedConversations);
+          incrementFetchCount(fetchCount + 1);
+        }
       });
   };
 

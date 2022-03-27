@@ -19,7 +19,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 require("dotenv").config();
 
 var PORT = process.env.PORT || 8080;
-var SOCKET_PORT = process.env.SOCKET_PORT || 4001;
 
 var express = require("express");
 
@@ -45,14 +44,9 @@ app.use(_bodyParser["default"].json());
 app.use("/api/auth", _controller.authController);
 app.use("/api/users", _controller.userController);
 app.use("/api/playlists", _controller.playlistController);
+app.use("/api/track-details", _controller.trackDetailsController);
 app.use("/mailing", _controller.mailingController);
-app.use("/", _controller.reactRouterController); // app.listen(PORT, function () {
-//   console.log(`Listening on ${PORT}`);
-// connectDb().then(() => {
-//   console.log("Mongo connected");
-// });
-// });
-
+app.use("/", _controller.reactRouterController);
 server.listen(PORT, function () {
   connectDb().then(function () {
     console.log("Mongo connected");

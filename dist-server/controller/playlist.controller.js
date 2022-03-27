@@ -20,6 +20,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 var playlistController = _express["default"].Router();
 
 var playlistService = new _index.PlaylistService();
+var messagingService = new _index.MessagingService();
 playlistController.get("/", /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(req, res, next) {
     var playlists;
@@ -265,6 +266,76 @@ playlistController["delete"]("/:id", _passport["default"].authenticate("jwt", {
 
   return function (_x16, _x17, _x18) {
     return _ref6.apply(this, arguments);
+  };
+}());
+playlistController.get("/:id/conversation", /*#__PURE__*/function () {
+  var _ref7 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(req, res, next) {
+    var conversation;
+    return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      while (1) {
+        switch (_context7.prev = _context7.next) {
+          case 0:
+            _context7.prev = 0;
+            _context7.next = 3;
+            return messagingService.findConversationByPlaylistWithMessages(req.params.id);
+
+          case 3:
+            conversation = _context7.sent;
+            res.status(200).send(conversation);
+            _context7.next = 10;
+            break;
+
+          case 7:
+            _context7.prev = 7;
+            _context7.t0 = _context7["catch"](0);
+            next(_context7.t0);
+
+          case 10:
+          case "end":
+            return _context7.stop();
+        }
+      }
+    }, _callee7, null, [[0, 7]]);
+  }));
+
+  return function (_x19, _x20, _x21) {
+    return _ref7.apply(this, arguments);
+  };
+}());
+playlistController.get("/:id/conversations/:conversationId/load-messages/:messagesLoaded", _passport["default"].authenticate("jwt", {
+  session: false
+}), /*#__PURE__*/function () {
+  var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(req, res, next) {
+    var messages;
+    return regeneratorRuntime.wrap(function _callee8$(_context8) {
+      while (1) {
+        switch (_context8.prev = _context8.next) {
+          case 0:
+            _context8.prev = 0;
+            _context8.next = 3;
+            return messagingService.loadMessages(req.params.id, req.params.conversationId, req.params.messagesLoaded, true);
+
+          case 3:
+            messages = _context8.sent;
+            res.status(200).send(messages);
+            _context8.next = 10;
+            break;
+
+          case 7:
+            _context8.prev = 7;
+            _context8.t0 = _context8["catch"](0);
+            next(_context8.t0);
+
+          case 10:
+          case "end":
+            return _context8.stop();
+        }
+      }
+    }, _callee8, null, [[0, 7]]);
+  }));
+
+  return function (_x22, _x23, _x24) {
+    return _ref8.apply(this, arguments);
   };
 }());
 var _default = playlistController;

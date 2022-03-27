@@ -8,6 +8,7 @@ import {
   mailingController,
   userController,
   playlistController,
+  trackDetailsController,
   reactRouterController,
 } from "./controller";
 import bodyParser from "body-parser";
@@ -33,6 +34,7 @@ app.use(bodyParser.json());
 app.use("/api/auth", authController);
 app.use("/api/users", userController);
 app.use("/api/playlists", playlistController);
+app.use("/api/track-details", trackDetailsController);
 app.use("/mailing", mailingController);
 app.use("/", reactRouterController);
 
