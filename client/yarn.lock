@@ -3963,6 +3963,11 @@
     "whatwg-mimetype" "^2.2.0"
     "whatwg-url" "^7.0.0"
 
+"dayjs@^1.11.2":
+  "integrity" "sha512-F4LXf1OeU9hrSYRPTTj/6FbO4HTjPKXvEIC1P2kcnFurViINCVk3ZV0xAS3XVx9MkMsXbbqlK6hjseaYbgKEHw=="
+  "resolved" "https://registry.npmjs.org/dayjs/-/dayjs-1.11.2.tgz"
+  "version" "1.11.2"
+
 "debug@^2.2.0":
   "integrity" "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA=="
   "resolved" "https://registry.npmjs.org/debug/-/debug-2.6.9.tgz"
