@@ -6,6 +6,7 @@
   grid-template-rows: auto 40px;
   background-color: black;
   position: relative;
+  ::-webkit-scrollbar { display: none } 
 }
 
 .full-height-group-chat {
