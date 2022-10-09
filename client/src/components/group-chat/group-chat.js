@@ -163,7 +163,11 @@ export default function GroupChat(props) {
               onKeyDown={(evt) =>
                 evt.key === "Enter" && sendMessage(evt, messageToSend)
               }
-              placeholder="Send a message"
+              placeholder={
+                props.currentUser
+                  ? "Send a message"
+                  : "Log in to send a message"
+              }
               value={messageToSend}
               className="message-input"
               onChange={(evt) => setMessageToSend(evt.target.value)}
