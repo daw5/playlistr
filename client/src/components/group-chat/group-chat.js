@@ -168,6 +168,7 @@ export default function GroupChat(props) {
                   ? "Send a message"
                   : "Log in to send a message"
               }
+              disabled={!props.currentUser && true}
               value={messageToSend}
               className="message-input"
               onChange={(evt) => setMessageToSend(evt.target.value)}
@@ -179,12 +180,14 @@ export default function GroupChat(props) {
             {!contributed && <div className="spotlight"></div>}
           </div>
           <div className="send-button-container">
-            <Button
-              onMouseDown={(evt) => sendMessage(evt, messageToSend)}
-              variant="contained"
-            >
-              Send
-            </Button>
+            {props.currentUser && (
+              <Button
+                onMouseDown={(evt) => sendMessage(evt, messageToSend)}
+                variant="contained"
+              >
+                Send
+              </Button>
+            )}
             <div className="gradient"></div>
             <div className="spotlight"></div>
           </div>
