@@ -66,13 +66,13 @@ function onGroupMessage(io, socket) {
       process.env.PASSPORT_SECRET,
       function (err, decoded) {
         decoded &&
-          messagingService.saveInteraction(decoded, data).then(() =>
+          messagingService.saveInteraction(decoded, data).then((result) => {
             io.in(data.group).emit("group-message", {
-              timeStamp: dayjs().format("h:ma"),
+              dateCreated: result.message.dateCreated,
               sender: data.sender,
               contents: data.contents,
-            })
-          );
+            });
+          });
       }
     );
   });

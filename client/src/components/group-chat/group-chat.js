@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { Button, TextField } from "@material-ui/core";
 import AspectRatioIcon from "@material-ui/icons/AspectRatio";
 import { messagingService } from "../../services";
+import * as dayjs from "dayjs";
 import "./group-chat.scss";
 import "../chat/chat.scss";
 
@@ -116,7 +117,9 @@ export default function GroupChat(props) {
         <div className="message" key={`message${i}`}>
           <p className="message-sender">{messages[i].sender.username}</p>
           <p className="group-message-content">{messages[i].contents}</p>
-          <p className="group-message-timestamp">{messages[i].timeStamp}</p>
+          <p className="group-message-timestamp">
+            {dayjs(messages[i].dateCreated).format("h:ma")}
+          </p>
         </div>
       );
 
@@ -160,7 +163,11 @@ export default function GroupChat(props) {
               onKeyDown={(evt) =>
                 evt.key === "Enter" && sendMessage(evt, messageToSend)
               }
-              placeholder="Send a message"
+              placeholder={
+                props.currentUser
+                  ? "Send a message"
+                  : "Log in to send a message"
+              }
               value={messageToSend}
               className="message-input"
               onChange={(evt) => setMessageToSend(evt.target.value)}
